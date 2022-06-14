@@ -172,7 +172,7 @@ class WebServer {
 
 }
 
-export class Server {
+class Server {
     constructor(appDir) {
         console.log("Server::constructor()");
         this.appDir = appDir;
@@ -206,4 +206,8 @@ export class Server {
         this.serverConfig = this.config.Executables.find(cur => cur.Type === 'Server').ServerConfig;
     }
 
+}
+
+module.exports = {
+    Server: Server
 }
