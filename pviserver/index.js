@@ -26,7 +26,7 @@ import {
 const fs = require("fs");
 
 class Database {
-    constructor(parent, id, dataDir, users) {
+    constructor(parent, databaseDir) {
         this.parent = parent;
     }
     
@@ -79,6 +79,7 @@ class Session {
 class Model {
     constructor(parent, appDetail, dataDir) {
         this.parent = parent;
+        this.database = new Database(this, this.parent.databaseDir);
     }
 
     start() {
@@ -130,13 +131,20 @@ export class Server {
         this.users = {};
         this.entitlements = {};
         this.items = {};
+        this.sessions = {};
+        this.databaseDir ='';
         this.configure();
+        this.model = new Model(this);
+        this.webServer = new WebServer(this);
     }
 
     async start() {
+        console.log("\nServer::start()");
+        this.webServer.start();
     }
     
     async stop() {
+        console.log("\nServer::stop()");
     }
 
     configure() {
