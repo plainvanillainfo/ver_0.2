@@ -191,6 +191,13 @@ class Server {
 
     async start() {
         console.log("Server::start()");
+        console.log("Engine - starting");
+        process.on('exit', this.exitHandler);
+        process.on('SIGTERM', this.exitHandler);
+        process.on('SIGINT', this.exitHandler);     // catches ctrl+c event
+        process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
+        process.on('SIGUSR2', this.exitHandler);
+        process.on('uncaughtException', this.exitHandler);
         let databaseOpenedResult  = await this.model.database.openDataDB();
         console.log(databaseOpenedResult);
         this.webServer.start();
@@ -198,6 +205,9 @@ class Server {
     
     async stop() {
         console.log("Server::stop()");
+    }
+
+    exitHandler(err) {
     }
 
     configure() {
