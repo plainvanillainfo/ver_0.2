@@ -1,4 +1,4 @@
-# Plain Vanilla Info Version 0.2
+# Plain Vanilla Info
 Metadata based information management 
 
 ## Server

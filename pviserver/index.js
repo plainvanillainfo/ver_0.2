@@ -28,6 +28,9 @@ const fs = require("fs");
 class Database {
     constructor(parent, databaseDir) {
         this.parent = parent;
+        this.isReady = false;
+        this.databaseDir = databaseDir;
+        this.dbNameData = 'db_' + this.parent.appName;
     }
     
     start() {
@@ -77,9 +80,10 @@ class Session {
 }
 
 class Model {
-    constructor(parent, appDetail, dataDir) {
+    constructor(parent) {
         this.parent = parent;
-        this.database = new Database(this, this.parent.databaseDir);
+        this.appName = this.parent.config.AppName;
+        this.database = new Database(this, this.parent.serverConfig.DBDir);
     }
 
     start() {
@@ -102,6 +106,7 @@ class Model {
 class WebServer {
     constructor(parent) {
         this.parent = parent;
+        this.keyFileDir = this.parent.serverConfig.KeyFileDir;
     }
 
     async start() {
@@ -125,14 +130,14 @@ export class Server {
     constructor(appDir) {
         console.log("Server::constructor()");
         this.appDir = appDir;
-        this.config = {};
+        this.config = null;
+        this.serverConfig = null;
         this.classes = {};
         this.useCases = {};
         this.users = {};
         this.entitlements = {};
         this.items = {};
         this.sessions = {};
-        this.databaseDir ='';
         this.configure();
         this.model = new Model(this);
         this.webServer = new WebServer(this);
@@ -150,6 +155,7 @@ export class Server {
     configure() {
         let appConfigFileName = this.appDir+'/config/app.json';
         this.config = JSON.parse(fs.readFileSync(appConfigFileName));
+        this.serverConfig = this.config.Executables.find(cur => cur.Type === 'Server').ServerConfig;
     }
 
 }
