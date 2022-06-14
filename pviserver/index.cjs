@@ -62,7 +62,7 @@ class Database {
                                 resolve("Database::openDataDB() - nodeRoot.Key - error: " + err1);
                             } else {
                                 let parsedData = JSON.parse(value1);
-                                resolve("Database::openDataDB() - nodeRoot.Key: " + parsedData);
+                                resolve("Database::openDataDB() - nodeRoot.Key: " + value1);
                             }
                         });
                     }
