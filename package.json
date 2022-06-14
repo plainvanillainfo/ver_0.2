@@ -1,0 +1,17 @@
+{
+  "name": "plainvanillainfo",
+  "version": "0.2.0-alpha.1",
+  "description": "Plain Vanilla Info",
+  "type": "module",
+  "exports": {
+    "./pviserver": "./pviserver/index.js",
+    "./pviclient": "./pviclient/index.js",
+    "./pviengine": "./pviengine/index.js",
+    "./pvicommon": "./pvicommon/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PVI",
+  "license": "MIT"
+}
