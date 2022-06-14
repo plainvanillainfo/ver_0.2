@@ -21,7 +21,7 @@ const {
     TemplateList,
     TemplateElem,
     Track
-} = require('../pvicommon/index.js');
+} = require('../pvicommon/index.cjs');
 
 const fs = require("fs");
 const express = require('express');
