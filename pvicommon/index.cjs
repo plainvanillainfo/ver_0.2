@@ -1,50 +1,50 @@
-export class Attribute {
+class Attribute {
     constructor(parent) {
         this.parent = parent;
     }
 }
 
-export class AttributeComponent extends Attribute {
+class AttributeComponent extends Attribute {
     constructor(parent) {
         super(parent);
     }
 }
 
-export class AttributeComponentPrimitive extends AttributeComponent {
+class AttributeComponentPrimitive extends AttributeComponent {
     constructor() {
         super();
     }
 }
 
-export class AttributeComponentEmbedded extends AttributeComponent {
+class AttributeComponentEmbedded extends AttributeComponent {
     constructor(parent, pviClass) {
         super(parent);
         this.pviClass = pviClass;
     }
 }
 
-export class AttributeReference extends Attribute {
+class AttributeReference extends Attribute {
     constructor(parent, pviClass) {
         super(parent);
         this.pviClass = pviClass;
     }
 }
 
-export class AttributeChild extends Attribute {
+class AttributeChild extends Attribute {
     constructor(parent, pviClass) {
         super(parent);
         this.pviClass = pviClass;
     }
 }
 
-export class AttributeExtension extends Attribute {
+class AttributeExtension extends Attribute {
     constructor(parent, pviClass) {
         super(parent);
         this.pviClass = pviClass;
     }
 }
 
-export class PVIClass {
+class PVIClass {
     constructor(parent) {
         this.parent = parent;
         this.attributes = {};
@@ -52,51 +52,51 @@ export class PVIClass {
     }
 }
 
-export class UseCase {
+class UseCase {
     constructor(parent) {
         this.parent = parent;
         this.elems = {};
     }
 }
 
-export class UseCaseElem {
+class UseCaseElem {
     constructor(parent) {
         this.parent = parent;
         this.path = [];
     }
 }
 
-export class ItemAttr {
+class ItemAttr {
     constructor(parent) {
         this.parent = parent;
     }
 }
 
-export class ItemAttrComponent extends ItemAttr {
+class ItemAttrComponent extends ItemAttr {
     constructor(parent) {
         super(parent);
     }
 }
 
-export class ItemAttrComponentPrimitive extends ItemAttrComponent {
+class ItemAttrComponentPrimitive extends ItemAttrComponent {
     constructor(parent) {
         super(parent);
     }
 }
 
-export class ItemAttrComponentEmbedded extends ItemAttrComponent {
+class ItemAttrComponentEmbedded extends ItemAttrComponent {
     constructor(parent) {
         super(parent);
     }
 }
 
-export class ItemAttrReference extends ItemAttr {
+class ItemAttrReference extends ItemAttr {
     constructor(parent) {
         super(parent);
     }
 }
 
-export class ItemAttrChild extends ItemAttr {
+class ItemAttrChild extends ItemAttr {
     constructor(parent) {
         super(parent);
         this.levels = 1;
@@ -104,13 +104,13 @@ export class ItemAttrChild extends ItemAttr {
     }
 }
 
-export class ItemAttrExtension extends ItemAttr {
+class ItemAttrExtension extends ItemAttr {
     constructor(parent) {
         super(parent);
     }
 }
 
-export class Item {
+class Item {
     constructor(parent) {
         this.parent = parent;
         this.attrs = {};
@@ -118,27 +118,52 @@ export class Item {
     }
 }
 
-export class Template {
+class Template {
     constructor(parent) {
         this.parent = parent;
     }
 }
 
-export class TemplateList {
+class TemplateList {
     constructor(parent) {
         this.parent = parent;
     }
 }
 
-export class TemplateElem {
+class TemplateElem {
     constructor(parent) {
         this.parent = parent;
     }
 }
 
-export class Track {
+class Track {
     constructor(parent, id) {
         this.parent = parent;
         this.id = id;
     }
+}
+
+module.exports = {
+    Attribute,
+    AttributeComponent,
+    AttributeComponentPrimitive,
+    AttributeComponentEmbedded,
+    AttributeReference,
+    AttributeChild,
+    AttributeExtension,
+    PVIClass,
+    UseCase,
+    UseCaseElem,
+    ItemAttr,
+    ItemAttrComponent,
+    ItemAttrComponentPrimitive,
+    ItemAttrComponentEmbedded,
+    ItemAttrReference,
+    ItemAttrChild,
+    ItemAttrExtension,
+    Item,
+    Template,
+    TemplateList,
+    TemplateElem,
+    Track
 }
