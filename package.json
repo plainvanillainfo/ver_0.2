@@ -4,7 +4,7 @@
   "description": "Plain Vanilla Info",
   "type": "module",
   "exports": {
-    "./pviserver": "./pviserver/index.js",
+    "./pviserver": "./pviserver/index.cjs",
     "./pviclient": "./pviclient/index.js",
     "./pviengine": "./pviengine/index.js",
     "./pvicommon": "./pvicommon/index.js"
