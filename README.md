@@ -147,7 +147,7 @@ public/index.html
 ## Application Metadata
 
 ### config
-myapp.js
+app.js
 ```
 {
 }
