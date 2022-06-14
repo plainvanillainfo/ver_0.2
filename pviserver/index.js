@@ -24,23 +24,68 @@ import {
 } from '../pvicommon/index.js';
 
 const fs = require("fs");
+const express = require('express');
+const https = require('https');
+const http = require('http');
+const WebSocket = require('ws');
+const randomstring = require("randomstring");
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload');
+const levelup = require('levelup');
+const leveldown = require('leveldown');
 
 class Database {
     constructor(parent, databaseDir) {
         this.parent = parent;
-        this.isReady = false;
         this.databaseDir = databaseDir;
         this.dbNameData = 'db_' + this.parent.appName;
+        this.dbHandle = null;
     }
     
-    start() {
-    }
-
     openDataDB() {
+        return new Promise(resolve => {
+            levelup(leveldown(this.databaseDir + '/' + this.dbNameData), options, (err, dbHandle) => {
+                if (err) throw err;
+                this.dbHandle = dbHandle;
+                this.dbHandle.get('DataExists', (err, value) => {
+                    if (err) {
+                        if (err.notFound != null) {
+                            this.initializeDataDB(resolve);
+                        } else {
+                           resolve("Database::openDataDB() - DataExists - error: " + err);
+                        }
+                    } else {
+                        this.dbHandleIdNext = true;
+                        this.dbHandle.get('R', (err1, value1) => {
+                            if (err1) {
+                                resolve("Database::openDataDB() - nodeRoot.Key - error: " + err1);
+                            } else {
+                                let parsedData = JSON.parse(value1);
+                                resolve("Database::openDataDB() - nodeRoot.Key: " + parsedData);
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
     }
 
-    initializeDataDB() {
-    }
+    initializeDataDB(resolve) {
+        console.log('Database::initializeDataDB(): ', this.databaseDir  + '/' + this.dbNameData);
+        var ops = [];
+        ops.push({type: 'put', key: 'DataExists', value: '1'});
+        ops.push({type: 'put', key: 'R', 
+            value: JSON.stringify({})
+        });
+        this.dbData.batch(ops, (err) => {
+            if (err) {
+                resolve("Database::initializeDataDB - dbData.batch: " + err);
+            } else {
+                resolve("Database::initializeDataDB - dbData.batch loaded ");
+            }
+        });
+}
     
     loadUsers() {
     }
@@ -145,6 +190,8 @@ export class Server {
 
     async start() {
         console.log("\nServer::start()");
+        let databaseOpenedResult  = await this.model.database.openDataDB();
+        console.log(databaseOpenedResult);
         this.webServer.start();
     }
     
