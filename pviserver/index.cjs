@@ -191,14 +191,14 @@ class Server {
     }
 
     async start() {
-        console.log("\nServer::start()");
+        console.log("Server::start()");
         let databaseOpenedResult  = await this.model.database.openDataDB();
         console.log(databaseOpenedResult);
         this.webServer.start();
     }
     
     async stop() {
-        console.log("\nServer::stop()");
+        console.log("Server::stop()");
     }
 
     configure() {
