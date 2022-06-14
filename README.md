@@ -7,8 +7,8 @@ package.json
 
 ```
 {
-    "name": "plainvanillainfo",
-    "version": "0.2.0",
+    "name": "plainvanillainfoapp",
+    "version": "1.0.0",
     "type": "module",
     "dependencies": {
        "plainvanillainfo": "^0.2.0-alpha.1"
@@ -29,7 +29,7 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log('Unhandled Rejection at:', reason.stack || reason)
 })
 
-let serverInstance = new Server("./appDir");
+let serverInstance = new Server("../");
 setTimeout(() => { serverInstance.start({}); }, 500);
 ```
 
@@ -39,8 +39,8 @@ package.json
 
 ```
 {
-    "name": "plainvanillainfo",
-    "version": "0.2.0",
+    "name": "plainvanillainfoapp",
+    "version": "1.0.0",
     "type": "module",
     "dependencies": {
        "plainvanillainfo": "^0.2.0-alpha.1"
@@ -61,7 +61,7 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log('Unhandled Rejection at:', reason.stack || reason)
 })
 
-let engineInstance = new Engine("./appDir");
+let engineInstance = new Engine("../");
 setTimeout(() => { engineInstance.start({}); }, 900);
 ```
 
@@ -72,7 +72,7 @@ package.json
 ```
 {
   "name": "pviwebapp",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "PVI Web App",
   "main": "src/App.js",
   "scripts": {
@@ -114,7 +114,7 @@ export class App {
 
 }
 
-let app = new App('Web App Default', null, null, null, "./appDir");
+let app = new App('Web App Default', null, null, null, "../");
 app.start();
 ```
 public/index.html
