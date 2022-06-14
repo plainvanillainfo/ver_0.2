@@ -1,4 +1,4 @@
-import {
+const {
     Attribute,
     AttributeComponent,
     AttributeComponentPrimitive,
@@ -21,7 +21,7 @@ import {
     TemplateList,
     TemplateElem,
     Track
-} from '../pvicommon/index.js';
+} = require('../pvicommon/index.js');
 
 const fs = require("fs");
 const express = require('express');
