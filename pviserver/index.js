@@ -155,6 +155,7 @@ class WebServer {
     }
 
     async start() {
+        console.log("\nWebServer::start()");
     }
 
     startWebsocketListening(portNumber) {
