@@ -29,7 +29,7 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log('Unhandled Rejection at:', reason.stack || reason)
 })
 
-let serverInstance = new Server();
+let serverInstance = new Server("./appDir");
 setTimeout(() => { serverInstance.start({}); }, 500);
 ```
 
@@ -61,7 +61,7 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log('Unhandled Rejection at:', reason.stack || reason)
 })
 
-let engineInstance = new Engine();
+let engineInstance = new Engine("./appDir");
 setTimeout(() => { engineInstance.start({}); }, 900);
 ```
 
@@ -103,18 +103,18 @@ src/App.js
 import {Client} from '../node_modules/plainvanillainfo/pviclient/index.js';
 
 export class App {
-    constructor(appId, transmitter, hostname, websocketPort, alertFromController) {
+    constructor(appId, transmitter, hostname, websocketPort, appDir) {
     }
 
     start() {
         let x = new Client(this);
-	    let elementHello = document.getElementById('elementHello');
+	      let elementHello = document.getElementById('elementHello');
         elementHello.innerHTML = 'Hello Universe!!!';
     }
 
 }
 
-let app = new App({}, 'Web App Default', null);
+let app = new App('Web App Default', null, null, null, "./appDir");
 app.start();
 ```
 public/index.html
