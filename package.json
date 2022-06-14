@@ -7,7 +7,7 @@
     "./pviserver": "./pviserver/index.cjs",
     "./pviclient": "./pviclient/index.js",
     "./pviengine": "./pviengine/index.js",
-    "./pvicommon": "./pvicommon/index.js"
+    "./pvicommon": "./pvicommon/index.cjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
