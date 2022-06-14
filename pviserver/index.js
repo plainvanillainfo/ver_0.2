@@ -119,8 +119,11 @@ class WebServer {
 }
 
 export class Server {
-    constructor() {
+    constructor(appDir) {
         console.log("Server::constructor()");
+        let config = {};
+        let classes = {};
+        let useCases = {};
     }
 
     async start() {
