@@ -36,13 +36,32 @@ class SignInUp {
 
 }
 
-export class Client {
+class Client {
     constructor(parent) {
         this.parent = parent;
         this.signInUp = new SignInUp(this);
     }
 
-    start() {
+    fromServer(message) {
+        /*
+        if (message.Ax != null) {
+            switch (message.Ax) {
+                case 'Co':
+                    break;
+                default:
+                    break;
+            }
+        }
+        */
     }
 
+    forwardToServer(messageIn) {
+        let messageOut;
+        this.parent.forwardToServer(messageOut);
+    }
+
+}
+
+module.exports = {
+    Client
 }

@@ -12,9 +12,8 @@ class Transmitter {
         this.sessionId = null;
     }
     
-    startSessionServer(objectController, callbackController, url) {
+    startSessionServer(url) {
         this.objectController = objectController;
-        this.callbackController = callbackController;
         this.websocketBE = new WebSocket(url, [], {rejectUnauthorized: false});
         this.websocketBE.on('open', () => {
             this.websocketBEIsActive = true;
@@ -36,14 +35,14 @@ class Transmitter {
             if (messageInParsed.SessionId != null) {
                 if (this.sessionId == null) {
                     this.sessionId = messageInParsed.SessionId;
-                        this.objectController[this.callbackController](messageInParsed);
+                        this.parent.forwardToServer(messageInParsed);
                 } else {
                     if (messageInParsed.SessionId === this.sessionId) {
-                        this.objectController[this.callbackController](messageInParsed);
+                        this.parent.forwardToServer(messageInParsed);
                     }
                 }
             } else {
-                this.objectController[this.callbackController](messageInParsed);
+                this.parent.forwardToServer(messageInParsed);
             }
         });
         this.websocketBE.on('error', (e) => {
@@ -73,6 +72,9 @@ class Engine {
         this.engineName = engineName;
         this.engineConfig = null;
         this.websocketProtocol = 'wss';
+        this.client = null;
+        this.receivedFromServer = this.receivedFromServer.bind(this);
+        this.forwardToServer = this.forwardToServer.bind(this);
         this.configure();
     }
 
@@ -80,6 +82,7 @@ class Engine {
         let appConfigFileName = this.appDir+'/config/app.json';
         this.config = JSON.parse(fs.readFileSync(appConfigFileName));
         this.engineConfig = this.config.Executables.find(cur => cur.Type === 'Viewer' && cur.Name === this.engineName).ViewerConfig;
+        this.client = new Client(this);
     }
 
     async start() {
@@ -93,7 +96,7 @@ class Engine {
         this.websocketPort = this.engineConfig.WebsocketListenPort.toString();
         this.hostname = this.engineConfig.HostName;
         this.transmitter = new Transmitter(this);
-        this.transmitter.startSessionServer(this, 'receivedFromServer', this.websocketProtocol+ '://' + this.hostname + ':' + this.websocketPort);
+        this.transmitter.startSessionServer(this.websocketProtocol+ '://' + this.hostname + ':' + this.websocketPort);
     }
 
     async stop() {
@@ -106,12 +109,15 @@ class Engine {
     }
 
     receivedFromServer(message) {
+        this.client.fromServer(message);
     }
 
     forwardToServer(messageIn) {
-    }    
-
-    setViewerSpec(viewerSpec) {
+        let messageOut = {
+            //...this.messageEnvelope,
+            ...messageIn
+        };
+        this.transmitter.sendMessageToBE(JSON.stringify(messageOut));
     }
 }
 
