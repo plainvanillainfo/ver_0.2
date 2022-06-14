@@ -23,6 +23,8 @@ import {
     Track
 } from '../pvicommon/index.js';
 
+const fs = require("fs");
+
 class Database {
     constructor(parent, id, dataDir, users) {
         this.parent = parent;
@@ -121,18 +123,25 @@ class WebServer {
 export class Server {
     constructor(appDir) {
         console.log("Server::constructor()");
-        let config = {};
-        let classes = {};
-        let useCases = {};
-        let users = {};
-        let entitlements = {};
-        let items = {};
+        this.appDir = appDir;
+        this.config = {};
+        this.classes = {};
+        this.useCases = {};
+        this.users = {};
+        this.entitlements = {};
+        this.items = {};
+        this.configure();
     }
 
     async start() {
     }
     
     async stop() {
+    }
+
+    configure() {
+        let appConfigFileName = this.appDir+'/config/app.json';
+        this.config = JSON.parse(fs.readFileSync(appConfigFileName));
     }
 
 }
