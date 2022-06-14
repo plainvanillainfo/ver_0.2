@@ -5,8 +5,8 @@
   "type": "module",
   "exports": {
     "./pviserver": "./pviserver/index.cjs",
-    "./pviclient": "./pviclient/index.js",
-    "./pviengine": "./pviengine/index.js",
+    "./pviclient": "./pviclient/index.cjs",
+    "./pviengine": "./pviengine/index.cjs",
     "./pvicommon": "./pvicommon/index.cjs"
   },
   "scripts": {

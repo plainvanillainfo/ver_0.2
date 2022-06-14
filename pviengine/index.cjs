@@ -1,5 +1,7 @@
-//import jwt_decode from "jwt-decode";
-import {
+const {
+    Client
+} = require('../pviclient/index.cjs');
+const {
     Attribute,
     AttributeComponent,
     AttributeComponentPrimitive,
@@ -22,29 +24,29 @@ import {
     TemplateList,
     TemplateElem,
     Track
-} from '../pvicommon/index.js';
+} = require('../pvicommon/index.cjs');
 
-
-class SignInUp {
-    constructor(parent) {
-        this.parent = parent;
+export class Engine {
+    constructor(id) {
+        console.log("Engine::constructor()");
     }
 
-    start() {
+    async start() {
+
     }
 
-    checkUserAuthentication() {
+    async stop() {
     }
 
-}
-
-export class Client {
-    constructor(parent) {
-        this.parent = parent;
-        this.signInUp = new SignInUp(this);
+    exitHandler(err) {
     }
 
-    start() {
+    receivedFromServer(message) {
     }
 
+    forwardToServer(messageIn) {
+    }    
+
+    setViewerSpec(viewerSpec) {
+    }
 }
