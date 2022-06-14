@@ -124,6 +124,9 @@ export class Server {
         let config = {};
         let classes = {};
         let useCases = {};
+        let users = {};
+        let entitlements = {};
+        let items = {};
     }
 
     async start() {
