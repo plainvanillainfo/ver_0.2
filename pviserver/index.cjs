@@ -43,6 +43,7 @@ class Database {
     }
     
     openDataDB() {
+        let options = {};
         return new Promise(resolve => {
             levelup(leveldown(this.databaseDir + '/' + this.dbNameData), options, (err, dbHandle) => {
                 if (err) throw err;
