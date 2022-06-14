@@ -79,7 +79,7 @@ class Database {
         ops.push({type: 'put', key: 'R', 
             value: JSON.stringify({})
         });
-        this.dbData.batch(ops, (err) => {
+        this.dbHandle.batch(ops, (err) => {
             if (err) {
                 resolve("Database::initializeDataDB - dbData.batch: " + err);
             } else {
