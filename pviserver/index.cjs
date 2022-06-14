@@ -45,7 +45,7 @@ class Database {
     openDataDB() {
         let options = {};
         return new Promise(resolve => {
-            levelup(leveldown(this.databaseDir + '/' + this.dbNameData), options, (err, dbHandle) => {
+            levelup(leveldown(this.databaseDir + '/'), options, (err, dbHandle) => {
                 if (err) throw err;
                 this.dbHandle = dbHandle;
                 this.dbHandle.get('DataExists', (err, value) => {
@@ -73,7 +73,7 @@ class Database {
     }
 
     initializeDataDB(resolve) {
-        console.log('Database::initializeDataDB(): ', this.databaseDir  + '/' + this.dbNameData);
+        console.log('Database::initializeDataDB(): ', this.databaseDir  + '/');
         var ops = [];
         ops.push({type: 'put', key: 'DataExists', value: '1'});
         ops.push({type: 'put', key: 'R', 
