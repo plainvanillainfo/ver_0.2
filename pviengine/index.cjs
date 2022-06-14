@@ -1,34 +1,20 @@
 const {
     Client
 } = require('../pviclient/index.cjs');
-const {
-    Attribute,
-    AttributeComponent,
-    AttributeComponentPrimitive,
-    AttributeComponentEmbedded,
-    AttributeReference,
-    AttributeChild,
-    AttributeExtension,
-    PVIClass,
-    UseCase,
-    UseCaseElem,
-    ItemAttr,
-    ItemAttrComponent,
-    ItemAttrComponentPrimitive,
-    ItemAttrComponentEmbedded,
-    ItemAttrReference,
-    ItemAttrChild,
-    ItemAttrExtension,
-    Item,
-    Template,
-    TemplateList,
-    TemplateElem,
-    Track
-} = require('../pvicommon/index.cjs');
 
-export class Engine {
-    constructor(id) {
+class Engine {
+    constructor(appDir, engineName) {
         console.log("Engine::constructor()");
+        this.appDir = appDir;
+        this.engineName = engineName;
+        this.engineConfig = null;
+        this.configure();
+    }
+
+    configure() {
+        let appConfigFileName = this.appDir+'/config/app.json';
+        this.config = JSON.parse(fs.readFileSync(appConfigFileName));
+        this.engineConfig = this.config.Executables.find(cur => cur.Type === 'Viewer' && cur.Name === this.engineName).ViewerConfig;
     }
 
     async start() {
@@ -49,4 +35,8 @@ export class Engine {
 
     setViewerSpec(viewerSpec) {
     }
+}
+
+module.exports = {
+    Engine: Engine
 }
