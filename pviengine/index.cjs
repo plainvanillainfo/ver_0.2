@@ -2,6 +2,7 @@ const {
     Client
 } = require('../pviclient/index.cjs');
 
+const fs = require("fs");
 const WebSocket = require('ws');
 
 class Transmitter {
