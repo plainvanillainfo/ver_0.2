@@ -43,6 +43,7 @@ class Client {
     }
 
     fromServer(message) {
+        console.log("Client::fromServer()");
         /*
         if (message.Ax != null) {
             switch (message.Ax) {
