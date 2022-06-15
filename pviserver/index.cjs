@@ -108,10 +108,13 @@ class Database {
 }
 
 class Session {
-    constructor(parent, id) {
+    constructor(parent, id, ws) {
         this.parent = parent;
         this.id = id;
-    }
+        this.ws = ws;
+        this.user = null;
+        this.schemaSent = false;
+        this.nodesWatched = {};    }
     
     receiveMessage(messageIn) {
     }
@@ -262,7 +265,7 @@ class WebServer {
             do {
                 sessionId = dateString + randomstring.generate({length:20});
             } while (this.parent.sessions[sessionId] != null);
-            sessionCur = new Session(this.contextHere, sessionId, wsIn);
+            sessionCur = new Session(this, sessionId, wsIn);
             this.parent.sessions[sessionId] = sessionCur
             this.wsConnections.push({ws: wsIn, sessionId: sessionId});
         } else {
