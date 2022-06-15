@@ -14,7 +14,6 @@ class Transmitter {
     }
     
     startSessionServer(url) {
-        this.objectController = objectController;
         this.websocketBE = new WebSocket(url, [], {rejectUnauthorized: false});
         this.websocketBE.on('open', () => {
             this.websocketBEIsActive = true;
