@@ -123,7 +123,7 @@ class Session {
     }
     
     receiveMessage(message) {
-        if (message.AppId != null && message.Action != null)
+        if (message.AppId != null && message.Action != null) {
             console.log("Session::receiveMessage: ", message);
             switch (message.Action) {
                 case 'SendViewerSpec':
