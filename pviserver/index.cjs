@@ -123,6 +123,11 @@ class Session {
     }
     
     close() {
+        console.log("Session::close: ", this.id);
+        for (let nodeCur in this.nodesWatched) {
+            let nodeDetail = this.nodesWatched[nodeCur];
+            delete nodeDetail.SessionsWatching[this.id];
+        }
     }
     
 }
