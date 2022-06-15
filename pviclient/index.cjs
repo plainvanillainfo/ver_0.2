@@ -40,25 +40,40 @@ class Client {
     constructor(parent) {
         this.parent = parent;
         this.signInUp = new SignInUp(this);
+        this.forwardToServer = this.forwardToServer.bind(this);
     }
 
     fromServer(message) {
         console.log("Client::fromServer()");
-        /*
-        if (message.Ax != null) {
-            switch (message.Ax) {
-                case 'Co':
-                    break;
-                default:
-                    break;
-            }
+        switch(message.Action) {
+            case 'StartSession':
+                this.forwardToServer({Action: 'SendViewerSpec'});
+                break;
+            case 'SetViewerSpec':
+                this.setViewerSpec(message.viewerSpec);
+                break;
+            default:
+                break;        
         }
-        */
     }
 
     forwardToServer(messageIn) {
-        let messageOut;
-        this.parent.forwardToServer(messageOut);
+        this.parent.forwardToServer(messageIn);
+    }
+
+    setViewerSpec(viewerSpec) {
+        console.log("Client::setViewerSpec()");
+    }
+
+}
+
+class ClientWeb extends Client {
+    constructor(parent) {
+        super(parent);
+    }
+
+    setViewerSpec(viewerSpec) {
+        console.log("ClientWeb::setViewerSpec()");
     }
 
 }

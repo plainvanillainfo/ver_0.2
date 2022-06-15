@@ -117,9 +117,11 @@ class Session {
         this.nodesWatched = {};
         this.trackMain = new Track(this, '1');
         this.tracks = {};
+        this.receiveMessage = this.receiveMessage.bind(this);
     }
     
-    receiveMessage(messageIn) {
+    receiveMessage(message) {
+        console.log("Session::receiveMessage: ", message);
     }
     
     forwardMessage(messageIn) {
@@ -230,7 +232,6 @@ class WebServer {
                             (message) => {
                                 var messageIn = JSON.parse(message);
                                 this.onReceivedWebsocketMessage(ws, messageIn);
-                                //console.log("WS message in: " + JSON.stringify(message).substr(0,30));
                             }
                         );
                         ws.on('close',
