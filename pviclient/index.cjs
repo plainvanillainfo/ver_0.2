@@ -49,8 +49,8 @@ class Client {
             case 'StartSession':
                 this.forwardToServer({Action: 'SendViewerSpec'});
                 break;
-            case 'SetViewerSpec':
-                this.setViewerSpec(message.viewerSpec);
+            case 'ReceiveViewerSpec':
+                this.setViewerSpec(message.ViewerSpec);
                 break;
             default:
                 break;        
