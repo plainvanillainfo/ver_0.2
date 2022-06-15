@@ -261,13 +261,13 @@ class WebServer {
                 dateISO[11]+dateISO[12] + dateISO[14]+dateISO[15] + dateISO[17]+dateISO[18];
             do {
                 sessionId = dateString + randomstring.generate({length:20});
-            } while (this.context.Server.sessions[sessionId] != null);
+            } while (this.parent.sessions[sessionId] != null);
             sessionCur = new Session(this.contextHere, sessionId, wsIn);
-            this.context.Server.sessions[sessionId] = sessionCur
+            this.parent.sessions[sessionId] = sessionCur
             this.wsConnections.push({ws: wsIn, sessionId: sessionId});
         } else {
-            if (this.context.Server.sessions[wsConnection.sessionId] != null) {
-                sessionCur = this.context.Server.sessions[wsConnection.sessionId];
+            if (this.parent.sessions[wsConnection.sessionId] != null) {
+                sessionCur = this.parent.sessions[wsConnection.sessionId];
             }
         }
         if (sessionCur != null) {
@@ -276,9 +276,70 @@ class WebServer {
     }
 
     onReceivedConnectionClosed(wsIn) {
+        let sessionCur = null;
+        for (sessionCur in this.parent.sessions) {
+            let sessionDetail = this.parent.sessions[sessionCur];
+            if (sessionDetail != null && sessionDetail.ws === wsIn) {
+                sessionDetail.close();
+                break;
+            }
+        }
+        if (sessionCur != null) {
+            delete this.parent.sessions[sessionCur];
+        }
     }
 
     startUploadListening(portNumber) {
+        console.log("WebServer - startUploadListening: ", portNumber);
+        this.portUpload = {};
+        this.portUpload.express = express();
+        this.portUpload.express.use(bodyParser.urlencoded({extended: true}));
+        this.portUpload.express.use(fileUpload({useTempFiles: true, tempFileDir: '/tmp/'}));
+        try {
+            let privKeyFile = this.keyFileDir + 'privkey.pem';
+            let certFile = this.keyFileDir + 'fullchain.pem';
+            if (fs.existsSync(privKeyFile)) {
+                this.portUpload.listener = https.createServer({
+                    key: fs.readFileSync(privKeyFile),
+                    cert: fs.readFileSync(certFile)
+                }, this.portUpload.express);
+            } else {
+                this.portUpload.listener = http.createServer({}, this.portUpload.express);
+            }                
+            this.portUpload.listener.listen(portNumber);          
+            console.log('listening on port: ', portNumber);
+        } catch (err) {
+            console.error("WebServer - startUploadListening - cert file exists: "+ err);
+        }
+            
+        /* Types of REST endpoints, as specified in ServerConfig (like ClientConfig) Server.models[].app:
+         * - File Upload to store
+         * - File Dowload with session token
+         * - File Dowload without session token - for public static file content
+         *   SSE server side events to push updates to engine
+         * - REST Endpoint:
+         *   .. Generic service 
+         *   .. QB Desktop - uses SSE to notify engine client that a QB desktop has connected
+         * - WebRTC Signaling 
+         * - WebRTC STUN
+         * - WebRTC TURN
+        */
+        
+        /* Post data and/or files */
+        this.portUpload.express.post('/', (req, res) => {
+            console.log("app.post /: ", req.body)
+            for (var fileCur in req.files) {
+                var fileDetail = req.files[fileCur];
+                console.log("app.post / fileDetail: ", fileDetail);
+                console.log("File: ", this.parent.serverConfig.UploadDir + fileDetail.name);
+                fileDetail.mv(this.parent.serverConfig.UploadDir + fileDetail.name, (err) => {
+                    if (err) {
+                        console.log("fileDetail.mv err: ", err);
+                        //return res.status(500).send(err);
+                    }
+                });                    
+            }
+        });
     }
 
 }
