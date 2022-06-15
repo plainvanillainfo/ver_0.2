@@ -30,19 +30,19 @@ class Transmitter {
             clearTimeout(this.pingTimeout);
         });
         this.websocketBE.on('message', (data) => {
-            console.log("Transmitter::websocketBE - data: ", data.toString());
+            //console.log("Transmitter::websocketBE - data: ", data.toString());
             var messageInParsed = JSON.parse(data);
             if (messageInParsed.SessionId != null) {
                 if (this.sessionId == null) {
                     this.sessionId = messageInParsed.SessionId;
-                        this.parent.forwardToServer(messageInParsed);
+                        this.parent.receivedFromServer(messageInParsed);
                 } else {
                     if (messageInParsed.SessionId === this.sessionId) {
-                        this.parent.forwardToServer(messageInParsed);
+                        this.parent.receivedFromServer(messageInParsed);
                     }
                 }
             } else {
-                this.parent.forwardToServer(messageInParsed);
+                this.parent.receivedFromServer(messageInParsed);
             }
         });
         this.websocketBE.on('error', (e) => {
