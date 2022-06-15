@@ -79,5 +79,6 @@ class ClientWeb extends Client {
 }
 
 module.exports = {
-    Client
+    Client,
+    ClientWeb
 }
