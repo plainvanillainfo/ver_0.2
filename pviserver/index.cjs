@@ -113,18 +113,40 @@ class Session {
         this.id = id;
         this.ws = ws;
         this.user = null;
+        this.model = this.parent.parent.model;
         this.schemaSent = false;
         this.nodesWatched = {};
         this.trackMain = new Track(this, '1');
         this.tracks = {};
         this.receiveMessage = this.receiveMessage.bind(this);
+        this.forwardMessage = this.forwardMessage.bind(this);
     }
     
     receiveMessage(message) {
-        console.log("Session::receiveMessage: ", message);
+        if (message.AppId != null && message.Action != null)
+            console.log("Session::receiveMessage: ", message);
+            switch (message.Action) {
+                case 'SendViewerSpec':
+                    let viewerSpecCur = this.parent.parent.config.Executables.find(cur => cur.Name === message.AppId && cur.Type === 'Viewer');
+                    if (viewerSpecCur != null) {
+                        this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: viewerSpecCur});
+                    }
+                    break;
+                default:
+                    break;        
+
+            }
+        }
     }
     
     forwardMessage(messageIn) {
+        if (this.ws != null) {
+            let messageOut = {
+                SessionId: this.id,
+                ...messageIn
+            };
+            this.ws.send(JSON.stringify(messageOut));
+        }
     }
     
     close() {

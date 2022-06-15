@@ -45,7 +45,7 @@ class Client {
 
     fromServer(message) {
         console.log("Client::fromServer()");
-        switch(message.Action) {
+        switch (message.Action) {
             case 'StartSession':
                 this.forwardToServer({Action: 'SendViewerSpec'});
                 break;
