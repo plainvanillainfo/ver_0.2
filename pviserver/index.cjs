@@ -172,13 +172,83 @@ class WebServer {
     constructor(parent) {
         this.parent = parent;
         this.keyFileDir = this.parent.serverConfig.KeyFileDir;
+        this.wsConnections = [];
+        this.startupTimeBufferMillisec = 1;
     }
 
     async start() {
         console.log("\nWebServer::start()");
+        setTimeout(() => { 
+            this.startWebsocketListening(this.parent.serverConfig.WebsocketListenPort);
+        }, this.startupTimeBufferMillisec);
+        setTimeout(() => { 
+            this.startUploadListening(this.parent.serverConfig.UploadListenPort);
+        }, this.startupTimeBufferMillisec);
     }
 
     startWebsocketListening(portNumber) {
+        console.log("WebServer - startWebsocketListening: ", portNumber);
+        this.port = {};
+        this.port.express = express();
+        this.port.express.use(bodyParser.urlencoded({extended: true}));
+        try {
+            let privKeyFile = this.keyFileDir + 'privkey.pem';
+            let certFile = this.keyFileDir + 'fullchain.pem';
+            if (fs.existsSync(privKeyFile)) {
+                this.port.listener = https.createServer({
+                    key: fs.readFileSync(privKeyFile),
+                    cert: fs.readFileSync(certFile)
+                }, this.port.express);
+            } else {
+                this.port.listener = http.createServer({}, this.port.express);
+            }                
+            if (portNumber != null) {
+                console.log("listening on port websocket: ", portNumber);        
+                this.port.wss = new WebSocket.Server({ server: this.port.listener });
+                this.port.wss.on(
+                    'connection',
+                    (ws) => {
+                        console.log("WS connection started.");
+                        ws.isAlive = true;
+                        ws.on('pong', 
+                            () => {
+                                ws.isAlive = true;
+                            }
+                        );
+                        ws.on('message',
+                            (message) => {
+                                var messageIn = JSON.parse(message);
+                                this.onReceivedWebsocketMessage(ws, messageIn);
+                                //console.log("WS message in: " + JSON.stringify(message).substr(0,30));
+                            }
+                        );
+                        ws.on('close',
+                            (e) => {
+                                console.log("WS connection closed. " + JSON.stringify(e));
+                                this.onReceivedConnectionClosed(ws);
+                            }
+                        );
+                        ws.send(JSON.stringify({
+                            Action: 'StartSession'
+                        }));
+                    }        
+                );
+                const intervalPing = setInterval(() => {
+                    this.port.wss.clients.forEach((ws) => {
+                        if (ws.isAlive === false) return ws.terminate();
+                        ws.isAlive = false;
+                        ws.ping(() => {});
+                    });
+                }, 30000);
+                this.port.wss.on('close', () => {
+                    clearInterval(intervalPing);
+                });
+            }
+            this.port.listener.listen(portNumber);          
+            console.log('listening on port: ', portNumber);
+        } catch (err) {
+            console.error("WebServer - startWebsocketListening - cert file exists: "+ err);
+        }
     }
 
     onReceivedWebsocketMessage(wsIn, messageIn) {
@@ -202,6 +272,14 @@ class Server {
         this.entitlements = {};
         this.items = {};
         this.sessions = {};
+
+        process.on('exit', this.exitHandler);
+        process.on('SIGTERM', this.exitHandler);
+        process.on('SIGINT', this.exitHandler);     // catches ctrl+c event
+        process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
+        process.on('SIGUSR2', this.exitHandler);
+        process.on('uncaughtException', this.exitHandler);
+
         this.configure();
         this.model = new Model(this);
         this.webServer = new WebServer(this);
@@ -209,13 +287,6 @@ class Server {
 
     async start() {
         console.log("Server::start()");
-        console.log("Engine - starting");
-        process.on('exit', this.exitHandler);
-        process.on('SIGTERM', this.exitHandler);
-        process.on('SIGINT', this.exitHandler);     // catches ctrl+c event
-        process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
-        process.on('SIGUSR2', this.exitHandler);
-        process.on('uncaughtException', this.exitHandler);
         let databaseOpenedResult  = await this.model.database.openDataDB();
         console.log(databaseOpenedResult);
         this.webServer.start();
