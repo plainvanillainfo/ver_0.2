@@ -252,6 +252,27 @@ class WebServer {
     }
 
     onReceivedWebsocketMessage(wsIn, messageIn) {
+        let sessionId;
+        let sessionCur = null;
+        let wsConnection = this.wsConnections.find( ({ ws }) => ws === wsIn );
+        if (wsConnection === undefined) {
+            var dateISO = new Date().toISOString();
+            var dateString = dateISO[2]+dateISO[3] + dateISO[5]+dateISO[6] + dateISO[8]+dateISO[9] +
+                dateISO[11]+dateISO[12] + dateISO[14]+dateISO[15] + dateISO[17]+dateISO[18];
+            do {
+                sessionId = dateString + randomstring.generate({length:20});
+            } while (this.context.Server.sessions[sessionId] != null);
+            sessionCur = new Session(this.contextHere, sessionId, wsIn);
+            this.context.Server.sessions[sessionId] = sessionCur
+            this.wsConnections.push({ws: wsIn, sessionId: sessionId});
+        } else {
+            if (this.context.Server.sessions[wsConnection.sessionId] != null) {
+                sessionCur = this.context.Server.sessions[wsConnection.sessionId];
+            }
+        }
+        if (sessionCur != null) {
+            sessionCur.receiveMessage(messageIn);
+        }
     }
 
     onReceivedConnectionClosed(wsIn) {
