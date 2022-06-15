@@ -127,8 +127,10 @@ class Session {
             console.log("Session::receiveMessage: ", message);
             switch (message.Action) {
                 case 'SendViewerSpec':
+                    console.log("Session::receiveMessage AAA ");
                     let viewerSpecCur = this.parent.parent.config.Executables.find(cur => cur.Name === message.AppId && cur.Type === 'Viewer');
                     if (viewerSpecCur != null) {
+                        console.log("Session::receiveMessage BBB ");
                         this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: viewerSpecCur});
                     }
                     break;
@@ -140,7 +142,9 @@ class Session {
     }
     
     forwardMessage(messageIn) {
+        console.log("Session::forwardMessage ");
         if (this.ws != null) {
+            console.log("Session::forwardMessage AAA");
             let messageOut = {
                 SessionId: this.id,
                 ...messageIn
