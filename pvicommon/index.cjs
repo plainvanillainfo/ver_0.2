@@ -45,23 +45,29 @@ class AttributeExtension extends Attribute {
 }
 
 class PVIClass {
-    constructor(parent) {
+    constructor(parent, attributes, isExtension) {
         this.parent = parent;
-        this.attributes = {};
+        this.attributes = attributes;
+        this.isExtension = isExtension;
         this.extensions = {};
     }
 }
 
 class UseCase {
-    constructor(parent) {
+    constructor(parent, spec) {
         this.parent = parent;
+        this.spec = spec;
         this.elems = {};
+        this.spec.Elems.forEach(elemCur => {
+            this.elems[elemCur.Name] = new UseCaseElem(this, elemCur);
+        });
     }
 }
 
 class UseCaseElem {
-    constructor(parent) {
+    constructor(parent, spec) {
         this.parent = parent;
+        this.spec = spec;
         this.path = [];
     }
 }

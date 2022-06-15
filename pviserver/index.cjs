@@ -128,24 +128,44 @@ class Model {
     constructor(parent) {
         this.parent = parent;
         this.appName = this.parent.config.AppName;
+        this.classes = {};
+        this.useCases = {};
+        this.initializeClasses();
+        this.initializeUseCases();
         this.database = new Database(this, this.parent.serverConfig.DBDir);
-    }
-
-    start() {
     }
 
     receivedFromClient(messageIn, context) {
     }
-    
-    traverseMessageAtNode(messageIn, context, nodeCur, keyCur, modelPathPos) {
-    }
-    
-    disposeOfMessageAtNode(messageIn, context, node, modelPathPos) {
-    }
-    
-    ensureNodeWatched(node, messageIn, context, shouldAddQueueItem, modelArray) {
-    }
-    
+
+    initializeClasses() {
+        let classesDir = this.parent.appDir + '/' + this.parent.config.ModelClasses.Dir;
+        let classesFiles = this.parent.config.ModelClasses.Files;
+        classesFiles.forEach(fileCur => {
+            let filePathCur = classesDir + '/' + fileCur;
+            let classesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
+            console.log("Model::initializeClasses - file: ", classesFileCurContent.Name);
+            classesFileCurContent.Classes.forEach(classCur => {
+                console.log("    ", classCur.Name);
+                this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
+            });
+        });
+    }    
+
+    initializeUseCases() {
+        let useCasesDir = this.parent.appDir + '/' + this.parent.config.ModelUseCases.Dir;
+        let useCasesFiles = this.parent.config.ModelUseCases.Files;
+        useCasesFiles.forEach(fileCur => {
+            let filePathCur = useCasesDir + '/' + fileCur;
+            let useCasesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
+            console.log("Model::initializeUseCases - file: ", useCasesFileCurContent.Name);
+            useCasesFileCurContent.UseCases.forEach(useCaseCur => {
+                console.log("    ", useCaseCur.Name);
+                this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
+            });
+        });
+    }    
+
 }
 
 class WebServer {
@@ -178,8 +198,6 @@ class Server {
         this.appDir = appDir;
         this.config = null;
         this.serverConfig = null;
-        this.classes = {};
-        this.useCases = {};
         this.users = {};
         this.entitlements = {};
         this.items = {};
