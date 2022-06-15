@@ -114,7 +114,9 @@ class Session {
         this.ws = ws;
         this.user = null;
         this.schemaSent = false;
-        this.nodesWatched = {};    }
+        this.nodesWatched = {};
+        this.trackMain = new Track(this, '1');
+    }
     
     receiveMessage(messageIn) {
     }
@@ -185,7 +187,7 @@ class WebServer {
     }
 
     async start() {
-        console.log("\nWebServer::start()");
+        console.log("WebServer::start()");
         setTimeout(() => { 
             this.startWebsocketListening(this.parent.serverConfig.WebsocketListenPort);
         }, this.startupTimeBufferMillisec);
@@ -362,14 +364,12 @@ class Server {
         this.entitlements = {};
         this.items = {};
         this.sessions = {};
-
         process.on('exit', this.exitHandler);
         process.on('SIGTERM', this.exitHandler);
         process.on('SIGINT', this.exitHandler);     // catches ctrl+c event
         process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
         process.on('SIGUSR2', this.exitHandler);
         process.on('uncaughtException', this.exitHandler);
-
         this.configure();
         this.model = new Model(this);
         this.webServer = new WebServer(this);

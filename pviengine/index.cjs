@@ -1,7 +1,4 @@
-const {
-    Client
-} = require('../pviclient/index.cjs');
-
+const { Client } = require('../pviclient/index.cjs');
 const fs = require("fs");
 const WebSocket = require('ws');
 
@@ -100,7 +97,7 @@ class Engine {
     }
 
     async stop() {
-        console.log("Engine - stopped\n");
+        console.log("Engine - stopped");
     }
 
     exitHandler(err) {
