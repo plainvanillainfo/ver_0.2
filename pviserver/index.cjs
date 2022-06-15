@@ -116,6 +116,7 @@ class Session {
         this.schemaSent = false;
         this.nodesWatched = {};
         this.trackMain = new Track(this, '1');
+        this.tracks = {};
     }
     
     receiveMessage(messageIn) {
