@@ -74,11 +74,16 @@ class ClientWeb extends Client {
 
     setViewerSpec(viewerSpec) {
         console.log("ClientWeb::setViewerSpec()");
-        this.elementCaption = document.getElementById('id_caption');
         if (viewerSpec.Viewport != null) {
             if (viewerSpec.Viewport.Top != null) {
                 if (viewerSpec.Viewport.Top.Caption != null) {
+                    this.elementCaption = document.getElementById('id_caption');
                     this.elementCaption.appendChild(document.createTextNode(viewerSpec.Viewport.Top.Caption));
+                }
+                if (viewerSpec.Viewport.Top.Logo != null) {
+                    this.elementLogo = document.getElementById('id_logo');
+                    this.elementLogo.setAttribute("src",viewerSpec.Viewport.Top.Logo.Image);
+                    this.elementLogo.setAttribute("width",viewerSpec.Viewport.Top.Logo.Width);
                 }
             }
         }
