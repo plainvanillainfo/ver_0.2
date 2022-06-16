@@ -76,8 +76,10 @@ class ClientWeb extends Client {
         console.log("ClientWeb::setViewerSpec()");
         this.elementCaption = document.getElementById('id_caption');
         if (viewerSpec.Viewport != null) {
-            if (viewerSpec.Viewport.Caption != null) {
-                this.elementCaption.appendChild(document.createTextNode(viewerSpec.Viewport.Caption));
+            if (viewerSpec.Viewport.Top != null) {
+                if (viewerSpec.Viewport.Top.Caption != null) {
+                    this.elementCaption.appendChild(document.createTextNode(viewerSpec.Viewport.Top.Caption));
+                }
             }
         }
     }
