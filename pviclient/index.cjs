@@ -94,81 +94,81 @@ class ClientWeb extends Client {
                 if (viewerSpec.Viewport.Top.Menu != null) {
                     this.elementMenu = document.getElementById('id_menu');
                 }
-/*
-    setTopMenu(topMenu, topNavContent) {
-        topNavContent.MenuUL = document.createElement('ul');
-        topNavContent.insertBefore(topNavContent.MenuUL, this.viewport.Top.SearchForm);
-        topNavContent.MenuUL.className = 'navbar-nav me-auto mb-2 mb-lg-0';
-        topNavContent.MenuUL.ItemLIs = [];
-        this.signInUp.checkUserAuthentication();
-        topMenu.forEach( (menuItemCur, menuItemIndex) => {
-            let itemLICur = document.createElement('li');
-            topNavContent.MenuUL.appendChild(itemLICur);
-            topNavContent.MenuUL.ItemLIs.push(itemLICur);
-            itemLICur.A = document.createElement('a');
-            itemLICur.appendChild(itemLICur.A);
-            itemLICur.A.setAttribute("href", "#");
-            itemLICur.A.appendChild(document.createTextNode(menuItemCur.Label));
-            if (menuItemCur.Menu == null) {
-                itemLICur.className = 'nav-item';
-                itemLICur.A.className = 'nav-link';
-                itemLICur.A.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    if (this.signInUp.isAuthenticated) {
-                        console.log("templateElemCur) - if - click on menu", menuItemCur);
-                        this.tracks[this.trackForeground].menuItemClicked(menuItemCur);
-                        if (menuItemCur.UseCase != null) {
-                            if (itemLICur.template == null) {
-    
-                            }
-                        }
-                    } else {
+                /*
+                    setTopMenu(topMenu, topNavContent) {
+                        topNavContent.MenuUL = document.createElement('ul');
+                        topNavContent.insertBefore(topNavContent.MenuUL, this.viewport.Top.SearchForm);
+                        topNavContent.MenuUL.className = 'navbar-nav me-auto mb-2 mb-lg-0';
+                        topNavContent.MenuUL.ItemLIs = [];
                         this.signInUp.checkUserAuthentication();
-                    }
-                });
-            } else {
-                itemLICur.className = 'nav-item dropdown';
-                itemLICur.A.className = 'nav-link dropdown-toggle';
-                itemLICur.A.id = "navbarDropdown"+(menuItemIndex+1).toString();
-                itemLICur.A.setAttribute("role", "button");
-                itemLICur.A.setAttribute("data-bs-toggle", "dropdown");
-                itemLICur.A.setAttribute("aria-expanded", "false");
-
-                itemLICur.MenuUL = document.createElement('ul');
-                itemLICur.appendChild(itemLICur.MenuUL);
-                itemLICur.MenuUL.className = 'dropdown-menu';
-                itemLICur.MenuUL.setAttribute("aria-labelledby", "navbarDropdown"+(menuItemIndex+1).toString());
-                itemLICur.MenuUL.ItemLIs = [];
-                menuItemCur.Menu.forEach(submenuItemCur => {
-                    let subitemLICur = document.createElement('li');
-                    itemLICur.MenuUL.appendChild(subitemLICur);
-                    itemLICur.MenuUL.ItemLIs.push(subitemLICur);
-                    subitemLICur.A = document.createElement('a');
-                    subitemLICur.appendChild(subitemLICur.A);
-                    subitemLICur.A.setAttribute("href", "#");
-                    subitemLICur.A.appendChild(document.createTextNode(submenuItemCur.Label));
-                    subitemLICur.A.className = 'dropdown-item';
-                    subitemLICur.A.addEventListener('click', (event) => {
-                        event.preventDefault();
-                        if (this.signInUp.isAuthenticated) {
-                            console.log("templateElemCur) - else - click on menu", submenuItemCur);
-                            this.tracks[this.trackForeground].menuItemClicked(submenuItemCur);
-                            if (submenuItemCur.UseCase != null) {
-                                if (subitemLICur.template == null) {
-    
-                                }
+                        topMenu.forEach( (menuItemCur, menuItemIndex) => {
+                            let itemLICur = document.createElement('li');
+                            topNavContent.MenuUL.appendChild(itemLICur);
+                            topNavContent.MenuUL.ItemLIs.push(itemLICur);
+                            itemLICur.A = document.createElement('a');
+                            itemLICur.appendChild(itemLICur.A);
+                            itemLICur.A.setAttribute("href", "#");
+                            itemLICur.A.appendChild(document.createTextNode(menuItemCur.Label));
+                            if (menuItemCur.Menu == null) {
+                                itemLICur.className = 'nav-item';
+                                itemLICur.A.className = 'nav-link';
+                                itemLICur.A.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    if (this.signInUp.isAuthenticated) {
+                                        console.log("templateElemCur) - if - click on menu", menuItemCur);
+                                        this.tracks[this.trackForeground].menuItemClicked(menuItemCur);
+                                        if (menuItemCur.UseCase != null) {
+                                            if (itemLICur.template == null) {
+                    
+                                            }
+                                        }
+                                    } else {
+                                        this.signInUp.checkUserAuthentication();
+                                    }
+                                });
+                            } else {
+                                itemLICur.className = 'nav-item dropdown';
+                                itemLICur.A.className = 'nav-link dropdown-toggle';
+                                itemLICur.A.id = "navbarDropdown"+(menuItemIndex+1).toString();
+                                itemLICur.A.setAttribute("role", "button");
+                                itemLICur.A.setAttribute("data-bs-toggle", "dropdown");
+                                itemLICur.A.setAttribute("aria-expanded", "false");
+                
+                                itemLICur.MenuUL = document.createElement('ul');
+                                itemLICur.appendChild(itemLICur.MenuUL);
+                                itemLICur.MenuUL.className = 'dropdown-menu';
+                                itemLICur.MenuUL.setAttribute("aria-labelledby", "navbarDropdown"+(menuItemIndex+1).toString());
+                                itemLICur.MenuUL.ItemLIs = [];
+                                menuItemCur.Menu.forEach(submenuItemCur => {
+                                    let subitemLICur = document.createElement('li');
+                                    itemLICur.MenuUL.appendChild(subitemLICur);
+                                    itemLICur.MenuUL.ItemLIs.push(subitemLICur);
+                                    subitemLICur.A = document.createElement('a');
+                                    subitemLICur.appendChild(subitemLICur.A);
+                                    subitemLICur.A.setAttribute("href", "#");
+                                    subitemLICur.A.appendChild(document.createTextNode(submenuItemCur.Label));
+                                    subitemLICur.A.className = 'dropdown-item';
+                                    subitemLICur.A.addEventListener('click', (event) => {
+                                        event.preventDefault();
+                                        if (this.signInUp.isAuthenticated) {
+                                            console.log("templateElemCur) - else - click on menu", submenuItemCur);
+                                            this.tracks[this.trackForeground].menuItemClicked(submenuItemCur);
+                                            if (submenuItemCur.UseCase != null) {
+                                                if (subitemLICur.template == null) {
+                    
+                                                }
+                                            }
+                                        } else {
+                                            this.signInUp.checkUserAuthentication();
+                                        }
+                                    });
+                                });
                             }
-                        } else {
-                            this.signInUp.checkUserAuthentication();
-                        }
-                    });
-                });
-            }
-        });
-
-    }
-
-*/
+                        });
+                
+                    }
+                
+                */
 
 
             }
