@@ -99,10 +99,6 @@ class ClientWeb extends Client {
                 */
 
 
-                if (viewerSpec.Viewport.Top.Tracks != null) {
-                    this.elementTracks = document.getElementById('id_tracks');
-                    this.elementTracks.innerHTML = "Main Item";
-                }
 
                 /*
                     setTopMenu(topMenu, topNavContent) {
@@ -238,6 +234,10 @@ class ClientWeb extends Client {
                 
                 */
 
+            }
+            if (viewerSpec.Viewport.Tracks != null) {
+                this.elementTracks = document.getElementById('id_tracks');
+                this.elementTracks.innerHTML = "Main Item";
             }
             if (viewerSpec.Viewport.Bottom != null) {
                 if (viewerSpec.Viewport.Bottom.Image != null) {
