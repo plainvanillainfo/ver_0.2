@@ -97,6 +97,7 @@ class ClientWeb extends Client {
 
                 /*
                 Need tab elements for tracks
+                If only one track, and no ability to spawn tracks, then tabs not needed
                 In main content, need breadcrumbs and root Item as the base for the  viewport menu
                 */
 
