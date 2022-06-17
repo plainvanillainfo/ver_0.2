@@ -101,7 +101,7 @@ class ClientWeb extends Client {
 
                 if (viewerSpec.Viewport.Top.Tracks != null) {
                     this.elementTracks = document.getElementById('id_tracks');
-                    this.elementTracks.innerHTML = "Main Item");
+                    this.elementTracks.innerHTML = "Main Item";
                 }
 
                 /*
