@@ -88,9 +88,7 @@ class ClientWeb extends Client {
                 if (viewerSpec.Viewport.Top.SignInUp != null) {
                     this.elementSignInUp = document.getElementById('id_signinup');
                 }
-                if (viewerSpec.Viewport.Top.Search != null) {
-                    this.elementSearch = document.getElementById('id_search');
-                }
+
 
                 /*
                 We need from server the seed menu
@@ -104,10 +102,6 @@ class ClientWeb extends Client {
                 if (viewerSpec.Viewport.Top.Tracks != null) {
                     this.elementTracks = document.getElementById('id_tracks');
                 }
-                if (viewerSpec.Viewport.Top.Menu != null) {
-                    this.elementMenu = document.getElementById('id_menu');
-                }
-
 
                 /*
                     setTopMenu(topMenu, topNavContent) {
@@ -243,6 +237,21 @@ class ClientWeb extends Client {
                 
                 */
 
+            }
+            if (viewerSpec.Viewport.Bottom != null) {
+                if (viewerSpec.Viewport.Bottom.Image != null) {
+                    this.elementBottomImage = document.getElementById('id_bottom_image');
+                    this.elementBottomImage.setAttribute("src",viewerSpec.Viewport.Bottom.Image);
+                    this.elementBottomImage.setAttribute("width",viewerSpec.Viewport.Bottom.Width);
+                    this.elementBottomImage.setAttribute("objectFit",viewerSpec.Viewport.Bottom.ObjectFit);
+                    this.elementBottomImage.setAttribute("objectPosition",viewerSpec.Viewport.Bottom.ObjectPosition);
+                }
+                if (viewerSpec.Viewport.Bottom.CopyrightText != null) {
+                    this.elementCopyright = document.getElementById('id_copyright');
+
+                    this.elementCopyright.appendChild(document.createTextNode(viewerSpec.Viewport.Bottom.CopyrightText));
+
+                }
             }
         }
     }
