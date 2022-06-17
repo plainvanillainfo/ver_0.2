@@ -170,6 +170,63 @@ class ClientWeb extends Client {
                 
                 */
 
+                /*
+                    setTopMenuSign(topNavContent, ViewerSpec) {
+                        let itemLISign = document.createElement('li');
+                        topNavContent.MenuUL.appendChild(itemLISign);
+                        topNavContent.MenuUL.ItemLIs.push(itemLISign);
+                        itemLISign.A = document.createElement('a');
+                        itemLISign.appendChild(itemLISign.A);
+                        itemLISign.A.setAttribute("href", "#");
+                
+                        itemLISign.className = 'nav-item dropdown';
+                        itemLISign.A.className = 'nav-link dropdown-toggle';
+                        itemLISign.A.id = "navbarDropdownSign";
+                        itemLISign.A.setAttribute("role", "button");
+                        itemLISign.A.setAttribute("data-bs-toggle", "dropdown");
+                        itemLISign.A.setAttribute("aria-expanded", "false");
+                
+                        let itemImgSign = document.createElement('i');
+                        itemLISign.A.appendChild(itemImgSign);
+                        itemImgSign.className = 'bi bi-box-arrow-in-right';
+                        itemImgSign.style.marginRight = "10px";
+                        itemLISign.A.appendChild(document.createTextNode("SignIn/Out"));
+                
+                        itemLISign.MenuUL = document.createElement('ul');
+                        itemLISign.appendChild(itemLISign.MenuUL);
+                        itemLISign.MenuUL.className = 'dropdown-menu';
+                        itemLISign.MenuUL.setAttribute("aria-labelledby", "navbarDropdownSign");
+                        itemLISign.MenuUL.ItemLIs = [];
+                
+                        let subitemLISignIn = document.createElement('li');
+                        itemLISign.MenuUL.appendChild(subitemLISignIn);
+                        itemLISign.MenuUL.ItemLIs.push(subitemLISignIn);
+                
+                        subitemLISignIn.A = document.createElement('a');
+                        subitemLISignIn.appendChild(subitemLISignIn.A);
+                        subitemLISignIn.A.setAttribute("href", ViewerSpec.CognitoRedirectURI);
+                        subitemLISignIn.A.appendChild(document.createTextNode("Sign In"));
+                        subitemLISignIn.A.className = 'dropdown-item';
+                        subitemLISignIn.A.addEventListener('click', (event) => {
+                            //event.preventDefault();
+                            console.log("click on sign in");
+                        });
+                
+                        let subitemLISignOut = document.createElement('li');
+                        itemLISign.MenuUL.appendChild(subitemLISignOut);
+                        itemLISign.MenuUL.ItemLIs.push(subitemLISignOut);
+                        subitemLISignOut.A = document.createElement('a');
+                        subitemLISignOut.appendChild(subitemLISignOut.A);
+                        subitemLISignOut.A.setAttribute("href", ViewerSpec.CognitoLogoutURI);
+                        subitemLISignOut.A.appendChild(document.createTextNode("Sign Out"));
+                        subitemLISignOut.A.className = 'dropdown-item';
+                        subitemLISignOut.A.addEventListener('click', (event) => {
+                            //event.preventDefault();
+                            console.log("click on sign out");
+                        });
+                    }
+                
+                */
 
             }
         }
