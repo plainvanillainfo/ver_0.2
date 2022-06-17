@@ -85,6 +85,15 @@ class ClientWeb extends Client {
                     this.elementLogo.setAttribute("src",viewerSpec.Viewport.Top.Logo.Image);
                     this.elementLogo.setAttribute("width",viewerSpec.Viewport.Top.Logo.Width);
                 }
+                if (viewerSpec.Viewport.Top.SignInUp != null) {
+                    this.elementSignInUp = document.getElementById('id_signinup');
+                }
+                if (viewerSpec.Viewport.Top.Search != null) {
+                    this.elementSearch = document.getElementById('id_search');
+                }
+                if (viewerSpec.Viewport.Top.Menu != null) {
+                    this.elementMenu = document.getElementById('id_menu');
+                }
             }
         }
     }
