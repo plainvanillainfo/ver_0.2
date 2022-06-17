@@ -91,6 +91,9 @@ class ClientWeb extends Client {
                 if (viewerSpec.Viewport.Top.Search != null) {
                     this.elementSearch = document.getElementById('id_search');
                 }
+                if (viewerSpec.Viewport.Top.Tracks != null) {
+                    this.elementTracks = document.getElementById('id_tracks');
+                }
                 if (viewerSpec.Viewport.Top.Menu != null) {
                     this.elementMenu = document.getElementById('id_menu');
                 }
@@ -98,6 +101,7 @@ class ClientWeb extends Client {
                 /*
                 Need tab elements for tracks
                 If only one track, and no ability to spawn tracks, then tabs not needed
+                Menus are inside tracks
                 In main content, need breadcrumbs and root Item as the base for the  viewport menu
                 */
 
