@@ -94,6 +94,12 @@ class ClientWeb extends Client {
                 if (viewerSpec.Viewport.Top.Menu != null) {
                     this.elementMenu = document.getElementById('id_menu');
                 }
+
+                /*
+                Need tabs for tracks
+                In main content, need breadcrumbs and root Item as the base for the  viewport menu
+                */
+
                 /*
                     setTopMenu(topMenu, topNavContent) {
                         topNavContent.MenuUL = document.createElement('ul');
