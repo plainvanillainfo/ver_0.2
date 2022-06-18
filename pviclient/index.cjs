@@ -23,23 +23,10 @@ const {
     Track
 } = require('../pvicommon/index.cjs');
 
-class SignInUp {
-    constructor(parent) {
-        this.parent = parent;
-    }
-
-    start() {
-    }
-
-    checkUserAuthentication() {
-    }
-
-}
-
 class Client {
     constructor(parent) {
         this.parent = parent;
-        this.signInUp = new SignInUp(this);
+        this.isAuthenticated = false;
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
@@ -65,6 +52,8 @@ class Client {
         console.log("Client::setViewerSpec()");
     }
 
+    checkUserAuthentication() {
+    }
 }
 
 class ClientWeb extends Client {
@@ -86,10 +75,22 @@ class ClientWeb extends Client {
                     this.elementLogo.setAttribute("width",viewerSpec.Viewport.Top.Logo.Width);
                 }
                 if (viewerSpec.Viewport.Top.SignInUp != null) {
-                    this.elementSignInUp = document.getElementById('id_signinup');
+                    this.elementSignIn = document.getElementById('id_signin');
+                    this.elementSignIn.setAttribute("href", viewerSpec.Viewport.Top.SignInUp.CognitoRedirectURI);
+                    this.elementSignIn.className = 'dropdown-item';
+                    this.elementSignIn.addEventListener('click', (event) => {
+                        console.log("click on sign in");
+                    });
+                    this.elementSignOut = document.getElementById('id_signout');
+                    this.elementSignOut.setAttribute("href", viewerSpec.Viewport.Top.SignInUp.CognitoLogoutURI);
+                    this.elementSignOut.className = 'dropdown-item';
+                    this.elementSignOut.addEventListener('click', (event) => {
+                        console.log("click on sign out");
+                        this.isAuthenticated = false;
+                        this.setUserAccess();
+                    });
+                    this.checkUserAuthentication();
                 }
-
-
             }
             if (viewerSpec.Viewport.Tracks != null) {
                 this.elementTracks = document.getElementById('id_tracks');
@@ -98,7 +99,7 @@ class ClientWeb extends Client {
                 if (viewerSpec.Viewport.Tracks.Tabs != null) {
                 } else {
                     this.elemenTabs.style.visibility = 'hidden';
-                    this.elemenTabs.style.display = 'node';
+                    this.elemenTabs.style.display = 'none';
                 }
                 this.elemenTrackCur = document.getElementById('id_track_cur');
             }
@@ -118,6 +119,53 @@ class ClientWeb extends Client {
                 }
             }
         }
+    }
+
+    checkUserAuthentication() {
+        if (window.transmitter.websocketBEIsActive === true) {
+            this.isAuthenticated = false;
+            if (document.location.hash != null) {
+                let cognitoData = {};
+                let elementsString = decodeURIComponent(document.location.hash.substr(1, document.location.hash.length));
+                let params = elementsString.split("&");
+                for (let param of params) {
+                    let values = param.split("=");
+                    cognitoData[values[0]] = values[1];
+                }
+                if (cognitoData["id_token"] != null) {
+                    let idDecoded = jwt_decode(cognitoData["id_token"], { header: false });
+                    this.userId = idDecoded.email.toLowerCase();
+                    this.isAuthenticated = true;
+                }
+            }
+            this.setUserAccess();
+        } else {
+            setTimeout(() => { this.checkUserAuthentication(); }, 50);
+        }
+    }
+
+    setUserAccess() {
+        if (this.isAuthenticated === true) {
+            this.elementSignIn.style.visibility = 'hidden';
+            this.elementSignIn.style.display = 'none';
+            this.elementSignOut.style.visibility = 'visible';
+            this.elementSignOut.style.display = 'inline';
+            initiateTracks();
+        } else {
+            this.elementSignIn.style.visibility = 'visible';
+            this.elementSignIn.style.display = 'inline';
+            this.elementSignOut.style.visibility = 'hidden';
+            this.elementSignOut.style.display = 'none';
+            terminateTracks();
+        }
+    }
+
+    initiateTracks() {
+        this.elementTracks.appendChild(document.createTextNode("Tracks initiated"));
+    }
+
+    terminateTracks() {
+        this.elementTracks.appendChild(document.createTextNode("Tracks terminated"));
     }
 
 }
