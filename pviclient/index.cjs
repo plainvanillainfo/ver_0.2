@@ -104,6 +104,9 @@ class ClientWeb extends Client {
 
     setViewerSpec(viewerSpec) {
         console.log("ClientWeb::setViewerSpec()");
+        if (viewerSpec.DriverUseCase != null) {
+            this.driverUseCase = viewerSpec.DriverUseCase;
+        }
         if (viewerSpec.Viewport != null) {
             if (viewerSpec.Viewport.Top != null) {
                 if (viewerSpec.Viewport.Top.Caption != null) {
@@ -160,9 +163,6 @@ class ClientWeb extends Client {
                     this.checkUserAuthentication();
                 }
             }
-        }
-        if (viewerSpec.DriverUseCase != null) {
-            this.driverUseCase = viewerSpec.DriverUseCase;
         }
     }
 
