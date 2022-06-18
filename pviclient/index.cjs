@@ -22,7 +22,6 @@ const {
     TemplateElem,
     Track
 } = require('../pvicommon/index.cjs');
-const atob = require('atob');
 
 class Client {
     constructor(parent) {
