@@ -28,6 +28,7 @@ class Client {
         this.parent = parent;
         this.isAuthenticated = false;
         this.forwardToServer = this.forwardToServer.bind(this);
+        this.useCases = {};
         this.tracks = {};
     }
 
@@ -39,6 +40,9 @@ class Client {
                 break;
             case 'ReceiveViewerSpec':
                 this.setViewerSpec(message.ViewerSpec);
+                break;
+            case 'ReceiveUseCase':
+                this.setUseCase(message.UseCase);
                 break;
             default:
                 break;        
@@ -53,13 +57,29 @@ class Client {
         console.log("Client::setViewerSpec()");
     }
 
+    setUseCase(useCase, viewerName) {
+        console.log("Client::setUseCase()");
+        this.useCases[useCase.Name] = useCase;
+        if (this.useCases[useCase.Name].Viewers != null) {
+            let viewerCur = this.useCases[useCase.Name].Viewers.find(cur => cur.Name === viewerName);
+            this.useCases[useCase.Name].Viewers = viewerCur != null ? [viewerCur] : [];
+        }
+        this.useCases[useCase.Name].Elems.forEach(elemCur => {
+            if (elemCur.Viewers != null) {
+                let elemViewerCur = elemCur.Viewers.find(cur => cur.Name === viewerName);
+                elemCur.Viewers = elemViewerCur != null ? [elemViewerCur] : [];
+            }
+        });
+    }
+
     checkUserAuthentication() {
     }
 }
 
 class ClientWeb extends Client {
-    constructor(parent) {
+    constructor(parent, name) {
         super(parent);
+        this.name = name;
     }
 
     setViewerSpec(viewerSpec) {
@@ -92,7 +112,6 @@ class ClientWeb extends Client {
             }
             if (viewerSpec.Viewport.Tracks != null) {
                 this.elementTracks = document.getElementById('id_tracks');
-                this.elementTracks.appendChild(document.createTextNode("Main Item"));
                 this.elemenTabs = document.getElementById('id_tabs');
                 if (viewerSpec.Viewport.Tracks.Tabs != null) {
                 } else {
@@ -123,6 +142,12 @@ class ClientWeb extends Client {
             }
         }
     }
+
+    setUseCase(useCase) {
+        console.log("ClientWeb::setUseCase()");
+        super.setUseCase(useCase, this.name);
+    }
+
 
     checkUserAuthentication() {
         if (this.parent.transmitter.websocketBEIsActive === true) {
@@ -174,6 +199,12 @@ class ClientWeb extends Client {
 
     initiateTracks() {
         this.elementTracks.appendChild(document.createTextNode("Tracks initiated"));
+        if (viewerSpec.DriverUseCase != null) {
+            this.forwardToServer({
+                Action: 'SendUseCase',
+                UseCaseName: viewerSpec.DriverUseCase
+            });
+        }
     }
 
     terminateTracks() {
