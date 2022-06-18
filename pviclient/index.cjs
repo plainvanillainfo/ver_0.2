@@ -1,4 +1,3 @@
-const jwt_decode = require("jwt-decode");
 const {
     Attribute,
     AttributeComponent,
@@ -23,6 +22,7 @@ const {
     TemplateElem,
     Track
 } = require('../pvicommon/index.cjs');
+const atob = require('atob');
 
 class Client {
     constructor(parent) {
@@ -134,7 +134,8 @@ class ClientWeb extends Client {
                     cognitoData[values[0]] = values[1];
                 }
                 if (cognitoData["id_token"] != null) {
-                    let idDecoded = jwt_decode(cognitoData["id_token"], { header: false });
+                    //let idDecoded = jwt_decode(cognitoData["id_token"], { header: false });
+                    let idDecoded = jwt_parse(cognitoData["id_token"]);
                     this.userId = idDecoded.email.toLowerCase();
                     this.isAuthenticated = true;
                 }
@@ -143,6 +144,15 @@ class ClientWeb extends Client {
         } else {
             setTimeout(() => { this.checkUserAuthentication(); }, 50);
         }
+    }
+
+    jwt_parse(token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
     }
 
     setUserAccess() {
