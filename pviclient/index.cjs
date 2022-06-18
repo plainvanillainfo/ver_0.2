@@ -1,3 +1,4 @@
+import jwt_decode from "jwt-decode";
 const {
     Attribute,
     AttributeComponent,
