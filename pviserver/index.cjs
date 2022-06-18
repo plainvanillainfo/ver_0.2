@@ -134,7 +134,7 @@ class Session {
                     break;
                 case 'SendUseCase':
                     if (message.UseCaseName != null && message.TrackId != null) {
-                        let useCaseCur = this.Model.useCases.find(cur => cur.Name === message.UseCaseName);
+                        let useCaseCur = this.model.useCases.find(cur => cur.Name === message.UseCaseName);
                         if (useCaseCur != null) {
                             this.forwardMessage({Action: 'ReceiveUseCase',  TrackId: message.TrackId, UseCase: useCaseCur});
                         }
