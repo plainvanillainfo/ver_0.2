@@ -135,7 +135,7 @@ class Session {
                 case 'SendUseCase':
                     if (message.UseCaseName != null && message.TrackId != null) {
                         if (this.model.useCases[message.UseCaseName] != null) {
-                            this.forwardMessage({Action: 'ReceiveUseCase',  TrackId: message.TrackId, UseCase: this.model.useCases[message.UseCaseName]});
+                            this.forwardMessage({Action: 'ReceiveUseCase',  TrackId: message.TrackId, UseCase: this.model.useCases[message.UseCaseName].spec});
                         }
                     }
                     break;
