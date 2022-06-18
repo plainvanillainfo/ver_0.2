@@ -122,7 +122,7 @@ class ClientWeb extends Client {
     }
 
     checkUserAuthentication() {
-        if (window.transmitter.websocketBEIsActive === true) {
+        if (this.parent.transmitter.websocketBEIsActive === true) {
             this.isAuthenticated = false;
             if (document.location.hash != null) {
                 let cognitoData = {};
