@@ -65,6 +65,7 @@ class ClientWeb extends Client {
         console.log("ClientWeb::setViewerSpec()");
         if (viewerSpec.Viewport != null) {
             if (viewerSpec.Viewport.Top != null) {
+            }
                 if (viewerSpec.Viewport.Top.Caption != null) {
                     this.elementCaption = document.getElementById('id_caption');
                     this.elementCaption.appendChild(document.createTextNode(viewerSpec.Viewport.Top.Caption));
@@ -89,7 +90,6 @@ class ClientWeb extends Client {
                         this.isAuthenticated = false;
                         this.setUserAccess();
                     });
-                    this.checkUserAuthentication();
                 }
             }
             if (viewerSpec.Viewport.Tracks != null) {
@@ -116,6 +116,11 @@ class ClientWeb extends Client {
 
                     this.elementCopyright.appendChild(document.createTextNode(viewerSpec.Viewport.Bottom.CopyrightText));
 
+                }
+            }
+            if (viewerSpec.Viewport.Top != null) {
+                if (viewerSpec.Viewport.Top.SignInUp != null) {
+                    this.checkUserAuthentication();
                 }
             }
         }
