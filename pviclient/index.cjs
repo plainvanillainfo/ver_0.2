@@ -160,13 +160,13 @@ class ClientWeb extends Client {
             this.elementSignIn.style.display = 'none';
             this.elementSignOut.style.visibility = 'visible';
             this.elementSignOut.style.display = 'inline';
-            initiateTracks();
+            this.initiateTracks();
         } else {
             this.elementSignIn.style.visibility = 'visible';
             this.elementSignIn.style.display = 'inline';
             this.elementSignOut.style.visibility = 'hidden';
             this.elementSignOut.style.display = 'none';
-            terminateTracks();
+            this.terminateTracks();
         }
     }
 
