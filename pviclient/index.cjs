@@ -94,6 +94,13 @@ class ClientWeb extends Client {
             if (viewerSpec.Viewport.Tracks != null) {
                 this.elementTracks = document.getElementById('id_tracks');
                 this.elementTracks.appendChild(document.createTextNode("Main Item"));
+                this.elemenTabs = document.getElementById('id_tabs');
+                if (viewerSpec.Viewport.Tracks.Tabs != null) {
+                } else {
+                    this.elemenTabs.style.visibility = 'hidden';
+                    this.elemenTabs.style.display = 'node';
+                }
+                this.elemenTrackCur = document.getElementById('id_track_cur');
             }
             if (viewerSpec.Viewport.Bottom != null) {
                 if (viewerSpec.Viewport.Bottom.Image != null) {
@@ -115,6 +122,7 @@ class ClientWeb extends Client {
 
 }
 
+let x = {
 /*
 We need from server the seed menu
 Need tab elements for tracks
@@ -256,7 +264,7 @@ In main content, need breadcrumbs and root Item as the base for the  viewport me
     }
  
 */
-
+};
 
 module.exports = {
     Client,
