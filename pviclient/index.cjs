@@ -98,7 +98,7 @@ class ClientWeb extends Client {
                     this.elemenTabs.style.visibility = 'hidden';
                     this.elemenTabs.style.display = 'none';
                 }
-                this.elemenTrackCur = document.getElementById('id_track_cur');
+                this.elemenTrackCur = document.getElementById('id_track_front');
             }
             if (viewerSpec.Viewport.Bottom != null) {
                 if (viewerSpec.Viewport.Bottom.Image != null) {
