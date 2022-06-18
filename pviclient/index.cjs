@@ -162,7 +162,7 @@ class ClientWeb extends Client {
             }
         }
         if (viewerSpec.DriverUseCase != null) {
-            this.driverUseCase = DriverUseCase;
+            this.driverUseCase = viewerSpec.DriverUseCase;
         }
     }
 
