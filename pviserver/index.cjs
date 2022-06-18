@@ -113,7 +113,7 @@ class Session {
         this.id = id;
         this.ws = ws;
         this.user = null;
-        this.model = this.parent.parent.model;
+        this.model = this.parent.model;
         this.schemaSent = false;
         this.nodesWatched = {};
         this.trackMain = new Track(this, '1');
@@ -127,14 +127,14 @@ class Session {
             console.log("Session::receiveMessage: ", message);
             switch (message.Action) {
                 case 'SendViewerSpec':
-                    let viewerSpecCur = this.parent.parent.config.Executables.find(cur => cur.Name === message.AppId && cur.Type === 'Viewer');
+                    let viewerSpecCur = this.parent.config.Executables.find(cur => cur.Name === message.AppId && cur.Type === 'Viewer');
                     if (viewerSpecCur != null) {
                         this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: viewerSpecCur});
                     }
                     break;
                 case 'SendUseCase':
                     if (message.UseCaseName != null && message.TrackId != null) {
-                        let useCaseCur = this.parent.useCases.find(cur => cur.Name === message.UseCaseName);
+                        let useCaseCur = this.Model.useCases.find(cur => cur.Name === message.UseCaseName);
                         if (useCaseCur != null) {
                             this.forwardMessage({Action: 'ReceiveUseCase',  TrackId: message.TrackId, UseCase: useCaseCur});
                         }
@@ -305,7 +305,7 @@ class WebServer {
             do {
                 sessionId = dateString + randomstring.generate({length:20});
             } while (this.parent.sessions[sessionId] != null);
-            sessionCur = new Session(this, sessionId, wsIn);
+            sessionCur = new Session(this.parent, sessionId, wsIn);
             this.parent.sessions[sessionId] = sessionCur
             this.wsConnections.push({ws: wsIn, sessionId: sessionId});
         } else {
