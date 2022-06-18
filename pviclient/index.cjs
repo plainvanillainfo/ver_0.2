@@ -137,7 +137,6 @@ class ClientWeb extends Client {
                     cognitoData[values[0]] = values[1];
                 }
                 if (cognitoData["id_token"] != null) {
-                    //let idDecoded = jwt_decode(cognitoData["id_token"], { header: false });
                     let idDecoded = this.jwt_parse(cognitoData["id_token"]);
                     this.userId = idDecoded.email.toLowerCase();
                     this.isAuthenticated = true;
