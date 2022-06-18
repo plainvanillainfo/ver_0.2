@@ -28,6 +28,7 @@ class Client {
         this.parent = parent;
         this.isAuthenticated = false;
         this.forwardToServer = this.forwardToServer.bind(this);
+        this.tracks = {};
     }
 
     fromServer(message) {
