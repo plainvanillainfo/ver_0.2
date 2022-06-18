@@ -132,6 +132,14 @@ class Session {
                         this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: viewerSpecCur});
                     }
                     break;
+                case 'SendUseCase':
+                    if (message.UseCaseName != null) {
+                        let useCaseCur = this.parent.useCases.find(cur => cur.Name === message.UseCaseName);
+                        if (useCaseCur != null) {
+                            this.forwardMessage({Action: 'ReceiveUseCase', UseCase: useCaseCur});
+                        }
+                    }
+                    break;
                 default:
                     break;        
 
