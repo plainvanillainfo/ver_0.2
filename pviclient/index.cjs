@@ -199,10 +199,10 @@ class ClientWeb extends Client {
 
     initiateTracks() {
         this.elementTracks.appendChild(document.createTextNode("Tracks initiated"));
-        if (viewerSpec.DriverUseCase != null) {
+        if (this.viewerSpec.DriverUseCase != null) {
             this.forwardToServer({
                 Action: 'SendUseCase',
-                UseCaseName: viewerSpec.DriverUseCase
+                UseCaseName: this.viewerSpec.DriverUseCase
             });
         }
     }
