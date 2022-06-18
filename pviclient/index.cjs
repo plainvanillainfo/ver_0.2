@@ -77,13 +77,11 @@ class ClientWeb extends Client {
                 if (viewerSpec.Viewport.Top.SignInUp != null) {
                     this.elementSignIn = document.getElementById('id_signin');
                     this.elementSignIn.setAttribute("href", viewerSpec.Viewport.Top.SignInUp.CognitoRedirectURI);
-                    this.elementSignIn.className = 'dropdown-item';
                     this.elementSignIn.addEventListener('click', (event) => {
                         console.log("click on sign in");
                     });
                     this.elementSignOut = document.getElementById('id_signout');
                     this.elementSignOut.setAttribute("href", viewerSpec.Viewport.Top.SignInUp.CognitoLogoutURI);
-                    this.elementSignOut.className = 'dropdown-item';
                     this.elementSignOut.addEventListener('click', (event) => {
                         console.log("click on sign out");
                         this.isAuthenticated = false;
