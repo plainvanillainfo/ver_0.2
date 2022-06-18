@@ -42,7 +42,7 @@ class Client {
                 this.setViewerSpec(message.ViewerSpec);
                 break;
             case 'ReceiveUseCase':
-                this.setUseCase(message.UseCase);
+                this.setUseCase(message.UseCase, message.TrackId);
                 break;
             default:
                 break;        
@@ -57,7 +57,7 @@ class Client {
         console.log("Client::setViewerSpec()");
     }
 
-    setUseCase(useCase, viewerName) {
+    setUseCase(useCase, trackId, viewerName) {
         console.log("Client::setUseCase()");
         this.useCases[useCase.Name] = useCase;
         if (this.useCases[useCase.Name].Viewers != null) {
@@ -70,10 +70,30 @@ class Client {
                 elemCur.Viewers = elemViewerCur != null ? [elemViewerCur] : [];
             }
         });
+        this.tracks[trackId].setUseCase(this.useCases[useCase.Name]);
     }
 
     checkUserAuthentication() {
     }
+
+    setUserAccess() {
+    }
+
+    initiateTracks() {
+        let trackId = '1';
+        this.tracks[trackId] = new Track(this, trackId);
+        if (this.driverUseCase != null) {
+            this.forwardToServer({
+                Action: 'SendUseCase',
+                TrackId: trackId,
+                UseCaseName: this.driverUseCase
+            });
+        }
+    }
+
+    terminateTracks() {
+    }
+
 }
 
 class ClientWeb extends Client {
@@ -141,11 +161,14 @@ class ClientWeb extends Client {
                 }
             }
         }
+        if (viewerSpec.DriverUseCase != null) {
+            this.driverUseCase = DriverUseCase;
+        }
     }
 
-    setUseCase(useCase) {
+    setUseCase(useCase, trackId) {
         console.log("ClientWeb::setUseCase()");
-        super.setUseCase(useCase, this.name);
+        super.setUseCase(useCase, trackId, this.name);
     }
 
 
@@ -198,16 +221,12 @@ class ClientWeb extends Client {
     }
 
     initiateTracks() {
+        super.initiateTracks();
         this.elementTracks.appendChild(document.createTextNode("Tracks initiated"));
-        if (this.viewerSpec.DriverUseCase != null) {
-            this.forwardToServer({
-                Action: 'SendUseCase',
-                UseCaseName: this.viewerSpec.DriverUseCase
-            });
-        }
     }
 
     terminateTracks() {
+        super.terminateTracks();
         this.elementTracks.appendChild(document.createTextNode("Tracks terminated"));
     }
 

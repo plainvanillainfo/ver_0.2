@@ -144,8 +144,15 @@ class TemplateElem {
 
 class Track {
     constructor(parent, id) {
+        console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.id = id;
+        this.useCase = null;
+    }
+
+    setUseCase(useCase) {
+        console.log("Track::setUseCase: ", useCase);
+        this.useCase = useCase;
     }
 }
 

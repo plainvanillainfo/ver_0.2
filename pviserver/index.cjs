@@ -133,10 +133,10 @@ class Session {
                     }
                     break;
                 case 'SendUseCase':
-                    if (message.UseCaseName != null) {
+                    if (message.UseCaseName != null && message.TrackId != null) {
                         let useCaseCur = this.parent.useCases.find(cur => cur.Name === message.UseCaseName);
                         if (useCaseCur != null) {
-                            this.forwardMessage({Action: 'ReceiveUseCase', UseCase: useCaseCur});
+                            this.forwardMessage({Action: 'ReceiveUseCase',  TrackId: message.TrackId, UseCase: useCaseCur});
                         }
                     }
                     break;
