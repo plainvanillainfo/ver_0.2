@@ -132,10 +132,10 @@ class Session {
                         this.forwardMessage({Action: 'ReceiveViewerSpec', ViewerSpec: viewerSpecCur});
                     }
                     break;
-                case 'SendUseCase':
-                    if (message.UseCaseName != null && message.TrackId != null) {
+                case 'SendEntitlement':
+                    if (message.UserId != null && message.TrackId != null) {
                         if (this.model.useCases[message.UseCaseName] != null) {
-                            this.forwardMessage({Action: 'ReceiveUseCase',  TrackId: message.TrackId, UseCase: this.model.useCases[message.UseCaseName].spec});
+                            this.forwardMessage({Action: 'ReceiveEntitlement',  TrackId: message.TrackId, UseCase: this.model.useCases[message.UseCaseName].spec});
                         }
                     }
                     break;
@@ -173,8 +173,10 @@ class Model {
         this.appName = this.parent.config.AppName;
         this.classes = {};
         this.useCases = {};
+        this.users = {};
         this.initializeClasses();
         this.initializeUseCases();
+        this.initializeUsers();
         this.database = new Database(this, this.parent.serverConfig.DBDir);
     }
 
@@ -205,6 +207,20 @@ class Model {
             useCasesFileCurContent.UseCases.forEach(useCaseCur => {
                 console.log("    ", useCaseCur.Name);
                 this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
+            });
+        });
+    }    
+
+    initializeUsers() {
+        let usersDir = this.parent.appDir + '/' + this.parent.config.ModelUsers.Dir;
+        let usersFiles = this.parent.config.ModelUseCases.Files;
+        usersFiles.forEach(fileCur => {
+            let filePathCur = usersDir + '/' + fileCur;
+            let usersFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
+            console.log("Model::initializeUsers - file: ", usersFileCurContent.Name);
+            usersFileCurContent.Users.forEach(userCur => {
+                console.log("    ", userCur.UserId);
+                this.users[userCur.UserId] = new User(this, userCur);
             });
         });
     }    

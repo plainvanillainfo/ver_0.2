@@ -142,6 +142,15 @@ class TemplateElem {
     }
 }
 
+class User {
+    constructor(parent, userInfo) {
+        this.parent = parent;
+        this.userId = userInfo.UserId;
+        this.entitlements = userInfo.Entitlements;
+    }
+}
+
+
 class Track {
     constructor(parent, id) {
         console.log("Track::constructor - id: ", id);
@@ -178,5 +187,6 @@ module.exports = {
     Template,
     TemplateList,
     TemplateElem,
-    Track
+    Track,
+    User
 }
