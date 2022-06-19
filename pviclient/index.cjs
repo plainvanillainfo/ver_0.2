@@ -83,9 +83,9 @@ class Client {
         this.tracks[trackFirst.id] = trackFirst;
         if (this.driverUseCase != null) {
             this.forwardToServer({
-                Action: 'SendUseCase',
+                Action: 'SendEntitlement',
                 TrackId: trackFirst.id,
-                UseCaseName: this.driverUseCase
+                UserId: this.userId
             });
         }
     }
