@@ -166,7 +166,7 @@ class Track {
     }
 
     setItem(item) {
-        console.log("Track::setItem: ", useCase);
+        console.log("Track::setItem: ", item);
         this.item = item;
     }
 
