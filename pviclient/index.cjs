@@ -20,7 +20,8 @@ const {
     Template,
     TemplateList,
     TemplateElem,
-    Track
+    Track,
+    User
 } = require('../pvicommon/index.cjs');
 
 class Client {
