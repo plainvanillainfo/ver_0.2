@@ -222,7 +222,7 @@ class ClientWeb extends Client {
         this.elementTracks.appendChild(divTrackNew);
         //divTrackNew.style.visibility = 'hidden';
         //divTrackNew.style.display = 'none';
-        super.initiateTracks(new Track(this, '1', divTrackNew));
+        super.initiateTracks(new TrackWeb(this, '1', divTrackNew));
         this.elementTrackFront.appendChild(divTrackNew);
     }
 
