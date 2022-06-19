@@ -134,8 +134,13 @@ class Session {
                     break;
                 case 'SendEntitlement':
                     if (message.UserId != null && message.TrackId != null) {
-                        if (this.model.useCases[message.UseCaseName] != null) {
-                            this.forwardMessage({Action: 'ReceiveEntitlement',  TrackId: message.TrackId, UseCase: this.model.useCases[message.UseCaseName].spec});
+                        if (this.model.users[message.UserId] != null) {
+                            this.forwardMessage({
+                                Action: 'ReceiveEntitlement',
+                                TrackId: message.TrackId,
+                                UseCase: this.model.users[message.UserId].Entitlements[0].UseCase.spec,
+                                Item: {}
+                            });
                         }
                     }
                     break;

@@ -30,6 +30,7 @@ class Client {
         this.forwardToServer = this.forwardToServer.bind(this);
         this.useCases = {};
         this.tracks = {};
+        this.item = null;
     }
 
     fromServer(message) {
@@ -41,8 +42,8 @@ class Client {
             case 'ReceiveViewerSpec':
                 this.setViewerSpec(message.ViewerSpec);
                 break;
-            case 'ReceiveUseCase':
-                this.setUseCase(message.UseCase, message.TrackId);
+            case 'ReceiveEntitlement':
+                this.setEntitlement(message.TrackId, message.UseCase, message.Item);
                 break;
             default:
                 break;        
@@ -57,8 +58,9 @@ class Client {
         console.log("Client::setViewerSpec()");
     }
 
-    setUseCase(useCase, trackId, viewerName) {
-        console.log("Client::setUseCase()");
+    setEntitlement(trackId, useCase, item, viewerName) {
+        console.log("Client::setEntitlement()");
+        this.item = item;
         this.useCases[useCase.Name] = useCase;
         if (this.useCases[useCase.Name].Viewers != null) {
             let viewerCur = this.useCases[useCase.Name].Viewers.find(cur => cur.Name === viewerName);
@@ -71,6 +73,7 @@ class Client {
             }
         });
         this.tracks[trackId].setUseCase(this.useCases[useCase.Name]);
+        this.tracks[trackId].setItem(this.item);
     }
 
     checkUserAuthentication() {
@@ -164,9 +167,9 @@ class ClientWeb extends Client {
         }
     }
 
-    setUseCase(useCase, trackId) {
-        console.log("ClientWeb::setUseCase()");
-        super.setUseCase(useCase, trackId, this.name);
+    setEntitlement(trackId, useCase, item) {
+        console.log("ClientWeb::setEntitlement()");
+        super.setEntitlement(trackId, useCase, item, this.name);
     }
     
     checkUserAuthentication() {

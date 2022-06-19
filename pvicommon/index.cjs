@@ -157,12 +157,19 @@ class Track {
         this.parent = parent;
         this.id = id;
         this.useCase = null;
+        this.item = null;
     }
 
     setUseCase(useCase) {
         console.log("Track::setUseCase: ", useCase);
         this.useCase = useCase;
     }
+
+    setItem(item) {
+        console.log("Track::setItem: ", useCase);
+        this.item = item;
+    }
+
 }
 
 module.exports = {
