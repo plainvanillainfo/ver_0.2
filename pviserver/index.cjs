@@ -139,7 +139,7 @@ class Session {
                             this.forwardMessage({
                                 Action: 'ReceiveEntitlement',
                                 TrackId: message.TrackId,
-                                UseCase: this.model.users[message.UserId].Entitlements[0].UseCase.spec,
+                                UseCase: this.model.useCases[this.model.users[message.UserId].entitlements[0].UseCase].spec,
                                 Item: {}
                             });
                         }
