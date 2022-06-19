@@ -79,13 +79,12 @@ class Client {
     setUserAccess() {
     }
 
-    initiateTracks() {
-        let trackId = '1';
-        this.tracks[trackId] = new Track(this, trackId);
+    initiateTracks(trackFirst) {
+        this.tracks[trackFirst.id] = trackFirst;
         if (this.driverUseCase != null) {
             this.forwardToServer({
                 Action: 'SendUseCase',
-                TrackId: trackId,
+                TrackId: trackFirst.id,
                 UseCaseName: this.driverUseCase
             });
         }
@@ -136,12 +135,11 @@ class ClientWeb extends Client {
             if (viewerSpec.Viewport.Tracks != null) {
                 this.elementTracks = document.getElementById('id_tracks');
                 this.elemenTabs = document.getElementById('id_tabs');
-                if (viewerSpec.Viewport.Tracks.Tabs != null) {
-                } else {
+                if (viewerSpec.Viewport.Tracks.Tabs == null) {
                     this.elemenTabs.style.visibility = 'hidden';
                     this.elemenTabs.style.display = 'none';
                 }
-                this.elemenTrackCur = document.getElementById('id_track_front');
+                this.elementTrackFront = document.getElementById('id_track_front');
             }
             if (viewerSpec.Viewport.Bottom != null) {
                 if (viewerSpec.Viewport.Bottom.Image != null) {
@@ -170,8 +168,7 @@ class ClientWeb extends Client {
         console.log("ClientWeb::setUseCase()");
         super.setUseCase(useCase, trackId, this.name);
     }
-
-
+    
     checkUserAuthentication() {
         if (this.parent.transmitter.websocketBEIsActive === true) {
             this.isAuthenticated = false;
@@ -221,13 +218,30 @@ class ClientWeb extends Client {
     }
 
     initiateTracks() {
-        super.initiateTracks();
-        this.elementTracks.appendChild(document.createTextNode("Tracks initiated"));
+        let divTrackNew = document.createElement('div');
+        this.elementTracks.appendChild(divTrackNew);
+        //divTrackNew.style.visibility = 'hidden';
+        //divTrackNew.style.display = 'none';
+        super.initiateTracks(new Track(this, '1', divTrackNew));
+        this.elementTrackFront.appendChild(divTrackNew);
     }
 
     terminateTracks() {
         super.terminateTracks();
         this.elementTracks.appendChild(document.createTextNode("Tracks terminated"));
+    }
+
+}
+
+class TrackWeb extends Track {
+    constructor(parent, trackId, div) {
+        super(parent, trackId);
+        this.div = div;
+    }
+
+    setUseCase(useCase) {
+        super.setUseCase(useCase);
+        this.div.appendChild(document.createTextNode(JSON.stringify(useCase)));
     }
 
 }

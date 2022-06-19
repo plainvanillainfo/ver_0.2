@@ -153,9 +153,6 @@ class Track {
     setUseCase(useCase) {
         console.log("Track::setUseCase: ", useCase);
         this.useCase = useCase;
-        this.parent.elementTracks.appendChild(document.createTextNode(JSON.stringify(useCase)));
-
-
     }
 }
 
