@@ -220,8 +220,6 @@ class ClientWeb extends Client {
     initiateTracks() {
         let divTrackNew = document.createElement('div');
         this.elementTracks.appendChild(divTrackNew);
-        //divTrackNew.style.visibility = 'hidden';
-        //divTrackNew.style.display = 'none';
         super.initiateTracks(new TrackWeb(this, '1', divTrackNew));
         this.elementTrackFront.appendChild(divTrackNew);
     }
