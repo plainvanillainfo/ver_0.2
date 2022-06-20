@@ -136,11 +136,12 @@ class Session {
                 case 'SendEntitlement':
                     if (message.UserId != null && message.TrackId != null) {
                         if (this.model.users[message.UserId] != null) {
+                            let entitlementCur = this.model.users[message.UserId].entitlements[0];
                             this.forwardMessage({
                                 Action: 'ReceiveEntitlement',
                                 TrackId: message.TrackId,
-                                UseCase: this.model.useCases[this.model.users[message.UserId].entitlements[0].UseCase].spec,
-                                Item: {}
+                                UseCase: this.model.useCases[entitlementCur.UseCase].spec,
+                                Item: this.model.getItem(entitlementCur.ItemPath)
                             });
                         }
                     }
@@ -180,6 +181,7 @@ class Model {
         this.classes = {};
         this.useCases = {};
         this.users = {};
+        this.itemSeed = new Item(this);
         this.initializeClasses();
         this.initializeUseCases();
         this.initializeUsers();
@@ -230,6 +232,10 @@ class Model {
             });
         });
     }    
+
+    getItem(path) {
+        
+    }
 
 }
 
