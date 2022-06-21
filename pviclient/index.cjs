@@ -303,7 +303,13 @@ class TrackEngine extends Track {
         super.setUseCase(useCase);
         console.log("TrackEngine::setUseCase - ViewerSpec: ", useCase.spec.Viewers[0].ViewerSpec);
         if (useCase.spec.Viewers[0].ViewerSpec.Format === 'BatchLoader' && useCase.spec.Viewers[0].ViewerSpec.Script != null) {
-            this.scriptFunction = require(useCase.spec.Viewers[0].ViewerSpec.Script);
+            //this.scriptFunction = require(useCase.spec.Viewers[0].ViewerSpec.Script);
+            this.scriptFunction = () => {
+                console.log("ImportIHCVersionOneZero.js");
+
+                let x = 5;
+                return { DataBatch: {} };
+            }
             let retData = this.scriptFunction();
             console.log(retData);
         }
