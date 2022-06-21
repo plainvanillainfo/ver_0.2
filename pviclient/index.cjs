@@ -303,7 +303,7 @@ class TrackEngine extends Track {
         super.setUseCase(useCase);
         console.log("TrackEngine::setUseCase - ViewerSpec: ", useCase.spec.Viewers[0].ViewerSpec);
         if (useCase.spec.Viewers[0].ViewerSpec.Format === 'BatchLoader' && this.parent.batchLoader != null) {
-            let retData = this.this.parent.batchLoader();
+            let retData = this.parent.batchLoader();
             console.log(retData);
         }
     }
