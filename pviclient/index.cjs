@@ -305,6 +305,10 @@ class TrackEngine extends Track {
         if (useCase.spec.Viewers[0].ViewerSpec.Format === 'BatchLoader' && this.parent.parent.engineConfig.batchLoader != null) {
             let retData = this.parent.parent.engineConfig.batchLoader();
             console.log(retData);
+
+            // retData is an array of UpdateItem payloads
+            // Send them to the server as individual actions 
+
         }
     }
 
