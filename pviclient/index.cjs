@@ -301,6 +301,7 @@ class TrackEngine extends Track {
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
+        console.log("TrackEngine::setUseCase - ViewerSpec: ", useCase.spec.Viewers[0].ViewerSpec);
     }
 
 }
