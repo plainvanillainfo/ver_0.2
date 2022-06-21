@@ -62,17 +62,19 @@ class Client {
     setEntitlement(trackId, useCase, item, viewerName) {
         console.log("Client::setEntitlement()");
         this.item = item;
-        this.useCases[useCase.Name] = useCase;
-        if (this.useCases[useCase.Name].Viewers != null) {
-            let viewerCur = this.useCases[useCase.Name].Viewers.find(cur => cur.Name === viewerName);
-            this.useCases[useCase.Name].Viewers = viewerCur != null ? [viewerCur] : [];
+        //this.useCases[useCase.Name] = useCase;
+        let useCaseSpec = useCase;
+        if (useCaseSpec.Viewers != null) {
+            let viewerCur = useCaseSpec.Viewers.find(cur => cur.Name === viewerName);
+            useCaseSpec.Viewers = viewerCur != null ? [viewerCur] : [];
         }
-        this.useCases[useCase.Name].Elems.forEach(elemCur => {
+        useCaseSpec.Elems.forEach(elemCur => {
             if (elemCur.Viewers != null) {
                 let elemViewerCur = elemCur.Viewers.find(cur => cur.Name === viewerName);
                 elemCur.Viewers = elemViewerCur != null ? [elemViewerCur] : [];
             }
         });
+        this.useCases[useCase.Name] = new UseCase(this, useCaseSpec);
         this.tracks[trackId].setUseCase(this.useCases[useCase.Name]);
         this.tracks[trackId].setItem(this.item);
     }
@@ -282,11 +284,23 @@ class ClientEngine extends Client {
     }
 
     initiateTracks() {
-        super.initiateTracks(new Track(this, '1'));
+        super.initiateTracks(new TrackEngine(this, '1', ""));
     }
 
     terminateTracks() {
         super.terminateTracks();
+    }
+
+}
+
+class TrackEngine extends Track {
+    constructor(parent, trackId, script) {
+        super(parent, trackId);
+        this.script = script;
+    }
+
+    setUseCase(useCase) {
+        super.setUseCase(useCase);
     }
 
 }

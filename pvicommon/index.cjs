@@ -150,7 +150,6 @@ class User {
     }
 }
 
-
 class Track {
     constructor(parent, id) {
         console.log("Track::constructor - id: ", id);
@@ -161,7 +160,7 @@ class Track {
     }
 
     setUseCase(useCase) {
-        console.log("Track::setUseCase: ", useCase);
+        console.log("Track::setUseCase: ", useCase.spec);
         this.useCase = useCase;
     }
 
