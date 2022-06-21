@@ -268,7 +268,7 @@ class ClientEngine extends Client {
     }
     
     checkUserAuthentication() {
-        this.userId = 'Engine';
+        this.userId = 'DefaultEngine';
         this.isAuthenticated = true;
         this.setUserAccess();
     }
