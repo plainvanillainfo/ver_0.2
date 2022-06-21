@@ -245,7 +245,7 @@ class TrackWeb extends Track {
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
-        this.div.appendChild(document.createTextNode(JSON.stringify(useCase)));
+        this.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
     }
 
 }
