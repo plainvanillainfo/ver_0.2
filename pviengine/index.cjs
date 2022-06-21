@@ -1,4 +1,4 @@
-const { Client } = require('../pviclient/index.cjs');
+const { ClientEngine } = require('../pviclient/index.cjs');
 const fs = require("fs");
 const WebSocket = require('ws');
 
@@ -63,23 +63,18 @@ class Transmitter {
 }
 
 class Engine {
-    constructor(appDir, engineName) {
+    constructor(engineConfig, appDir, engineName) {
         console.log("Engine::constructor()");
+        this.appId = engineConfig.Name;
+        this.engineConfig = engineConfig;
         this.appDir = appDir;
-        this.engineName = engineName;
-        this.engineConfig = null;
         this.websocketProtocol = 'wss';
-        this.client = null;
+        this.websocketPort = this.engineConfig.WebsocketListenPort.toString();
+        this.hostname = this.engineConfig.HostName;
         this.receivedFromServer = this.receivedFromServer.bind(this);
         this.forwardToServer = this.forwardToServer.bind(this);
-        this.configure();
-    }
-
-    configure() {
-        let appConfigFileName = this.appDir+'/config/app.json';
-        this.config = JSON.parse(fs.readFileSync(appConfigFileName));
-        this.engineConfig = this.config.Executables.find(cur => cur.Type === 'Viewer' && cur.Name === this.engineName).ViewerConfig;
-        this.client = new Client(this);
+        this.client = new ClientEngine(this, this.appId);
+        this.transmitter = new Transmitter(this);
     }
 
     async start() {
@@ -90,9 +85,6 @@ class Engine {
         process.on('SIGUSR1', this.exitHandler);    // catches "kill pid" (for example: nodemon restart)
         process.on('SIGUSR2', this.exitHandler);
         process.on('uncaughtException', this.exitHandler);
-        this.websocketPort = this.engineConfig.WebsocketListenPort.toString();
-        this.hostname = this.engineConfig.HostName;
-        this.transmitter = new Transmitter(this);
         this.transmitter.startSessionServer(this.websocketProtocol+ '://' + this.hostname + ':' + this.websocketPort);
     }
 
@@ -111,7 +103,7 @@ class Engine {
 
     forwardToServer(messageIn) {
         let messageOut = {
-            //...this.messageEnvelope,
+            AppId: this.appId,
             ...messageIn
         };
         this.transmitter.sendMessageToBE(JSON.stringify(messageOut));
