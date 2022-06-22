@@ -261,10 +261,13 @@ class Model {
     }
 
     buildPutBatch(ops, itemBase, itemIn) {
+        console.log("Model::buildPutBatch"));
         let isChanged = false;
         for (let childAttrInCur in itemIn.ChildItems) {
+            console.log("Model::buildPutBatch: childAttrInCur: ", childAttrInCur);
             let childAttrInDetail = itemIn.ChildItems[childAttrInCur];
             childAttrInDetail.forEach(childAttrInSubItem =>{
+                console.log("Model::buildPutBatch: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
                 console.log(childAttrInSubItem);
                 if (itemBase.childItems[childCur] == null) {
                     itemBase.childItems[childCur] = {
