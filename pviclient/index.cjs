@@ -311,7 +311,7 @@ class TrackEngine extends Track {
 
     async batchLoad() {
 
-        let retData = this.parent.parent.engineConfig.batchLoader();
+        let retData = await this.parent.parent.engineConfig.batchLoader();
         console.log(retData);
 
         // retData is an array of UpdateItem payloads
