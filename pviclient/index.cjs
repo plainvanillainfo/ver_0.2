@@ -303,13 +303,19 @@ class TrackEngine extends Track {
         super.setUseCase(useCase);
         console.log("TrackEngine::setUseCase - ViewerSpec: ", useCase.spec.Viewers[0].ViewerSpec);
         if (useCase.spec.Viewers[0].ViewerSpec.Format === 'BatchLoader' && this.parent.parent.engineConfig.batchLoader != null) {
-            let retData = this.parent.parent.engineConfig.batchLoader();
-            console.log(retData);
-
-            // retData is an array of UpdateItem payloads
-            // Send them to the server as individual actions 
-
+            //let retData = this.parent.parent.engineConfig.batchLoader();
+            //console.log(retData);
+            this.batchLoad();
         }
+    }
+
+    async batchLoad() {
+
+        let retData = this.parent.parent.engineConfig.batchLoader();
+        console.log(retData);
+
+        // retData is an array of UpdateItem payloads
+        // Send them to the server as individual actions 
     }
 
 }
