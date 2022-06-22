@@ -317,10 +317,10 @@ class TrackEngine extends Track {
             itemSeed.ChildItems[tableCur] = [];
             tableDetail.forEach(rowCur => {
                 console.log("    Row: ", rowCur);
-                let itemCur = {Id: rowCur.Id, Attrs: {}, ChildItems: {}};
+                let itemCur = {Id: rowCur.Id, Attrs: {}, ChildItems: rowCur.ChildItems};
                 for (let rowAttrCur in rowCur.Attrs) {
                     let rowAttrDetail = rowCur.Attrs[rowAttrCur];
-                    itemCur.Attrs[rowAttrCur] = jsesc(rowAttrDetail.Value);
+                    itemCur.Attrs[rowAttrCur] = jsesc(rowAttrDetail.Value, {'quotes': 'double'});
                 }
                 itemSeed.ChildItems[tableCur].push(itemCur);
             });            
