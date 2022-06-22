@@ -310,7 +310,7 @@ class TrackEngine extends Track {
     }
 
     batchLoaded(batchData) {
-        let itemSeed = {ChildItems: {}};
+        let itemSeed = {ChildItems: {}, Attrs: {}, Ext: ''};
         for (let tableCur in batchData) {
             let tableDetail = batchData[tableCur];
             console.log("Table: ", tableCur);
