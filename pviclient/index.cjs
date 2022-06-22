@@ -326,14 +326,14 @@ class TrackEngine extends Track {
             });            
 
 
-            this.parent.forwardToServer({
-                Action: 'UpdateItem',
-                TrackId: this.id,
-                ItemPath: [],
-                Item: itemSeed
-            });
-
         }
+
+        this.parent.forwardToServer({
+            Action: 'UpdateItem',
+            TrackId: this.id,
+            ItemPath: [],
+            Item: itemSeed
+        });
     }
 
 }
