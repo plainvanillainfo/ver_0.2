@@ -83,11 +83,8 @@ class Database {
     initializeDataDB(resolve) {
         console.log('Database::initializeDataDB(): ', this.databaseDir  + '/');
         var ops = [];
-        this.nextItemkey = 2;
+        this.nextItemkey = 1;
         ops.push({type: 'put', key: 'DataExists', value: '1'});
-        ops.push({type: 'put', key: 'NextItemKey', 
-            value: this.nextItemkey.toString(16)
-        });
         this.parent.itemSeedRaw = {
             Id: '1',
             Ext: '',
@@ -96,8 +93,12 @@ class Database {
         };
         ops.push({
             type: 'put', 
-            key: '1', 
+            key: this.nextItemkey.toString(16).padStart(16, '0'), 
             value: JSON.stringify(this.parent.itemSeedRaw)
+        });
+        this.nextItemkey++;
+        ops.push({type: 'put', key: 'NextItemKey', 
+            value: this.nextItemkey.toString(16)
         });
         this.dbHandle.batch(ops, (err) => {
             if (err) {
@@ -257,7 +258,7 @@ class Model {
             });
 
         }
-        this.database.dbData.batch(ops, (err) => {
+        this.database.dbHandle.batch(ops, (err) => {
             if (err) {
                 console.log("Model::putItem: ", err);
             } else {
