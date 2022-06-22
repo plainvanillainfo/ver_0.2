@@ -41,6 +41,7 @@ class Database {
         this.databaseDir = databaseDir;
         this.dbNameData = 'db_' + this.parent.appName;
         this.dbHandle = null;
+        this.nextItemkey = null;
     }
     
     openDataDB() {
@@ -58,12 +59,13 @@ class Database {
                         }
                     } else {
                         this.dbHandleIdNext = true;
-                        this.dbHandle.get('R', (err1, value1) => {
+                        this.dbHandle.get('NextItemKey', (err1, value1) => {
                             if (err1) {
                                 resolve("Database::openDataDB() - nodeRoot.Key - error: " + err1);
                             } else {
                                 let parsedData = JSON.parse(value1);
-                                resolve("Database::openDataDB() - nodeRoot.Key: " + value1);
+                                this.nextItemkey = parseInt(value1, 16);
+                                resolve("Database::openDataDB() -nextItemkey: " + value1);
                             }
                         });
                     }
@@ -75,9 +77,10 @@ class Database {
     initializeDataDB(resolve) {
         console.log('Database::initializeDataDB(): ', this.databaseDir  + '/');
         var ops = [];
+        this.nextItemkey = 1;
         ops.push({type: 'put', key: 'DataExists', value: '1'});
-        ops.push({type: 'put', key: 'R', 
-            value: JSON.stringify({})
+        ops.push({type: 'put', key: 'NextItemKey', 
+            value: this.nextItemkey.toString(16)
         });
         this.dbHandle.batch(ops, (err) => {
             if (err) {
@@ -148,6 +151,7 @@ class Session {
                     break;
                 case 'UpdateItem':
                     //console.log(JSON.stringify(message.Item));
+                    this.model.putItem(message.ItemPath, message.Item);
                     break;
                 case 'WatchItem':
                     break;
@@ -241,6 +245,10 @@ class Model {
     }    
 
     getItem(path) {
+        
+    }
+
+    putItem(path, item) {
         
     }
 
