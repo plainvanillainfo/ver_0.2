@@ -50,28 +50,26 @@ class Database {
             levelup(leveldown(this.databaseDir + '/'), options, (err, dbHandle) => {
                 if (err) throw err;
                 this.dbHandle = dbHandle;
-                this.dbHandle.get('DataExists', (err, value) => {
+                this.dbHandle.get('NextItemKey', (err, value) => {
                     if (err) {
                         if (err.notFound != null) {
                             this.initializeDataDB(resolve);
                         } else {
-                           resolve("Database::openDataDB() - DataExists - error: " + err);
+                           resolve("Database::openDataDB() - NextItemKey - error: " + err);
                         }
                     } else {
-                        this.dbHandleIdNext = true;
-                        this.dbHandle.get('NextItemKey', (err1, value1) => {
+                        this.nextItemkey = parseInt(value, 16);
+                        this.dbHandle.get('0000000000000001', (err1, value1) => {
                             if (err1) {
-                                resolve("Database::openDataDB() - NextItemKey - error: " + err1);
+                                resolve("Database::openDataDB() - 1 - error: " + err1);
                             } else {
-                                this.nextItemkey = parseInt(value1, 16);
-                                this.dbHandle.get('1', (err2, value2) => {
-                                    if (err2) {
-                                        resolve("Database::openDataDB() - 1 - error: " + err2);
-                                    } else {
-                                        this.parent.itemSeedRaw =  JSON.parse(value2);
-                                        resolve("Database::openDataDB() - 1: " + value2);
-                                    }
-                                });
+                                let parsedData = JSON.parse(value1);
+                                this.parent.itemSeed.dbId = parsedData.DBId;
+                                this.parent.itemSeed.id = parsedData.Id;
+                                this.parent.itemSeed.ext = parsedData.Ext;
+                                this.parent.itemSeed.attrs = parsedData.Attrs;
+                                this.parent.itemSeed.childItems = parsedData.ChildItems;
+                                resolve("Database::openDataDB() - 1: " + value1);
                             }
                         });
                     }
@@ -82,18 +80,18 @@ class Database {
 
     initializeDataDB(resolve) {
         console.log('Database::initializeDataDB(): ', this.databaseDir  + '/');
-        var ops = [];
         this.nextItemkey = 1;
-        ops.push({type: 'put', key: 'DataExists', value: '1'});
         this.parent.itemSeedRaw = {
+            DBId: this.nextItemkey.toString(16),
             Id: '1',
             Ext: '',
             Attrs: {},
             ChildItems: {}
         };
+        let ops = [];
         ops.push({
             type: 'put', 
-            key: this.nextItemkey.toString(16).padStart(16, '0'), 
+            key: this.parent.itemSeedRaw.DBId, 
             value: JSON.stringify(this.parent.itemSeedRaw)
         });
         this.nextItemkey++;
@@ -192,8 +190,7 @@ class Model {
         this.classes = {};
         this.useCases = {};
         this.users = {};
-        this.itemSeedRaw = null;
-        this.itemSeed = new Item(this);
+        this.itemSeed = new Item(this, '0000000000000001', '1');
         this.initializeClasses();
         this.initializeUseCases();
         this.initializeUsers();
@@ -250,13 +247,9 @@ class Model {
     }
 
     putItem(path, item) {
-        var ops = [];
-        for (let childCur in item.ChildItems) {
-            let childDetail = item.ChildItems[childCur];
-            childDetail.forEach(cur =>{
-                console.log(cur);
-            });
-
+        let ops = [];
+        if (item.ChildItems != null && item.Attrs != null) {
+            buildPutBatch(ops, this.itemSeed, item);
         }
         this.database.dbHandle.batch(ops, (err) => {
             if (err) {
@@ -265,6 +258,62 @@ class Model {
                 // Push to watchers
             }
         });
+    }
+
+    buildPutBatch(ops, itemBase, itemIn) {
+        let isChanged = false;
+        for (let childAttrInCur in itemIn.ChildItems) {
+            let childAttrInDetail = itemIn.ChildItems[childAttrInCur];
+            childAttrInDetail.forEach(childAttrInSubItem =>{
+                console.log(childAttrInSubItem);
+                if (itemBase.childItems[childCur] == null) {
+                    itemBase.childItems[childCur] = {
+                        List: [],
+                        ListDBIds: []
+                    };
+                }
+                let childListItem = itemBase.childItems[childCur].List.find(cur => cur.Id === childAttrInSubItem.Id);
+                if (childListItem == null) {
+                    let dbKey = this.database.nextItemkey.toString(16).padStart(16, '0')
+                    this.database.nextItemkey++;
+                    childListItem = new Item(this, dbKey, childAttrInSubItem.Id);
+                    itemBase.childItems[childCur].List.push(childListItem);
+                    itemBase.childItems[childCur].ListDBIds.push(dbKey);
+                }
+                // Recurse
+                if (childAttrInSubItem.ChildItems != null && childAttrInSubItem.Attrs != null) {
+                    this.buildPutBatch(ops, childListItem, childAttrInSubItem);
+                }
+            });
+            ops.push({
+                type: 'put', 
+                key: itemBase.dbId + childAttrInCur, 
+                value: JSON.stringify(itemBase.childItems[childCur].ListDBIds)
+
+            });
+        }
+        for (let attrInCur in itemIn.Attrs) {
+            isChanged = true;
+            itemBase.attrs[attrInCur] = itemIn.Attrs[attrInCur];
+        }
+        if (itemIn.Ext != null && itemIn.Ext != itemBase.Ext) {
+            isChanged = true;
+            itemBase.ext = itemIn.Ext;
+        }
+        if (isChanged) {
+            let itemBaseRaw = {
+                DBId: itemBase.dbId,
+                Id: itemBase.id,
+                Ext: itemBase.ext,
+                Attrs: itemBase.attrs,
+                ChildItems: {}
+            };
+            ops.push({
+                type: 'put', 
+                key: itemBaseRaw.DBId, 
+                value: JSON.stringify(itemBaseRaw)
+            });
+        }
     }
 
 }

@@ -117,9 +117,14 @@ class ItemAttrExtension extends ItemAttr {
 }
 
 class Item {
-    constructor(parent) {
+    constructor(parent, dbId, id) {
         this.parent = parent;
+        this.dbId = dbId;
+        this.id = id;
+        this.rawData = null;
         this.attrs = {};
+        this.ext = '';
+        this.childItems = {};
         this.sessionsWatching = [];
     }
 }
