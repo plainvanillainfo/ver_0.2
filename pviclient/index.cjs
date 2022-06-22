@@ -23,6 +23,7 @@ const {
     Track,
     User
 } = require('../pvicommon/index.cjs');
+const jsesc = require("jsesc")
 
 class Client {
     constructor(parent) {
@@ -62,7 +63,6 @@ class Client {
     setEntitlement(trackId, useCase, item, viewerName) {
         console.log("Client::setEntitlement()");
         this.item = item;
-        //this.useCases[useCase.Name] = useCase;
         let useCaseSpec = useCase;
         if (useCaseSpec.Viewers != null) {
             let viewerCur = useCaseSpec.Viewers.find(cur => cur.Name === viewerName);
@@ -311,13 +311,28 @@ class TrackEngine extends Track {
 
     batchLoaded(batchData) {
 
+        let itemSeed = {ChildItems: {}};
         for (let tableCur in batchData) {
             let tableDetail = batchData[tableCur];
-
             console.log("Table: ", tableCur);
+            itemSeed.ChildItems[tableCur] = [];
             tableDetail.forEach(rowCur => {
                 console.log("    Row: ", rowCur);
+                let itemCur = {Id: rowCur.Id, Attrs: {}, ChildItems: {}};
+                for (let rowAttrCur in rowCur.Attrs) {
+                    let rowAttrDetail = rowCur.Attrs[rowAttrCur];
+                    itemCur.Attrs[rowAttrCur] = jsesc(rowAttrDetail.Value);
+                }
+                itemSeed.ChildItems[tableCur].push(itemCur);
             });            
+
+
+            this.forwardToServer({
+                Action: 'UpdateItem',
+                TrackId: this.id,
+                ItemPath: [],
+                Item: itemSeed
+            });
 
         }
     }
