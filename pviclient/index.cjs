@@ -311,10 +311,15 @@ class TrackEngine extends Track {
 
     batchLoaded(batchData) {
 
-        console.log(batchData);
+        for (let tableCur in batchData) {
+            let tableDetail = batchData[tableCur];
 
-        // retData is an array of UpdateItem payloads
-        // Send them to the server as individual actions 
+            console.log("Table: ", tableCur);
+            tableDetail.forEach(rowCur => {
+                console.log("    Row: ", rowCur);
+            });            
+
+        }
     }
 
 }
