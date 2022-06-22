@@ -261,7 +261,7 @@ class Model {
     }
 
     buildPutBatch(ops, itemBase, itemIn) {
-        console.log("Model::buildPutBatch"));
+        console.log("Model::buildPutBatch");
         let isChanged = false;
         for (let childAttrInCur in itemIn.ChildItems) {
             console.log("Model::buildPutBatch: childAttrInCur: ", childAttrInCur);
