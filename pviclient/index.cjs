@@ -297,22 +297,21 @@ class TrackEngine extends Track {
     constructor(parent, trackId, script) {
         super(parent, trackId);
         this.script = script;
+        this.batchLoaded = this.batchLoaded.bind(this);
     }
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
         console.log("TrackEngine::setUseCase - ViewerSpec: ", useCase.spec.Viewers[0].ViewerSpec);
         if (useCase.spec.Viewers[0].ViewerSpec.Format === 'BatchLoader' && this.parent.parent.engineConfig.batchLoader != null) {
-            //let retData = this.parent.parent.engineConfig.batchLoader();
-            //console.log(retData);
-            this.batchLoad();
+            let retData = {};
+            this.parent.parent.engineConfig.batchLoader(retData, this.batchLoaded);
         }
     }
 
-    async batchLoad() {
+    batchLoaded(batchData) {
 
-        let retData = await this.parent.parent.engineConfig.batchLoader();
-        console.log(retData);
+        console.log(batchData);
 
         // retData is an array of UpdateItem payloads
         // Send them to the server as individual actions 
