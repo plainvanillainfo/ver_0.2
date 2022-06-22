@@ -249,7 +249,7 @@ class Model {
     putItem(path, item) {
         let ops = [];
         if (item.ChildItems != null && item.Attrs != null) {
-            buildPutBatch(ops, this.itemSeed, item);
+            this.buildPutBatch(ops, this.itemSeed, item);
         }
         this.database.dbHandle.batch(ops, (err) => {
             if (err) {
