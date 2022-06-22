@@ -146,6 +146,12 @@ class Session {
                         }
                     }
                     break;
+                case 'UpdateItem':
+                    break;
+                case 'WatchItem':
+                    break;
+                case 'UnWatchItem':
+                    break;
                 default:
                     break;        
 
