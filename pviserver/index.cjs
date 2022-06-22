@@ -147,6 +147,7 @@ class Session {
                     }
                     break;
                 case 'UpdateItem':
+                    console.log(JSON.stringify(message.Item));
                     break;
                 case 'WatchItem':
                     break;
