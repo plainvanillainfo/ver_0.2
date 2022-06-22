@@ -61,11 +61,17 @@ class Database {
                         this.dbHandleIdNext = true;
                         this.dbHandle.get('NextItemKey', (err1, value1) => {
                             if (err1) {
-                                resolve("Database::openDataDB() - nodeRoot.Key - error: " + err1);
+                                resolve("Database::openDataDB() - NextItemKey - error: " + err1);
                             } else {
-                                let parsedData = JSON.parse(value1);
                                 this.nextItemkey = parseInt(value1, 16);
-                                resolve("Database::openDataDB() -nextItemkey: " + value1);
+                                this.dbHandle.get('1', (err2, value2) => {
+                                    if (err2) {
+                                        resolve("Database::openDataDB() - 1 - error: " + err2);
+                                    } else {
+                                        this.parent.itemSeedRaw =  JSON.parse(value2);
+                                        resolve("Database::openDataDB() - 1: " + value2);
+                                    }
+                                });
                             }
                         });
                     }
@@ -77,10 +83,21 @@ class Database {
     initializeDataDB(resolve) {
         console.log('Database::initializeDataDB(): ', this.databaseDir  + '/');
         var ops = [];
-        this.nextItemkey = 1;
+        this.nextItemkey = 2;
         ops.push({type: 'put', key: 'DataExists', value: '1'});
         ops.push({type: 'put', key: 'NextItemKey', 
             value: this.nextItemkey.toString(16)
+        });
+        this.parent.itemSeedRaw = {
+            Id: '1',
+            Ext: '',
+            Attrs: {},
+            ChildItems: {}
+        };
+        ops.push({
+            type: 'put', 
+            key: '1', 
+            value: JSON.stringify(this.parent.itemSeedRaw)
         });
         this.dbHandle.batch(ops, (err) => {
             if (err) {
@@ -89,26 +106,8 @@ class Database {
                 resolve("Database::initializeDataDB - dbData.batch loaded ");
             }
         });
-}
-    
-    loadUsers() {
-    }
-
-    insertKeyAndValue(key, value, artifactNode, callbackName) {
-    }
-
-    retrieveKeyValue(key, artifactNode, schemaNode, modelPathPos, message, context, callbackName) {
     }
     
-    retrieveKeyValueRange(keyLo, keyHi, artifactNode, schemaNode, modelPathPos, message, context, callbackName) {
-    }
-
-    deleteKeyValue(key, artifactNode, callbackName) {
-    }
-    
-    insertKeysAndValues(ops, callbackName, artifactNode, message, context) {
-    }
-
 }
 
 class Session {
@@ -192,6 +191,7 @@ class Model {
         this.classes = {};
         this.useCases = {};
         this.users = {};
+        this.itemSeedRaw = null;
         this.itemSeed = new Item(this);
         this.initializeClasses();
         this.initializeUseCases();
@@ -249,7 +249,21 @@ class Model {
     }
 
     putItem(path, item) {
-        
+        var ops = [];
+        for (let childCur in item.ChildItems) {
+            let childDetail = item.ChildItems[childCur];
+            childDetail.forEach(cur =>{
+                console.log(cur);
+            });
+
+        }
+        this.database.dbData.batch(ops, (err) => {
+            if (err) {
+                console.log("Model::putItem: ", err);
+            } else {
+                // Push to watchers
+            }
+        });
     }
 
 }
