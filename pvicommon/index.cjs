@@ -185,7 +185,7 @@ class TemplateWeb extends Template {
 
 
         this.divMenu = document.createElement('div');
-        this.divNav.appendChild(this.iconCollapse);
+        this.divNav.appendChild(this.divMenu);
         this.divMenu.id = 'menuContent';
         this.divMenu.className = 'collapse navbar-collapse';
 
