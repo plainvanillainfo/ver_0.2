@@ -148,7 +148,6 @@ class Session {
                     }
                     break;
                 case 'UpdateItem':
-                    //console.log(JSON.stringify(message.Item));
                     this.model.putItem(message.ItemPath, message.Item);
                     break;
                 case 'WatchItem':

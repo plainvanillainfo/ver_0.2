@@ -63,7 +63,7 @@ class Transmitter {
 }
 
 class Engine {
-    constructor(engineConfig, appDir, engineName) {
+    constructor(engineConfig, appDir) {
         console.log("Engine::constructor()");
         this.appId = engineConfig.Name;
         this.engineConfig = engineConfig;

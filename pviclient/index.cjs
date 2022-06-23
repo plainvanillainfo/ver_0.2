@@ -244,6 +244,7 @@ class TrackWeb extends Track {
     }
 
     setUseCase(useCase) {
+        console.log("TrackWeb::setUseCase - ViewerSpec: ");
         super.setUseCase(useCase);
         this.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
     }
