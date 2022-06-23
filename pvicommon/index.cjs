@@ -164,8 +164,8 @@ class TemplateWeb extends Template {
 
         this.nav = document.createElement('nav');
         this.parent.div.appendChild(this.nav);
-        this.nav.className = 'navbar navbar-expand-md navbar-light';
-        this.nav.style.backgroundColor = '#e3f2fd';
+        this.nav.className = 'navbar navbar-expand-md navbar-dark';
+        this.nav.style.color = '#ffffff';
         this.divNav = document.createElement('div');
         this.nav.appendChild(this.divNav);
         this.divNav.className = 'container-fluid';
