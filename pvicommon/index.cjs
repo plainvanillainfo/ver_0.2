@@ -161,6 +161,49 @@ class TemplateWeb extends Template {
     setUseCase(useCase) {
         super.setUseCase(useCase);
         this.parent.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
+
+        this.nav = document.createElement('nav');
+        this.parent.div.appendChild(this.nav);
+        this.nav.className = 'navbar navbar-expand-md navbar-light';
+        this.divNav = document.createElement('div');
+        this.nav.appendChild(this.divNav);
+        this.nav.className = 'container-fluid';
+
+        this.buttonCollapse = document.createElement('button');
+        this.divNav.appendChild(this.buttonCollapse);
+        this.buttonCollapse.className = 'navbar-toggler';
+        this.buttonCollapse.setAttribute("type", "button");
+        this.buttonCollapse.setAttribute("data-bs-toggle", "collapse");
+        this.buttonCollapse.setAttribute("data-bs-target", "#menuContent");
+        this.buttonCollapse.setAttribute("aria-controls", "menuContent");
+        this.buttonCollapse.setAttribute("aria-expanded", "false");
+        this.buttonCollapse.setAttribute("aria-label", "Toggle navigation");
+
+        this.iconCollapse = document.createElement('span');
+        this.buttonCollapse.appendChild(this.iconCollapse);
+        this.buttonCollapse.className = 'navbar-toggler-icon';
+
+
+        this.divMenu = document.createElement('div');
+        this.divNav.appendChild(this.iconCollapse);
+        this.divMenu.id = 'menuContent';
+        this.divMenu.className = 'collapse navbar-collapse';
+
+        this.ulMenu = document.createElement('ul');
+        this.divMenu.appendChild(this.ulMenu);
+        this.ulMenu.className = 'navbar-nav me-auto mb-2 mb-lg-0';
+        this.ulMenu.ItemLIs = [];
+        useCase.spec.ElemsforEach( (menuItemCur, menuItemIndex) => {
+            let itemLICur = document.createElement('li');
+            this.ulMenu.appendChild(itemLICur);
+            this.ulMenu.ItemLIs.push(itemLICur);
+            itemLICur.A = document.createElement('a');
+            itemLICur.appendChild(itemLICur.A);
+            itemLICur.A.setAttribute("href", "#");
+            itemLICur.A.appendChild(document.createTextNode(menuItemCur.Label));
+        });
+
+
     }
 
 }
@@ -279,7 +322,6 @@ class TrackEngine extends TrackClient {
     }
 
 }
-
 
 module.exports = {
     Attribute,
