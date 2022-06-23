@@ -269,19 +269,19 @@ class Model {
             childAttrInDetail.forEach(childAttrInSubItem =>{
                 console.log("Model::buildPutBatch: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
                 console.log(childAttrInSubItem);
-                if (itemBase.childItems[childCur] == null) {
-                    itemBase.childItems[childCur] = {
+                if (itemBase.childItems[childAttrInCur] == null) {
+                    itemBase.childItems[childAttrInCur] = {
                         List: [],
                         ListDBIds: []
                     };
                 }
-                let childListItem = itemBase.childItems[childCur].List.find(cur => cur.Id === childAttrInSubItem.Id);
+                let childListItem = itemBase.childItems[childAttrInCur].List.find(cur => cur.Id === childAttrInSubItem.Id);
                 if (childListItem == null) {
                     let dbKey = this.database.nextItemkey.toString(16).padStart(16, '0')
                     this.database.nextItemkey++;
                     childListItem = new Item(this, dbKey, childAttrInSubItem.Id);
-                    itemBase.childItems[childCur].List.push(childListItem);
-                    itemBase.childItems[childCur].ListDBIds.push(dbKey);
+                    itemBase.childItems[childAttrInCur].List.push(childListItem);
+                    itemBase.childItems[childAttrInCur].ListDBIds.push(dbKey);
                 }
                 // Recurse
                 if (childAttrInSubItem.ChildItems != null && childAttrInSubItem.Attrs != null) {
@@ -291,7 +291,6 @@ class Model {
             ops.push({
                 type: 'put', 
                 key: itemBase.dbId + childAttrInCur, 
-                value: JSON.stringify(itemBase.childItems[childCur].ListDBIds)
 
             });
         }
