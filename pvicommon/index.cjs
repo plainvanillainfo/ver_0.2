@@ -167,7 +167,7 @@ class TemplateWeb extends Template {
         this.nav.className = 'navbar navbar-expand-md navbar-light';
         this.divNav = document.createElement('div');
         this.nav.appendChild(this.divNav);
-        this.nav.className = 'container-fluid';
+        this.nav.className = 'container-fluid flex-row';
 
         this.buttonCollapse = document.createElement('button');
         this.divNav.appendChild(this.buttonCollapse);
