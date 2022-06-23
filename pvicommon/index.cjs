@@ -191,14 +191,16 @@ class TemplateWeb extends Template {
 
         this.ulMenu = document.createElement('ul');
         this.divMenu.appendChild(this.ulMenu);
-        this.ulMenu.className = 'navbar-nav me-auto mb-2 mb-lg-0';
+        this.ulMenu.className = 'navbar-nav me-auto mb-2 mb-md-0';
         this.ulMenu.ItemLIs = [];
         useCase.spec.Elems.forEach( (menuItemCur, menuItemIndex) => {
             let itemLICur = document.createElement('li');
             this.ulMenu.appendChild(itemLICur);
+            itemLICur.className = 'nav-item';
             this.ulMenu.ItemLIs.push(itemLICur);
             itemLICur.A = document.createElement('a');
             itemLICur.appendChild(itemLICur.A);
+            itemLICur.A.className = 'nav-link';
             itemLICur.A.setAttribute("href", "#");
             itemLICur.A.appendChild(document.createTextNode(menuItemCur.Viewers[0].Label));
         });
