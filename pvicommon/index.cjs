@@ -191,7 +191,6 @@ class Track {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.id = id;
-        //this.template = new Template(this);
     }
 
     setUseCase(useCase) {
@@ -231,7 +230,6 @@ class TrackWeb extends TrackClient {
     setUseCase(useCase) {
         console.log("TrackWeb::setUseCase - ViewerSpec: ");
         super.setUseCase(useCase);
-        //this.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
     }
 
 }
