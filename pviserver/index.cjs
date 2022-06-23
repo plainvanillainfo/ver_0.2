@@ -291,7 +291,7 @@ class Model {
             ops.push({
                 type: 'put', 
                 key: itemBase.dbId + childAttrInCur, 
-
+                value:  JSON.stringify(itemBase.childItems[childAttrInCur].ListDBIds)
             });
         }
         for (let attrInCur in itemIn.Attrs) {
