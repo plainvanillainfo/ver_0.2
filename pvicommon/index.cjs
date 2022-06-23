@@ -207,7 +207,7 @@ class TemplateWeb extends Template {
             itemLICur.A.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("templateElemCur) - if - click on menu", menuItemCur);
-                alert(JSON.stringify(menuItemCur.Viewers[0]));
+                alert(menuItemCur.Viewers[0].Label);
             });
         });
 
