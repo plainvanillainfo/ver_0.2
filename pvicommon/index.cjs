@@ -173,7 +173,7 @@ class TemplateWeb extends Template {
         this.divNav.appendChild(this.buttonCollapse);
         this.buttonCollapse.className = 'navbar-toggler';
         this.buttonCollapse.setAttribute("type", "button");
-        this.buttonCollapse.setAttribute("data-bs-toggle", "collapse");
+        this.buttonCollapse.setAttribute("data-bs-toggle", "expand");
         this.buttonCollapse.setAttribute("data-bs-target", "#menuContent");
         this.buttonCollapse.setAttribute("aria-controls", "menuContent");
         this.buttonCollapse.setAttribute("aria-expanded", "false");
