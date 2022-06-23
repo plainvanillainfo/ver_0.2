@@ -153,6 +153,19 @@ class Template {
     }
 }
 
+class TemplateWeb extends Template {
+    constructor(parent) {
+        super(parent);
+    }
+
+    setUseCase(useCase) {
+        super.setUseCase(useCase);
+        this.parent.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
+    }
+
+}
+
+
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
@@ -178,7 +191,7 @@ class Track {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.id = id;
-        this.template = new Template(this);
+        //this.template = new Template(this);
     }
 
     setUseCase(useCase) {
@@ -196,6 +209,7 @@ class Track {
 class TrackServer extends Track {
     constructor(parent, trackId) {
         super(parent, trackId);
+        this.template = new Template(this);
     }
 
 }
@@ -210,13 +224,14 @@ class TrackClient extends Track {
 class TrackWeb extends TrackClient {
     constructor(parent, trackId, div) {
         super(parent, trackId);
+        this.template = new TemplateWeb(this);
         this.div = div;
     }
 
     setUseCase(useCase) {
         console.log("TrackWeb::setUseCase - ViewerSpec: ");
         super.setUseCase(useCase);
-        this.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
+        //this.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
     }
 
 }
@@ -225,6 +240,7 @@ class TrackEngine extends TrackClient {
     constructor(parent, trackId, script) {
         super(parent, trackId);
         this.script = script;
+        this.template = new Template(this);
         this.batchLoaded = this.batchLoaded.bind(this);
     }
 

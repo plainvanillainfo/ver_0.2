@@ -24,7 +24,6 @@ const {
     TrackWeb,
     TrackEngine
 } = require('../pvicommon/index.cjs');
-const jsesc = require("jsesc")
 
 class Client {
     constructor(parent) {
@@ -235,68 +234,6 @@ class ClientWeb extends Client {
     }
 
 }
-
-/*
-class TrackWeb extends Track {
-    constructor(parent, trackId, div) {
-        super(parent, trackId);
-        this.div = div;
-    }
-
-    setUseCase(useCase) {
-        console.log("TrackWeb::setUseCase - ViewerSpec: ");
-        super.setUseCase(useCase);
-        this.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
-    }
-
-}
-*/
-/*
-class TrackEngine extends Track {
-    constructor(parent, trackId, script) {
-        super(parent, trackId);
-        this.script = script;
-        this.batchLoaded = this.batchLoaded.bind(this);
-    }
-
-    setUseCase(useCase) {
-        super.setUseCase(useCase);
-        console.log("TrackEngine::setUseCase - ViewerSpec: ", useCase.spec.Viewers[0].ViewerSpec);
-        if (useCase.spec.Viewers[0].ViewerSpec.Format === 'BatchLoader' && this.parent.parent.engineConfig.batchLoader != null) {
-            let retData = {};
-            this.parent.parent.engineConfig.batchLoader(retData, this.batchLoaded);
-        }
-    }
-
-    batchLoaded(batchData) {
-        let itemSeed = {ChildItems: {}, Attrs: {}, Ext: ''};
-        for (let tableCur in batchData) {
-            let tableDetail = batchData[tableCur];
-            console.log("Table: ", tableCur);
-            itemSeed.ChildItems[tableCur] = [];
-            tableDetail.forEach(rowCur => {
-                console.log("    Row: ", rowCur);
-                let itemCur = {Id: rowCur.Id, Attrs: {}, ChildItems: rowCur.ChildItems};
-                for (let rowAttrCur in rowCur.Attrs) {
-                    let rowAttrDetail = rowCur.Attrs[rowAttrCur];
-                    itemCur.Attrs[rowAttrCur] = jsesc(rowAttrDetail.Value, {'quotes': 'double'});
-                }
-                itemSeed.ChildItems[tableCur].push(itemCur);
-            });            
-
-
-        }
-
-        this.parent.forwardToServer({
-            Action: 'UpdateItem',
-            TrackId: this.id,
-            ItemPath: [],
-            Item: itemSeed
-        });
-    }
-
-}
-*/
 
 class ClientEngine extends Client {
     constructor(parent, name) {
