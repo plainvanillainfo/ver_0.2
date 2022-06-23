@@ -160,7 +160,7 @@ class TemplateWeb extends Template {
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
-        this.parent.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
+        //this.parent.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
 
         this.nav = document.createElement('nav');
         this.parent.div.appendChild(this.nav);
@@ -200,7 +200,7 @@ class TemplateWeb extends Template {
             itemLICur.A = document.createElement('a');
             itemLICur.appendChild(itemLICur.A);
             itemLICur.A.setAttribute("href", "#");
-            itemLICur.A.appendChild(document.createTextNode(menuItemCur.Label));
+            itemLICur.A.appendChild(document.createTextNode(menuItemCur.Viewers[0].Label));
         });
 
 
