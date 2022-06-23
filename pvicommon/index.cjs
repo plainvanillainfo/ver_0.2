@@ -203,6 +203,16 @@ class TemplateWeb extends Template {
             itemLICur.A.className = 'nav-link';
             itemLICur.A.setAttribute("href", "#");
             itemLICur.A.appendChild(document.createTextNode(menuItemCur.Viewers[0].Label));
+            itemLICur.A.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("templateElemCur) - if - click on menu", menuItemCur);
+                //this.tracks[this.trackForeground].menuItemClicked(menuItemCur);
+                if (menuItemCur.UseCase != null) {
+                    if (itemLICur.template == null) {
+
+                    }
+                }
+            });
         });
 
 
