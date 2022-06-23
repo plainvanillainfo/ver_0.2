@@ -167,13 +167,13 @@ class TemplateWeb extends Template {
         this.nav.className = 'navbar navbar-expand-md navbar-light';
         this.divNav = document.createElement('div');
         this.nav.appendChild(this.divNav);
-        this.nav.className = 'container-fluid flex-column';
+        this.divNav.className = 'container-fluid';
 
         this.buttonCollapse = document.createElement('button');
         this.divNav.appendChild(this.buttonCollapse);
         this.buttonCollapse.className = 'navbar-toggler';
         this.buttonCollapse.setAttribute("type", "button");
-        this.buttonCollapse.setAttribute("data-bs-toggle", "expand");
+        this.buttonCollapse.setAttribute("data-bs-toggle", "collapse");
         this.buttonCollapse.setAttribute("data-bs-target", "#menuContent");
         this.buttonCollapse.setAttribute("aria-controls", "menuContent");
         this.buttonCollapse.setAttribute("aria-expanded", "false");
