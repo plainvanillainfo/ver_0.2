@@ -20,8 +20,9 @@ const {
     Template,
     TemplateList,
     TemplateElem,
-    Track,
-    User
+    User,
+    TrackWeb,
+    TrackEngine
 } = require('../pvicommon/index.cjs');
 const jsesc = require("jsesc")
 
@@ -32,7 +33,6 @@ class Client {
         this.forwardToServer = this.forwardToServer.bind(this);
         this.useCases = {};
         this.tracks = {};
-        this.item = null;
     }
 
     fromServer(message) {
@@ -45,7 +45,7 @@ class Client {
                 this.setViewerSpec(message.ViewerSpec);
                 break;
             case 'ReceiveEntitlement':
-                this.setEntitlement(message.TrackId, message.UseCase, message.Item);
+                this.setEntitlement(message.TrackId, message.Template); // message.UseCase, message.Item);
                 break;
             default:
                 break;        
@@ -60,10 +60,9 @@ class Client {
         console.log("Client::setViewerSpec()");
     }
 
-    setEntitlement(trackId, useCase, item, viewerName) {
+    setEntitlement(trackId, template, viewerName) { //useCase, item, viewerName) {
         console.log("Client::setEntitlement()");
-        this.item = item;
-        let useCaseSpec = useCase;
+        let useCaseSpec = template.UseCaseSpec;
         if (useCaseSpec.Viewers != null) {
             let viewerCur = useCaseSpec.Viewers.find(cur => cur.Name === viewerName);
             useCaseSpec.Viewers = viewerCur != null ? [viewerCur] : [];
@@ -74,9 +73,9 @@ class Client {
                 elemCur.Viewers = elemViewerCur != null ? [elemViewerCur] : [];
             }
         });
-        this.useCases[useCase.Name] = new UseCase(this, useCaseSpec);
-        this.tracks[trackId].setUseCase(this.useCases[useCase.Name]);
-        this.tracks[trackId].setItem(this.item);
+        this.useCases[useCaseSpec.Name] = new UseCase(this, useCaseSpec);
+        this.tracks[trackId].setUseCase(this.useCases[useCaseSpec.Name]);
+        this.tracks[trackId].setItem(template.ItemSpec);
     }
 
     checkUserAuthentication() {
@@ -170,9 +169,9 @@ class ClientWeb extends Client {
         }
     }
 
-    setEntitlement(trackId, useCase, item) {
+    setEntitlement(trackId, template) {
         console.log("ClientWeb::setEntitlement()");
-        super.setEntitlement(trackId, useCase, item, this.name);
+        super.setEntitlement(trackId, template, this.name);
     }
     
     checkUserAuthentication() {
@@ -237,6 +236,7 @@ class ClientWeb extends Client {
 
 }
 
+/*
 class TrackWeb extends Track {
     constructor(parent, trackId, div) {
         super(parent, trackId);
@@ -250,50 +250,8 @@ class TrackWeb extends Track {
     }
 
 }
-
-class ClientEngine extends Client {
-    constructor(parent, name) {
-        super(parent);
-        this.name = name;
-    }
-
-    setViewerSpec(viewerSpec) {
-        console.log("ClientEngine::setViewerSpec()");
-        if (viewerSpec.DriverUseCase != null) {
-            this.driverUseCase = viewerSpec.DriverUseCase;
-        }
-        this.checkUserAuthentication();
-    }
-
-    setEntitlement(trackId, useCase, item) {
-        console.log("ClientEngine::setEntitlement()");
-        super.setEntitlement(trackId, useCase, item, this.name);
-    }
-    
-    checkUserAuthentication() {
-        this.userId = 'DefaultEngine';
-        this.isAuthenticated = true;
-        this.setUserAccess();
-    }
-
-    setUserAccess() {
-        if (this.isAuthenticated === true) {
-            this.initiateTracks();
-        } else {
-            this.terminateTracks();
-        }
-    }
-
-    initiateTracks() {
-        super.initiateTracks(new TrackEngine(this, '1', ""));
-    }
-
-    terminateTracks() {
-        super.terminateTracks();
-    }
-
-}
-
+*/
+/*
 class TrackEngine extends Track {
     constructor(parent, trackId, script) {
         super(parent, trackId);
@@ -335,6 +293,50 @@ class TrackEngine extends Track {
             ItemPath: [],
             Item: itemSeed
         });
+    }
+
+}
+*/
+
+class ClientEngine extends Client {
+    constructor(parent, name) {
+        super(parent);
+        this.name = name;
+    }
+
+    setViewerSpec(viewerSpec) {
+        console.log("ClientEngine::setViewerSpec()");
+        if (viewerSpec.DriverUseCase != null) {
+            this.driverUseCase = viewerSpec.DriverUseCase;
+        }
+        this.checkUserAuthentication();
+    }
+
+    setEntitlement(trackId, template) {
+        console.log("ClientEngine::setEntitlement()");
+        super.setEntitlement(trackId, template, this.name);
+    }
+    
+    checkUserAuthentication() {
+        this.userId = 'DefaultEngine';
+        this.isAuthenticated = true;
+        this.setUserAccess();
+    }
+
+    setUserAccess() {
+        if (this.isAuthenticated === true) {
+            this.initiateTracks();
+        } else {
+            this.terminateTracks();
+        }
+    }
+
+    initiateTracks() {
+        super.initiateTracks(new TrackEngine(this, '1', ""));
+    }
+
+    terminateTracks() {
+        super.terminateTracks();
     }
 
 }

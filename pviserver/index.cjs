@@ -20,7 +20,7 @@ const {
     Template,
     TemplateList,
     TemplateElem,
-    Track,
+    TrackServer,
     User
 } = require('../pvicommon/index.cjs');
 
@@ -118,7 +118,7 @@ class Session {
         this.model = this.parent.model;
         this.schemaSent = false;
         this.nodesWatched = {};
-        this.trackMain = new Track(this, '1');
+        this.trackMain = new TrackServer(this, '1');
         this.tracks = {};
         this.receiveMessage = this.receiveMessage.bind(this);
         this.forwardMessage = this.forwardMessage.bind(this);
@@ -138,11 +138,14 @@ class Session {
                     if (message.UserId != null && message.TrackId != null) {
                         if (this.model.users[message.UserId] != null) {
                             let entitlementCur = this.model.users[message.UserId].entitlements[0];
+                            this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
+                            this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
                             this.forwardMessage({
                                 Action: 'ReceiveEntitlement',
                                 TrackId: message.TrackId,
-                                UseCase: this.model.useCases[entitlementCur.UseCase].spec,
-                                Item: this.model.getItem(entitlementCur.ItemPath)
+                                //UseCase: this.model.useCases[entitlementCur.UseCase].spec,
+                                //Item: this.model.getItem(entitlementCur.ItemPath)
+                                Template: this.trackMain.template.getSpec()
                             });
                         }
                     }

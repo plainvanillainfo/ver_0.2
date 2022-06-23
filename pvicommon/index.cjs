@@ -132,6 +132,22 @@ class Item {
 class Template {
     constructor(parent) {
         this.parent = parent;
+        this.useCase = null;
+        this.item = {};
+    }
+
+    setUseCase(useCase) {
+        console.log("Template::setUseCase: ", useCase.spec);
+        this.useCase = useCase;
+    }
+
+    setItem(item) {
+        console.log("Template::setItem: ", item);
+        this.item = item;
+    }
+
+    getSpec() {
+        return {UseCaseSpec: this.useCase.spec, ItemSpec: this.item};
     }
 }
 
@@ -160,21 +176,94 @@ class Track {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.id = id;
-        this.useCase = null;
-        this.item = null;
+        this.template = new Template(this);
     }
 
     setUseCase(useCase) {
-        console.log("Track::setUseCase: ", useCase.spec);
-        this.useCase = useCase;
+        console.log("Track::setUseCase");
+        this.template.setUseCase(useCase);
     }
 
     setItem(item) {
-        console.log("Track::setItem: ", item);
-        this.item = item;
+        console.log("Track::setItem");
+        this.template.setItem(item);
     }
 
 }
+
+class TrackServer extends Track {
+    constructor(parent, trackId) {
+        super(parent, trackId);
+    }
+
+}
+
+class TrackClient extends Track {
+    constructor(parent, trackId) {
+        super(parent, trackId);
+    }
+
+}
+
+class TrackWeb extends TrackClient {
+    constructor(parent, trackId, div) {
+        super(parent, trackId);
+        this.div = div;
+    }
+
+    setUseCase(useCase) {
+        console.log("TrackWeb::setUseCase - ViewerSpec: ");
+        super.setUseCase(useCase);
+        this.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
+    }
+
+}
+
+class TrackEngine extends TrackClient {
+    constructor(parent, trackId, script) {
+        super(parent, trackId);
+        this.script = script;
+        this.batchLoaded = this.batchLoaded.bind(this);
+    }
+
+    setUseCase(useCase) {
+        super.setUseCase(useCase);
+        console.log("TrackEngine::setUseCase - ViewerSpec: ", useCase.spec.Viewers[0].ViewerSpec);
+        if (useCase.spec.Viewers[0].ViewerSpec.Format === 'BatchLoader' && this.parent.parent.engineConfig.batchLoader != null) {
+            let retData = {};
+            this.parent.parent.engineConfig.batchLoader(retData, this.batchLoaded);
+        }
+    }
+
+    batchLoaded(batchData) {
+        let itemSeed = {ChildItems: {}, Attrs: {}, Ext: ''};
+        for (let tableCur in batchData) {
+            let tableDetail = batchData[tableCur];
+            console.log("Table: ", tableCur);
+            itemSeed.ChildItems[tableCur] = [];
+            tableDetail.forEach(rowCur => {
+                console.log("    Row: ", rowCur);
+                let itemCur = {Id: rowCur.Id, Attrs: {}, ChildItems: rowCur.ChildItems};
+                for (let rowAttrCur in rowCur.Attrs) {
+                    let rowAttrDetail = rowCur.Attrs[rowAttrCur];
+                    itemCur.Attrs[rowAttrCur] = jsesc(rowAttrDetail.Value, {'quotes': 'double'});
+                }
+                itemSeed.ChildItems[tableCur].push(itemCur);
+            });            
+
+
+        }
+
+        this.parent.forwardToServer({
+            Action: 'UpdateItem',
+            TrackId: this.id,
+            ItemPath: [],
+            Item: itemSeed
+        });
+    }
+
+}
+
 
 module.exports = {
     Attribute,
@@ -198,6 +287,8 @@ module.exports = {
     Template,
     TemplateList,
     TemplateElem,
-    Track,
-    User
+    User,
+    TrackEngine,
+    TrackWeb,
+    TrackServer
 }
