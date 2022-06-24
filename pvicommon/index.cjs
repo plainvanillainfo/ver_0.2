@@ -266,7 +266,11 @@ class TemplateClient extends Template {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
-                
+                    if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
+                        if (this.elems[message.TemplateElem.UseCaseElemName] != null) {
+                            this.elems[message.TemplateElem.UseCaseElemName].fromServer(message.TemplateElem);
+                        }
+                    }
                     break;
                 default:
                     break;
