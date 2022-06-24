@@ -174,6 +174,10 @@ class TemplateServer extends Template {
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         this.elems[message.TemplateElem.UseCaseElemName] = 
                             new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
+                        this.elems[message.TemplateElem.UseCaseElemName].forwardToClient({
+                            Action: 'ContinueTemplateElem',
+                            Name: this.useCaseElem.spec.Name
+                        });
                     }
                     break;
                 default:
@@ -258,7 +262,7 @@ class TemplateClient extends Template {
     }
 
     fromServer(message) {
-        console.log("Template::TemplateClient(): ", message);
+        console.log("TemplateClient::fromServer(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
