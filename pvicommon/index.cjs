@@ -160,9 +160,13 @@ class Template {
 
     getElems() {
         let retval = {};
-        this.useCase.elems.forEach(elemCur=> {
-            retval[elemCur.spec.Name] = this.getElemFromPath(this.item, elemCur);
-        });
+        //this.useCase.elems.forEach(elemCur=> {
+        //    retval[elemCur.spec.Name] = this.getElemFromPath(this.item, elemCur);
+        //});
+        for (let elemCur in this.useCase.elems) {
+            let elemDetail = this.useCase.elems[elemCur];
+            retval[elemCur] = this.getElemFromPath(this.item, elemDetail);
+        }
         return retval;
     }
 
