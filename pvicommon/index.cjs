@@ -216,7 +216,6 @@ class TemplateWeb extends Template {
 
 }
 
-
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
