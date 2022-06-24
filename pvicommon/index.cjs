@@ -366,7 +366,6 @@ class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
         this.useCaseElem = useCaseElem;
-        this.forwardToServer = this.forwardToServer.bind(this);
     }
 
 }
@@ -374,6 +373,7 @@ class TemplateElem {
 class TemplateElemServer extends TemplateElem{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
+        this.forwardToClient = this.forwardToClient.bind(this);
     }
 
     fromClient(message) {
@@ -396,6 +396,7 @@ class TemplateElemServer extends TemplateElem{
 class TemplateElemClient extends TemplateElem{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
+        this.forwardToServer = this.forwardToServer.bind(this);
         this.forwardToServer({
             Action: 'StartTemplateElem',
             Name: this.useCaseElem.spec.Name
