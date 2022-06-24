@@ -119,7 +119,7 @@ class Session {
         this.schemaSent = false;
         this.nodesWatched = {};
         this.trackMain = new TrackServer(this, '1');
-        this.tracks = {};
+        this.tracks = {'1': this.trackMain};
         this.receiveMessage = this.receiveMessage.bind(this);
         this.forwardMessage = this.forwardMessage.bind(this);
     }
