@@ -143,7 +143,10 @@ class Session {
                             this.forwardMessage({
                                 Action: 'ReceiveEntitlement',
                                 TrackId: message.TrackId,
-                                Template: this.trackMain.template.getSpec()
+                                Template: {
+                                    UseCaseSpec: this.trackMain.template.useCase.spec,
+                                    Elems: {}
+                                }
                             });
                         }
                     }

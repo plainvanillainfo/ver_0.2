@@ -149,9 +149,8 @@ class Template {
         this.item = item;
     }
 
-    getSpec() {
+    getData() {
         return {
-            UseCaseSpec: this.useCase.spec, 
             Item: {
                 Id: this.item.id,
                 Ext: this.item.ext,
@@ -160,6 +159,7 @@ class Template {
             Elems: {}
         };
     }
+
 }
 
 class TemplateServer extends Template {
