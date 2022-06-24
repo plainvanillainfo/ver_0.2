@@ -499,8 +499,8 @@ class TrackClient extends Track {
 
     fromServer(message) {
         console.log("TrackClient::fromServer(): ", message);
-        if (message.Action != null) {
-            switch (message.Action && message.Template != null) {
+        if (message.Action != null && message.Template != null) {
+            switch (message.Action) {
                 case 'ContinueTemplate':
                     this.template.fromServer(message.Template);
                     break;
