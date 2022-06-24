@@ -146,6 +146,20 @@ class Template {
         this.useCase = null;
         this.item = {};
         this.elems = {};
+        this.forwardToServer = this.forwardToServer.bind(this);
+    }
+
+    fromServer(message) {
+        console.log("Template::fromServer(): ", message);
+    }
+
+    forwardToServer(messageIn) {
+        let messageOut = {
+            UseCaseName: this.useCase.spec.Name,
+            ItemId: this.item.id,
+            ...messageIn
+        };
+        this.parent.forwardToServer(messageOut);
     }
 
     setUseCase(useCase) {
@@ -294,6 +308,10 @@ class TemplateWeb extends TemplateClient {
                 event.preventDefault();
                 console.log("templateElemCur) - if - click on menu", menuItemCur);
                 alert(menuItemCur.Viewers[0].Label);
+                let elemPicked = this.useCase.elems[menuItemCur.Name];
+                if (this.elems[menuItemCur.Name] == null) {
+                    this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked);
+                }
             });
         });
 
@@ -308,8 +326,41 @@ class TemplateList {
 }
 
 class TemplateElem {
-    constructor(parent) {
+    constructor(parent, useCaseElem) {
         this.parent = parent;
+        this.useCaseElem = useCaseElem;
+        this.forwardToServer = this.forwardToServer.bind(this);
+    }
+
+    fromServer(message) {
+        console.log("TemplateElem::fromServer(): ", message);
+    }
+
+    forwardToServer(messageIn) {
+        let messageOut = {
+            UseCaseElemName: this.useCaseElem.spec.Name,
+            ItemId: this.item.id,
+            ...messageIn
+        };
+        this.parent.forwardToServer(messageOut);
+    }
+
+}
+
+class TemplateElemClient extends TemplateElem{
+    constructor(parent, useCaseElem) {
+        super(parent, useCaseElem);
+        this.parent.forwardToServer({
+            Action: 'StartTemplateElem',
+            Name: this.useCaseElem.Name
+        });
+
+    }
+}
+
+class TemplateElemWeb extends TemplateElemClient{
+    constructor(parent, useCaseElem) {
+        super(parent, useCaseElem);
     }
 }
 
@@ -326,6 +377,7 @@ class Track {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.id = id;
+        this.forwardToServer = this.forwardToServer.bind(this);
     }
 
     setUseCase(useCase) {
@@ -336,6 +388,18 @@ class Track {
     setItem(item) {
         console.log("Track::setItem");
         this.template.setItem(item);
+    }
+
+    fromServer(message) {
+        console.log("Track::fromServer(): ", message);
+    }
+
+    forwardToServer(messageIn) {
+        let messageOut = {
+            TrackId: this.id,
+            ...messageIn
+        };
+        this.parent.forwardToServer(messageOut);
     }
 
 }
