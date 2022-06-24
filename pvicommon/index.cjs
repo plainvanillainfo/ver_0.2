@@ -78,7 +78,7 @@ class UseCaseElem {
         this.path = [];
         this.attribute = null;
         if (this.parent.pviClass != null) {
-            this.attribute = this.parent.pviClass.Attributes.find(cur => cur.Name === this.spec.Path.Attribute);
+            this.attribute = this.parent.pviClass.attributes.find(cur => cur.Name === this.spec.Path.Attribute);
         }
     }
 }
