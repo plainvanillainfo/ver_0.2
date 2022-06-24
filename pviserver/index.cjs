@@ -143,8 +143,6 @@ class Session {
                             this.forwardMessage({
                                 Action: 'ReceiveEntitlement',
                                 TrackId: message.TrackId,
-                                //UseCase: this.model.useCases[entitlementCur.UseCase].spec,
-                                //Item: this.model.getItem(entitlementCur.ItemPath)
                                 Template: this.trackMain.template.getSpec()
                             });
                         }
@@ -245,7 +243,28 @@ class Model {
     }    
 
     getItem(path) {
+        let retVal;
+        if (path.length > 1) {
+            retVal = this.getItemAtPath(this.itemSeed, [...path]);
+        } else {
+             retVal = this.itemSeed;
         
+        return retVal;
+    }
+
+    getItemAtPath(itemBase, path) {
+        let retVal = null;
+        let childAttrCur = path.shift();
+        if (itemBase.childItems[childAttrCur] != null) {
+            let childItemKey = path.shift();
+            let itemChild = itemBase.childItems[pathHead].itemAttrChild.nodes[childItemKey];
+            if (path > 1) {
+                retVal = this.getItemAtPath(itemChild, [...path]);
+            } else {
+                retVal = itemChild;
+            }
+        }
+        return retVal;
     }
 
     putItem(path, item) {
