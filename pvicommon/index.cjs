@@ -349,7 +349,7 @@ class TemplateElem {
 class TemplateElemClient extends TemplateElem{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
-        this.parent.forwardToServer({
+        this.forwardToServer({
             Action: 'StartTemplateElem',
             Name: this.useCaseElem.Name
         });
