@@ -151,7 +151,7 @@ class Template {
     getSpec() {
         return {
             UseCaseSpec: this.useCase.spec, 
-            ItemSpec: {
+            Item: {
                 Id: this.item.id,
                 Ext: this.item.ext,
                 Attrs: this.item.attrs
