@@ -151,12 +151,8 @@ class Session {
                         }
                     }
                     break;
-                case 'UpdateItem':
-                    this.model.putItem(message.ItemPath, message.Item);
-                    break;
-                case 'WatchItem':
-                    break;
-                case 'UnWatchItem':
+                case 'ContinueTrack':
+                    this.trackMain.
                     break;
                 default:
                     break;        

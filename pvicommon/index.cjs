@@ -165,6 +165,20 @@ class TemplateServer extends Template {
         super(parent);
     }
 
+    fromClient(message) {
+        console.log("TemplateServer::fromServer(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'UpdateItem':
+                    break;
+                case 'WatchItem':
+                    break;
+                case 'UnWatchItem':
+                    break;
+            }
+        }
+    }
+
     setUseCase(useCase) {
         console.log("TemplateServer::setUseCase: ");
         super.setUseCase(useCase);
@@ -390,18 +404,6 @@ class Track {
         this.template.setItem(item);
     }
 
-    fromServer(message) {
-        console.log("Track::fromServer(): ", message);
-    }
-
-    forwardToServer(messageIn) {
-        let messageOut = {
-            TrackId: this.id,
-            ...messageIn
-        };
-        this.parent.forwardToServer(messageOut);
-    }
-
 }
 
 class TrackServer extends Track {
@@ -410,11 +412,39 @@ class TrackServer extends Track {
         this.template = new TemplateServer(this);
     }
 
+    fromClient(message) {
+        console.log("TrackServer::fromServer(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'UpdateItem':
+                    this.template.putItem(message.ItemPath, message.Item);
+                    break;
+                case 'WatchItem':
+                    break;
+                case 'UnWatchItem':
+                    break;
+            }
+        }
+    }
+
 }
 
 class TrackClient extends Track {
     constructor(parent, trackId) {
         super(parent, trackId);
+    }
+
+    fromServer(message) {
+        console.log("TrackClient::fromServer(): ", message);
+    }
+
+    forwardToServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTrack',
+            TrackId: this.id,
+            ...messageIn
+        };
+        this.parent.forwardToServer(messageOut);
     }
 
 }
