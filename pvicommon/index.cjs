@@ -156,7 +156,7 @@ class Template {
     forwardToServer(messageIn) {
         let messageOut = {
             UseCaseName: this.useCase.spec.Name,
-            ItemId: this.item.id,
+            ItemId: this.item != null ? this.item.id : '1',
             ...messageIn
         };
         this.parent.forwardToServer(messageOut);
@@ -339,7 +339,6 @@ class TemplateElem {
     forwardToServer(messageIn) {
         let messageOut = {
             UseCaseElemName: this.useCaseElem.spec.Name,
-            ItemId: this.item != null ? this.item.id : '1',
             ...messageIn
         };
         this.parent.forwardToServer(messageOut);
