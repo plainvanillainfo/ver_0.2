@@ -46,6 +46,11 @@ class Client {
             case 'ReceiveEntitlement':
                 this.setEntitlement(message.TrackId, message.Template); // message.UseCase, message.Item);
                 break;
+            case 'ContinueTrack':
+                if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
+                    this.tracks[message.TrackId].fromClient(message.Track);
+                }
+                break;
             default:
                 break;        
         }
