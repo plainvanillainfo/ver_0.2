@@ -167,7 +167,7 @@ class TemplateServer extends Template {
     }
 
     fromClient(message) {
-        console.log("TemplateServer::fromServer(): ", message);
+        console.log("TemplateServer::fromClient(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplateElem':
@@ -257,7 +257,7 @@ class TemplateClient extends Template {
         console.log("Template::TemplateClient(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
-                case 'StartTemplateElem':
+                case 'ContinueTemplateElem':
                     break;
                 default:
                     break;
@@ -365,18 +365,26 @@ class TemplateElem {
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
-    fromServer(message) {
-        console.log("TemplateElem::fromServer(): ", message);
+}
+
+class TemplateElemServer extends TemplateElem{
+    constructor(parent, useCaseElem) {
+        super(parent, useCaseElem);
     }
 
-    forwardToServer(messageIn) {
+    fromClient(message) {
+        console.log("TemplateElemServer::fromClient(): ", message);
+    }
+
+    forwardToClient(messageIn) {
         let messageOut = {
+            Action: 'ContinueTemplateElem',
             TemplateElem: {
                 UseCaseElemName: this.useCaseElem.spec.Name,
                 ...messageIn
             }
         };
-        this.parent.forwardToServer(messageOut);
+        this.parent.forwardToClient(messageOut);
     }
 
 }
@@ -386,10 +394,25 @@ class TemplateElemClient extends TemplateElem{
         super(parent, useCaseElem);
         this.forwardToServer({
             Action: 'StartTemplateElem',
-            Name: this.useCaseElem.Name
+            Name: this.useCaseElem.spec.Name
         });
-
     }
+
+    fromServer(message) {
+        console.log("TemplateElemClient::fromServer(): ", message);
+    }
+
+    forwardToServer(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateElem',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.spec.Name,
+                ...messageIn
+            }
+        };
+        this.parent.forwardToServer(messageOut);
+    }
+
 }
 
 class TemplateElemWeb extends TemplateElemClient{
@@ -433,7 +456,7 @@ class TrackServer extends Track {
     }
 
     fromClient(message) {
-        console.log("TrackServer::fromServer(): ", message);
+        console.log("TrackServer::fromClient(): ", message);
         if (message.Action != null && message.Template != null) {
             switch (message.Action) {
                 case 'ContinueTemplate':
