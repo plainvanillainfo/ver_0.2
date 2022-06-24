@@ -153,7 +153,43 @@ class Template {
     }
 }
 
-class TemplateWeb extends Template {
+
+class TemplateServer extends Template {
+    constructor(parent) {
+        super(parent);
+    }
+
+    setUseCase(useCase) {
+        console.log("TemplateServer::setUseCase: ", useCase.spec);
+        super.setUseCase(useCase);
+    }
+
+    setItem(item) {
+        console.log("TemplateServer::setItem: ", item);
+        this.item = item;
+    }
+
+}
+
+class TemplateClient extends Template {
+    constructor(parent) {
+        super(parent);
+    }
+
+    setUseCase(useCase) {
+        console.log("TemplateClient::setUseCase: ", item);
+        super.setUseCase(useCase);
+    }
+
+    setItem(item) {
+        console.log("TemplateClient::setItem: ", item);
+        this.item = item;
+    }
+
+}
+
+
+class TemplateWeb extends TemplateClient {
     constructor(parent) {
         super(parent);
     }
@@ -216,7 +252,6 @@ class TemplateWeb extends Template {
 
 }
 
-
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
@@ -259,7 +294,7 @@ class Track {
 class TrackServer extends Track {
     constructor(parent, trackId) {
         super(parent, trackId);
-        this.template = new Template(this);
+        this.template = new TemplateServer(this);
     }
 
 }
