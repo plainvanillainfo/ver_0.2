@@ -153,7 +153,6 @@ class Template {
     }
 }
 
-
 class TemplateServer extends Template {
     constructor(parent) {
         super(parent);
@@ -187,7 +186,6 @@ class TemplateClient extends Template {
     }
 
 }
-
 
 class TemplateWeb extends TemplateClient {
     constructor(parent) {
