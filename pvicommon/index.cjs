@@ -60,6 +60,11 @@ class UseCase {
         this.parent = parent;
         this.spec = spec;
         this.elems = {};
+        if (this.parent.classes != nul && this.parent.classes[this.spec.ClassPath] != null) {
+            this.pviClass = this.parent.classes[this.spec.ClassPath];
+        } else {
+            this.pviClass = null;
+        }
         this.spec.Elems.forEach(elemCur => {
             this.elems[elemCur.Name] = new UseCaseElem(this, elemCur);
         });
@@ -71,6 +76,10 @@ class UseCaseElem {
         this.parent = parent;
         this.spec = spec;
         this.path = [];
+        this.attribute = null;
+        if (this.parent.pviClass != null) {
+            this.attribute = this.parent.pviClass.Attributes.find(cur => cur.Name === this.spec.Path.Attribute);
+        }
     }
 }
 
@@ -151,24 +160,46 @@ class Template {
 
     getElems() {
         let retval = {};
-        this.useCase.spec.Elems.forEach(elemCur=> {
-            retval[elemCur.Name] = this.getElemFromPath(this.item, elemCur.Path.Attribute)
+        this.useCase.elems.forEach(elemCur=> {
+            retval[elemCur.spec.Name] = this.getElemFromPath(this.item, elemCur);
         });
         return retval;
     }
 
-    getElemFromPath(item, path) {
+    getElemFromPath(item, useCaseElem) {
+        let retVal = '';
         // .  ../..  ../Abc.
-        /*
-        return {
-            Item: {
-                Id: this.item.id,
-                Ext: this.item.ext,
-                Attrs: this.item.attrs
-            },
-            Elems: {}
-        };
-        */
+        if (useCaseElem.attribute != null) {
+            switch (useCaseElem.attribute.Type) {
+                case 'Component':
+                    switch (useCaseElem.attribute.Subype) {
+                        case 'Primitive':
+                            if (item.attrs[useCaseElem.attribute.Name] != null) {
+                                retVal = item.attrs[useCaseElem.attribute.Name]
+                            }
+                            break;
+                        case 'Embedded':
+                            // Need recursive call
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'Reference':
+                    if (item.attrs[useCaseElem.attribute.Name] != null) {
+                        retVal = item.attrs[useCaseElem.attribute.Name]
+                    }
+                    break;
+                case 'Child':
+                    break;
+                case 'Extension':
+                    // Need recursive call
+                    break;
+                default:
+                    break;
+            }
+        }
+        return retval;
     }
 
 }
