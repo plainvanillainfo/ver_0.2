@@ -145,7 +145,7 @@ class Session {
                                 TrackId: message.TrackId,
                                 Template: {
                                     UseCaseSpec: this.trackMain.template.useCase.spec,
-                                    Elems: {}
+                                    Elems: this.trackMain.template.getElems()
                                 }
                             });
                         }

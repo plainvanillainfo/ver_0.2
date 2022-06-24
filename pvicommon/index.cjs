@@ -149,7 +149,17 @@ class Template {
         this.item = item;
     }
 
-    getData() {
+    getElems() {
+        let retval = {};
+        this.useCase.spec.Elems.forEach(elemCur=> {
+            retval[elemCur.Name] = this.getElemFromPath(this.item, elemCur.Path.Attribute)
+        });
+        return retval;
+    }
+
+    getElemFromPath(item, path) {
+        // .  ../..  ../Abc.
+        /*
         return {
             Item: {
                 Id: this.item.id,
@@ -158,6 +168,7 @@ class Template {
             },
             Elems: {}
         };
+        */
     }
 
 }
