@@ -247,7 +247,7 @@ class Model {
         if (path.length > 1) {
             retVal = this.getItemAtPath(this.itemSeed, [...path]);
         } else {
-             retVal = this.itemSeed;
+            retVal = this.itemSeed;
         }
         return retVal;
     }

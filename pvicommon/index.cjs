@@ -171,7 +171,7 @@ class TemplateServer extends Template {
     }
 
     setItem(item) {
-        console.log("TemplateServer::setItem: ");
+        console.log("TemplateServer::setItem: ", item);
         this.item = item;
     }
 
@@ -188,7 +188,7 @@ class TemplateClient extends Template {
     }
 
     setItem(item) {
-        console.log("TemplateClient::setItem: ");
+        console.log("TemplateClient::setItem: ", item);
         this.item = item;
     }
 
