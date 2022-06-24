@@ -203,7 +203,7 @@ class Template {
                     break;
             }
         }
-        return retval;
+        return retVal;
     }
 
 }
