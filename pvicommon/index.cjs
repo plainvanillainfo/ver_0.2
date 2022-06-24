@@ -60,7 +60,7 @@ class UseCase {
         this.parent = parent;
         this.spec = spec;
         this.elems = {};
-        if (this.parent.classes != nul && this.parent.classes[this.spec.ClassPath] != null) {
+        if (this.parent.classes != null && this.parent.classes[this.spec.ClassPath] != null) {
             this.pviClass = this.parent.classes[this.spec.ClassPath];
         } else {
             this.pviClass = null;
