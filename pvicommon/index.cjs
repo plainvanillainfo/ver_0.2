@@ -146,20 +146,6 @@ class Template {
         this.useCase = null;
         this.item = {};
         this.elems = {};
-        this.forwardToServer = this.forwardToServer.bind(this);
-    }
-
-    fromServer(message) {
-        console.log("Template::fromServer(): ", message);
-    }
-
-    forwardToServer(messageIn) {
-        let messageOut = {
-            UseCaseName: this.useCase.spec.Name,
-            ItemId: this.item != null ? this.item.id : '1',
-            ...messageIn
-        };
-        this.parent.forwardToServer(messageOut);
     }
 
     setUseCase(useCase) {
@@ -172,11 +158,25 @@ class Template {
         this.item = item;
     }
 
+}
+
+class TemplateServer extends Template {
+    constructor(parent) {
+        super(parent);
+    }
+
+    setUseCase(useCase) {
+        console.log("TemplateServer::setUseCase: ");
+        super.setUseCase(useCase);
+    }
+
+    setItem(item) {
+        console.log("TemplateServer::setItem: ", item.dbId, item.id);
+        this.item = item;
+    }
+
     getElems() {
         let retval = {};
-        //this.useCase.elems.forEach(elemCur=> {
-        //    retval[elemCur.spec.Name] = this.getElemFromPath(this.item, elemCur);
-        //});
         for (let elemCur in this.useCase.elems) {
             let elemDetail = this.useCase.elems[elemCur];
             retval[elemCur] = this.getElemFromPath(this.item, elemDetail);
@@ -222,26 +222,25 @@ class Template {
 
 }
 
-class TemplateServer extends Template {
-    constructor(parent) {
-        super(parent);
-    }
-
-    setUseCase(useCase) {
-        console.log("TemplateServer::setUseCase: ");
-        super.setUseCase(useCase);
-    }
-
-    setItem(item) {
-        console.log("TemplateServer::setItem: ", item.dbId, item.id);
-        this.item = item;
-    }
-
-}
-
 class TemplateClient extends Template {
     constructor(parent) {
         super(parent);
+        this.forwardToServer = this.forwardToServer.bind(this);
+    }
+
+    fromServer(message) {
+        console.log("Template::fromServer(): ", message);
+    }
+
+    forwardToServer(messageIn) {
+        let messageOut = {
+            Template: {
+                UseCaseName: this.useCase.spec.Name,
+                ItemId: this.item != null ? this.item.id : '1',
+                ...messageIn
+            }
+        };
+        this.parent.forwardToServer(messageOut);
     }
 
     setUseCase(useCase) {
@@ -307,7 +306,7 @@ class TemplateWeb extends TemplateClient {
             itemLICur.A.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("templateElemCur) - if - click on menu", menuItemCur);
-                alert(menuItemCur.Viewers[0].Label);
+                //alert(menuItemCur.Viewers[0].Label);
                 let elemPicked = this.useCase.elems[menuItemCur.Name];
                 if (this.elems[menuItemCur.Name] == null) {
                     this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked);
@@ -338,8 +337,10 @@ class TemplateElem {
 
     forwardToServer(messageIn) {
         let messageOut = {
-            UseCaseElemName: this.useCaseElem.spec.Name,
-            ...messageIn
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.spec.Name,
+                ...messageIn
+            }
         };
         this.parent.forwardToServer(messageOut);
     }
