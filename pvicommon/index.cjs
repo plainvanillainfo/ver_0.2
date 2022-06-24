@@ -391,7 +391,6 @@ class Track {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.id = id;
-        this.forwardToServer = this.forwardToServer.bind(this);
     }
 
     setUseCase(useCase) {
@@ -432,6 +431,7 @@ class TrackServer extends Track {
 class TrackClient extends Track {
     constructor(parent, trackId) {
         super(parent, trackId);
+        this.forwardToServer = this.forwardToServer.bind(this);
     }
 
     fromServer(message) {
