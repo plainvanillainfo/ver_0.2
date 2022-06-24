@@ -248,7 +248,7 @@ class Model {
             retVal = this.getItemAtPath(this.itemSeed, [...path]);
         } else {
              retVal = this.itemSeed;
-        
+        }
         return retVal;
     }
 
