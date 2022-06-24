@@ -171,7 +171,7 @@ class TemplateServer extends Template {
     }
 
     setItem(item) {
-        console.log("TemplateServer::setItem: ", item);
+        console.log("TemplateServer::setItem: ", item.dbId, item.id);
         this.item = item;
     }
 
