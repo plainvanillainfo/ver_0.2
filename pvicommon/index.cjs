@@ -163,20 +163,31 @@ class Template {
 class TemplateServer extends Template {
     constructor(parent) {
         super(parent);
+        this.forwardToClient = this.forwardToClient.bind(this);
     }
 
     fromClient(message) {
         console.log("TemplateServer::fromServer(): ", message);
         if (message.Action != null) {
             switch (message.Action) {
-                case 'UpdateItem':
+                case 'StartTemplateElem':
                     break;
-                case 'WatchItem':
-                    break;
-                case 'UnWatchItem':
+                default:
                     break;
             }
         }
+    }
+
+    forwardToClient(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplate',
+            Template: {
+                UseCaseName: this.useCase.spec.Name,
+                ItemId: this.item != null ? this.item.id : '1',
+                ...messageIn
+            }
+        };
+        this.parent.forwardToClient(messageOut);
     }
 
     setUseCase(useCase) {
@@ -243,11 +254,20 @@ class TemplateClient extends Template {
     }
 
     fromServer(message) {
-        console.log("Template::fromServer(): ", message);
+        console.log("Template::TemplateClient(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'StartTemplateElem':
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     forwardToServer(messageIn) {
         let messageOut = {
+            Action: 'ContinueTemplate',
             Template: {
                 UseCaseName: this.useCase.spec.Name,
                 ItemId: this.item != null ? this.item.id : '1',
@@ -409,21 +429,31 @@ class TrackServer extends Track {
     constructor(parent, trackId) {
         super(parent, trackId);
         this.template = new TemplateServer(this);
+        this.forwardToClient = this.forwardToClient.bind(this);
     }
 
     fromClient(message) {
         console.log("TrackServer::fromServer(): ", message);
-        if (message.Action != null) {
+        if (message.Action != null && message.Template != null) {
             switch (message.Action) {
-                case 'UpdateItem':
-                    this.template.putItem(message.ItemPath, message.Item);
+                case 'ContinueTemplate':
+                    this.template.fromClient(message.Template);
                     break;
-                case 'WatchItem':
-                    break;
-                case 'UnWatchItem':
+                default:
                     break;
             }
         }
+    }
+
+    forwardToClient(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTrack',
+            TrackId: this.id,
+            Track: {
+                ...messageIn
+            }
+        };
+        this.parent.forwardMessage(messageOut);
     }
 
 }
@@ -436,13 +466,24 @@ class TrackClient extends Track {
 
     fromServer(message) {
         console.log("TrackClient::fromServer(): ", message);
+        if (message.Action != null) {
+            switch (message.Action && message.Template != null) {
+                case 'ContinueTemplate':
+                    this.template.fromClient(message.Template);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     forwardToServer(messageIn) {
         let messageOut = {
-            Action: 'ContinueTrack',
             TrackId: this.id,
-            ...messageIn
+            Action: 'ContinueTrack',
+            Track :{
+                ...messageIn
+            }
         };
         this.parent.forwardToServer(messageOut);
     }

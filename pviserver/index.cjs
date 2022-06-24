@@ -152,7 +152,9 @@ class Session {
                     }
                     break;
                 case 'ContinueTrack':
-                    this.trackMain.
+                    if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
+                        this.tracks[message.TrackId].fromClient(message.Track);
+                    }
                     break;
                 default:
                     break;        
