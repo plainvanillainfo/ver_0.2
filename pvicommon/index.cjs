@@ -139,7 +139,7 @@ class Template {
     }
 
     setUseCase(useCase) {
-        console.log("Template::setUseCase: ", useCase.spec);
+        console.log("Template::setUseCase: Name ", useCase.spec.Name);
         this.useCase = useCase;
     }
 
@@ -159,12 +159,12 @@ class TemplateServer extends Template {
     }
 
     setUseCase(useCase) {
-        console.log("TemplateServer::setUseCase: ", useCase.spec);
+        console.log("TemplateServer::setUseCase: ");
         super.setUseCase(useCase);
     }
 
     setItem(item) {
-        console.log("TemplateServer::setItem: ", item);
+        console.log("TemplateServer::setItem: ");
         this.item = item;
     }
 
@@ -176,12 +176,12 @@ class TemplateClient extends Template {
     }
 
     setUseCase(useCase) {
-        console.log("TemplateClient::setUseCase: ", item);
+        console.log("TemplateClient::setUseCase: ");
         super.setUseCase(useCase);
     }
 
     setItem(item) {
-        console.log("TemplateClient::setItem: ", item);
+        console.log("TemplateClient::setItem: ");
         this.item = item;
     }
 
