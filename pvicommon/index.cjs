@@ -136,6 +136,7 @@ class Template {
         this.parent = parent;
         this.useCase = null;
         this.item = {};
+        this.elems = {};
     }
 
     setUseCase(useCase) {
@@ -155,7 +156,8 @@ class Template {
                 Id: this.item.id,
                 Ext: this.item.ext,
                 Attrs: this.item.attrs
-            }
+            },
+            Elems: {}
         };
     }
 }
