@@ -266,6 +266,7 @@ class TemplateClient extends Template {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'ContinueTemplateElem':
+                
                     break;
                 default:
                     break;
@@ -501,7 +502,7 @@ class TrackClient extends Track {
         if (message.Action != null) {
             switch (message.Action && message.Template != null) {
                 case 'ContinueTemplate':
-                    this.template.fromClient(message.Template);
+                    this.template.fromServer(message.Template);
                     break;
                 default:
                     break;
