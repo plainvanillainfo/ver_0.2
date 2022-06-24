@@ -160,7 +160,6 @@ class TemplateWeb extends Template {
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
-        //this.parent.div.appendChild(document.createTextNode(JSON.stringify(useCase.spec)));
 
         this.nav = document.createElement('nav');
         this.parent.div.appendChild(this.nav);
@@ -182,7 +181,6 @@ class TemplateWeb extends Template {
         this.iconCollapse = document.createElement('span');
         this.buttonCollapse.appendChild(this.iconCollapse);
         this.buttonCollapse.className = 'navbar-toggler-icon';
-
 
         this.divMenu = document.createElement('div');
         this.divNav.appendChild(this.divMenu);
