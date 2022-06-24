@@ -48,7 +48,7 @@ class Client {
                 break;
             case 'ContinueTrack':
                 if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
-                    this.tracks[message.TrackId].fromClient(message.Track);
+                    this.tracks[message.TrackId].fromServer(message.Track);
                 }
                 break;
             default:
