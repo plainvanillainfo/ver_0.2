@@ -172,11 +172,11 @@ class TemplateServer extends Template {
             switch (message.Action) {
                 case 'StartTemplateElem':
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
-                        this.elems[message.TemplateElem.UseCaseElemName] = 
-                            new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
-                        this.elems[message.TemplateElem.UseCaseElemName].forwardToClient({
+                        let templateElemNew = new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
+                        this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
+                        templateElemNew.forwardToClient({
                             Action: 'ContinueTemplateElem',
-                            Name: this.useCaseElem.spec.Name
+                            Name: templateElemNew.useCaseElem.spec.Name
                         });
                     }
                     break;
