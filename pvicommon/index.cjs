@@ -175,10 +175,15 @@ class TemplateServer extends Template {
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         let templateElemNew = new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
                         this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
+
+                        /*
                         templateElemNew.forwardToClient({
                             Action: 'ContinueTemplateElem',
                             UseCaseElemSpec: templateElemNew.useCaseElem.spec
                         });
+                        */
+
+                        templateElemNew.start();
                     }
                     break;
                 default:
@@ -371,16 +376,75 @@ class TemplateList {
         this.parent = parent;
         this.model = this.parent.model;
     }
+
     setUseCase(useCase) {
         console.log("TemplateList::setUseCase: Name ", useCase.spec.Name);
         this.useCase = useCase;
     }    
+
+    setItemAttrChild(itemAttrChild) {
+        console.log("TemplateList::setItemAttrChild");
+        this.useCitemAttrChildase = itemAttrChild;
+        /*
+        this.templateList.forwardToClient({
+            Action: 'ContinueTemplateElem',
+            UseCaseElemSpec: this.useCaseElem.spec
+        });
+        */
+    }    
+
 }
 
 class TemplateListServer extends TemplateList {
     constructor(parent) {
         super(parent);
         this.forwardToClient = this.forwardToClient.bind(this);
+    }
+
+    fromClient(message) {
+        console.log("TemplateListServer::fromClient(): ", message);
+    }
+
+    forwardToClient(messageIn) {
+        let messageOut = {
+            Action: 'ContinueTemplateList',
+            TemplateList: {
+                //UseCaseElemName: this.useCaseElem.spec.Name,
+                ...messageIn
+            }
+        };
+        this.parent.forwardToClient(messageOut);
+    }
+
+}
+
+class TemplateListClient extends TemplateList {
+    constructor(parent) {
+        super(parent);
+        this.forwardToServer = this.forwardToServer.bind(this);
+    }
+
+    fromServer(message) {
+        console.log("TemplateListClient::fromServer(): ", message);
+    }
+
+    forwardToServer(messageIn) {
+        let messageOut = {
+            Action: 'StartTemplateElem',
+            TemplateList: {
+                //UseCaseElemName: this.useCaseElem.spec.Name,
+                ...messageIn
+            }
+        };
+        this.parent.forwardToServer(messageOut);
+    }
+
+}
+
+class TemplateListWeb extends TemplateListClient {
+    constructor(parent) {
+        super(parent);
+        this.forwardToServer = this.forwardToServer.bind(this);
     }
 }
 
@@ -406,16 +470,23 @@ class TemplateElemServer extends TemplateElem {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
+                this.templateList.setItemAttrChild(null);
             }
         }
     }
 
     fromClient(message) {
         console.log("TemplateElemServer::fromClient(): ", message);
-        if (useCaseElem.attribute.Type === 'Child') {
+    }
+
+    start() {
+        console.log("TemplateElemServer::start(): ");
+        if (this.useCaseElem.attribute.Type === 'Child') {
             if (this.templateList == null) {
                 this.templateList = new TemplateListServer(this);
-                this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
+                this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.SubUseCase]);
+
+
             }
         }
     }
@@ -468,6 +539,17 @@ class TemplateElemWeb extends TemplateElemClient{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
     }
+
+    start() {
+        console.log("TemplateElemWeb::start(): ");
+        if (this.useCaseElem.attribute.Type === 'Child') {
+            if (this.templateList == null) {
+                this.templateList = new TemplateListWeb(this);
+                //this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.SubUseCase]);
+            }
+        }
+    }
+
 }
 
 class User {
