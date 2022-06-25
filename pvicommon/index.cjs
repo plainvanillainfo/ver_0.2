@@ -371,6 +371,13 @@ class TemplateList {
     }
 }
 
+class TemplateListServer extends TemplateList {
+    constructor(parent) {
+        super(parent);
+        this.forwardToClient = this.forwardToClient.bind(this);
+    }
+}
+
 class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
@@ -384,10 +391,15 @@ class TemplateElem {
 
 }
 
-class TemplateElemServer extends TemplateElem{
+class TemplateElemServer extends TemplateElem {
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
         this.forwardToClient = this.forwardToClient.bind(this);
+        if (this.fJoin) {
+            if (useCaseElem.attribute.Type === 'Child') {
+                this.templateList = new TemplateListServer(this);
+            }
+        }
     }
 
     fromClient(message) {
