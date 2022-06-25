@@ -484,7 +484,7 @@ class TemplateElemServer extends TemplateElem {
         if (this.useCaseElem.attribute.Type === 'Child') {
             if (this.templateList == null) {
                 this.templateList = new TemplateListServer(this);
-                this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.SubUseCase]);
+                //this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.SubUseCase]);
 
 
             }
