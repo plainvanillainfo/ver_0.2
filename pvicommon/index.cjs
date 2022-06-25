@@ -382,7 +382,7 @@ class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
         this.useCaseElem = useCaseElem;
-        if (this.useCaseElem.spec.Join != null && (this.useCaseElem.spec.Join == 'Yes') {
+        if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join == 'Yes') {
             this.fJoin = true;
         } else {
             this.fJoin = false;
