@@ -143,6 +143,7 @@ class Item {
 class Template {
     constructor(parent) {
         this.parent = parent;
+        this.model = this.parent.model;
         this.useCase = null;
         this.item = {};
         this.elems = {};
@@ -368,7 +369,12 @@ class TemplateWeb extends TemplateClient {
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
+        this.model = this.parent.model;
     }
+    setUseCase(useCase) {
+        console.log("TemplateList::setUseCase: Name ", useCase.spec.Name);
+        this.useCase = useCase;
+    }    
 }
 
 class TemplateListServer extends TemplateList {
@@ -381,6 +387,7 @@ class TemplateListServer extends TemplateList {
 class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
+        this.model = this.parent.model;
         this.useCaseElem = useCaseElem;
         if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
             this.fJoin = true;
@@ -398,6 +405,7 @@ class TemplateElemServer extends TemplateElem {
         if (this.fJoin) {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
+                this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
             }
         }
     }
@@ -407,6 +415,7 @@ class TemplateElemServer extends TemplateElem {
         if (useCaseElem.attribute.Type === 'Child') {
             if (this.templateList == null) {
                 this.templateList = new TemplateListServer(this);
+                this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
             }
         }
     }
@@ -473,6 +482,7 @@ class Track {
     constructor(parent, id) {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
+        this.model = this.parent.model;
         this.id = id;
     }
 
