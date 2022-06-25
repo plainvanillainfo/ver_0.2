@@ -378,7 +378,7 @@ class TemplateList {
     }
 
     setUseCase(useCase) {
-        console.log("TemplateList::setUseCase: Name ", useCase.spec.Name);
+        console.log("TemplateList::setUseCase: Name ", useCase.spec);
         this.useCase = useCase;
     }    
 
@@ -482,9 +482,9 @@ class TemplateElemServer extends TemplateElem {
     start() {
         console.log("TemplateElemServer::start(): ", this.useCaseElem);
         if (this.useCaseElem.attribute.Type === 'Child') {
-            if (this.templateList == null) {
+            if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
-                //this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.SubUseCase]);
+                this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
 
 
             }
