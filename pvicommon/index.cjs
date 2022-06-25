@@ -385,12 +385,6 @@ class TemplateList {
     setItemAttrChild(itemAttrChild) {
         console.log("TemplateList::setItemAttrChild");
         this.useCitemAttrChildase = itemAttrChild;
-        /*
-        this.templateList.forwardToClient({
-            Action: 'ContinueTemplateElem',
-            UseCaseElemSpec: this.useCaseElem.spec
-        });
-        */
     }    
 
 }
@@ -411,6 +405,16 @@ class TemplateListServer extends TemplateList {
             TemplateList: {
                 //UseCaseElemName: this.useCaseElem.spec.Name,
                 ...messageIn
+            }
+        };
+        this.parent.forwardToClient(messageOut);
+    }
+
+    start() {
+        let messageOut = {
+            Action: 'StartTemplateList',
+            TemplateList: {
+                UseCaseSpec: this.useCase.spec
             }
         };
         this.parent.forwardToClient(messageOut);
@@ -485,8 +489,7 @@ class TemplateElemServer extends TemplateElem {
             if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-
-
+                this.templateList.start();
             }
         }
     }
