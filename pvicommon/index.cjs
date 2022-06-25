@@ -404,6 +404,8 @@ class TemplateElemServer extends TemplateElem {
 
     fromClient(message) {
         console.log("TemplateElemServer::fromClient(): ", message);
+
+        // HERE: Unfurl the list
     }
 
     forwardToClient(messageIn) {
