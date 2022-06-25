@@ -176,7 +176,7 @@ class TemplateServer extends Template {
                         this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
                         templateElemNew.forwardToClient({
                             Action: 'ContinueTemplateElem',
-                            Name: templateElemNew.useCaseElem.spec.Name
+                            UseCaseElemSec: templateElemNew.useCaseElem.spec
                         });
                     }
                     break;
