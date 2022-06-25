@@ -519,8 +519,21 @@ class TemplateElemClient extends TemplateElem{
 
     fromServer(message) {
         console.log("TemplateElemClient::fromServer(): ", message);
-        if (this.useCaseElem.spec.Path.SubUseCase != null) {
-            if (true) {
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'StartTemplateList':
+                    if (this.useCaseElem.attribute.Type === 'Child') {
+                        /*
+                        if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
+                            this.templateList = new TemplateListServer(this);
+                            this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                            this.templateList.start();
+                        }
+                        */
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
