@@ -414,6 +414,10 @@ class TemplateElemClient extends TemplateElem{
 
     fromServer(message) {
         console.log("TemplateElemClient::fromServer(): ", message);
+        if (this.useCaseElem.spec.Path.SubUseCase != null) {
+            if (true) {
+            }
+        }
     }
 
     forwardToServer(messageIn) {
