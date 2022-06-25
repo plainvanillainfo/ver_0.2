@@ -480,7 +480,7 @@ class TemplateElemServer extends TemplateElem {
     }
 
     start() {
-        console.log("TemplateElemServer::start(): ");
+        console.log("TemplateElemServer::start(): ", this.useCaseElem);
         if (this.useCaseElem.attribute.Type === 'Child') {
             if (this.templateList == null) {
                 this.templateList = new TemplateListServer(this);
