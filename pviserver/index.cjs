@@ -236,7 +236,7 @@ class Model {
         useCasesFiles.forEach(fileCur => {
             let filePathCur = useCasesDir + '/' + fileCur;
             let useCasesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
-            console.log("Model::initializeUseCases - file: ", useCasesFileCurContent.Name);
+            console.log("Model::initializeUseCases - file: ", useCasesFileCurContent);
             /*
             useCasesFileCurContent.UseCases.forEach(useCaseCur => {
                 console.log("    ", useCaseCur.Name);
