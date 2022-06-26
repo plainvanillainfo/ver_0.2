@@ -159,6 +159,51 @@ class Template {
         this.item = item;
     }
 
+    getElems() {
+        let retval = {};
+        for (let elemCur in this.useCase.elems) {
+            let elemDetail = this.useCase.elems[elemCur];
+            retval[elemCur] = this.getElemFromPath(this.item, elemDetail);
+        }
+        return retval;
+    }
+
+    getElemFromPath(item, useCaseElem) {
+        let retVal = '';
+        // .  ../..  ../Abc.
+        if (useCaseElem.attribute != null) {
+            switch (useCaseElem.attribute.Type) {
+                case 'Component':
+                    switch (useCaseElem.attribute.Subtype) {
+                        case 'Primitive':
+                            if (item.attrs[useCaseElem.attribute.Name] != null) {
+                                retVal = item.attrs[useCaseElem.attribute.Name]
+                            }
+                            break;
+                        case 'Embedded':
+                            // Need recursive call
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'Reference':
+                    if (item.attrs[useCaseElem.attribute.Name] != null) {
+                        retVal = item.attrs[useCaseElem.attribute.Name]
+                    }
+                    break;
+                case 'Child':
+                    break;
+                case 'Extension':
+                    // Need recursive call
+                    break;
+                default:
+                    break;
+            }
+        }
+        return retVal;
+    }
+
 }
 
 class TemplateServer extends Template {
@@ -212,51 +257,6 @@ class TemplateServer extends Template {
     setItem(item) {
         console.log("TemplateServer::setItem: ", item.dbId, item.id);
         this.item = item;
-    }
-
-    getElems() {
-        let retval = {};
-        for (let elemCur in this.useCase.elems) {
-            let elemDetail = this.useCase.elems[elemCur];
-            retval[elemCur] = this.getElemFromPath(this.item, elemDetail);
-        }
-        return retval;
-    }
-
-    getElemFromPath(item, useCaseElem) {
-        let retVal = '';
-        // .  ../..  ../Abc.
-        if (useCaseElem.attribute != null) {
-            switch (useCaseElem.attribute.Type) {
-                case 'Component':
-                    switch (useCaseElem.attribute.Subype) {
-                        case 'Primitive':
-                            if (item.attrs[useCaseElem.attribute.Name] != null) {
-                                retVal = item.attrs[useCaseElem.attribute.Name]
-                            }
-                            break;
-                        case 'Embedded':
-                            // Need recursive call
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case 'Reference':
-                    if (item.attrs[useCaseElem.attribute.Name] != null) {
-                        retVal = item.attrs[useCaseElem.attribute.Name]
-                    }
-                    break;
-                case 'Child':
-                    break;
-                case 'Extension':
-                    // Need recursive call
-                    break;
-                default:
-                    break;
-            }
-        }
-        return retVal;
     }
 
 }
