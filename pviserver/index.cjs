@@ -126,7 +126,7 @@ class Session {
     
     receiveMessage(message) {
         if (message.AppId != null && message.Action != null) {
-            console.log("Session::receiveMessage: ", message);
+            console.log("\nSession::receiveMessage: ", message);
             switch (message.Action) {
                 case 'SendViewerSpec':
                     let viewerSpecCur = this.parent.config.Executables.find(cur => cur.Name === message.AppId && cur.Type === 'Viewer');
@@ -143,13 +143,6 @@ class Session {
                             this.forwardMessage({
                                 Action: 'ReceiveEntitlement',
                                 TrackId: message.TrackId,
-
-                                /*
-                                Template: {
-                                    UseCaseSpec: this.trackMain.template.useCase.spec,
-                                    Elems: this.trackMain.template.getElems()
-                                },
-                                */
                                 Track: this.trackMain.getInitialMessage(),
                                 ClassesFileContent: this.model.classesFileContent,
                                 UseCasesFileContent: this.model.useCasesFileContent
@@ -161,6 +154,9 @@ class Session {
                     if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
                         this.tracks[message.TrackId].fromClient(message.Track);
                     }
+                    break;
+                case 'UpdateItem':
+                    this.model.putItem([], message.Item);
                     break;
                 default:
                     break;        
