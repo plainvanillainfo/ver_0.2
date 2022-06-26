@@ -221,7 +221,7 @@ class Model {
             });
         });
         this.classesFileContent.Classes.forEach(classCur => {
-            console.log("AAA     ", classCur.Name);
+            console.log("Model::initializeClasses(); ", classCur.Name);
             this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
         });
     }    
@@ -238,7 +238,7 @@ class Model {
             });
         });
         this.useCasesFileContent.UseCases.forEach(useCaseCur => {
-            console.log("BBB    ", useCaseCur);
+            console.log("Model::initializeUseCases(); ", useCaseCur.Name);
             this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
         });
     }    
