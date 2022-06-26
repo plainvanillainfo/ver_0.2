@@ -138,19 +138,19 @@ class Session {
                     if (message.UserId != null && message.TrackId != null) {
                         if (this.model.users[message.UserId] != null) {
                             let entitlementCur = this.model.users[message.UserId].entitlements[0];
-
-                            //console.log("Session::receiveMessage - entitlementCur: ", entitlementCur);
-                            //console.log("Session::receiveMessage - this.model.useCases: ", this.model.useCases);
-
                             this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
                             this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
                             this.forwardMessage({
                                 Action: 'ReceiveEntitlement',
                                 TrackId: message.TrackId,
+
+                                /*
                                 Template: {
                                     UseCaseSpec: this.trackMain.template.useCase.spec,
                                     Elems: this.trackMain.template.getElems()
                                 },
+                                */
+                                Track: this.trackMain.getInitialMessage(),
                                 ClassesFileContent: this.model.classesFileContent,
                                 UseCasesFileContent: this.model.useCasesFileContent
                             });
@@ -215,13 +215,12 @@ class Model {
         classesFiles.forEach(fileCur => {
             let filePathCur = classesDir + '/' + fileCur;
             let classesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
-            //console.log("Model::initializeClasses - file: ", classesFileCurContent);
             classesFileCurContent.Classes.forEach(classCur => {
                 this.classesFileContent.Classes.push(classCur);
             });
         });
         this.classesFileContent.Classes.forEach(classCur => {
-            console.log("Model::initializeClasses(); ", classCur.Name);
+            //console.log("Model::initializeClasses(); ", classCur.Name);
             this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
         });
     }    
@@ -232,13 +231,12 @@ class Model {
         useCasesFiles.forEach(fileCur => {
             let filePathCur = useCasesDir + '/' + fileCur;
             let useCasesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
-            //console.log("Model::initializeUseCases - file: ", useCasesFileCurContent);
             useCasesFileCurContent.UseCases.forEach(useCaseCur => {
                 this.useCasesFileContent.UseCases.push(useCaseCur);
             });
         });
         this.useCasesFileContent.UseCases.forEach(useCaseCur => {
-            console.log("Model::initializeUseCases(); ", useCaseCur.Name);
+            //console.log("Model::initializeUseCases(); ", useCaseCur.Name);
             this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
         });
     }    

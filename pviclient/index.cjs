@@ -45,7 +45,7 @@ class Client {
                 this.setViewerSpec(message.ViewerSpec);
                 break;
             case 'ReceiveEntitlement':
-                this.setEntitlement(message.TrackId, message.Template, message.ClassesFileContent, message.UseCasesFileContent);
+                this.setEntitlement(message.TrackId, message.Track, message.ClassesFileContent, message.UseCasesFileContent);
                 break;
             case 'ContinueTrack':
                 if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
@@ -65,12 +65,12 @@ class Client {
         console.log("Client::setViewerSpec()");
     }
 
-    setEntitlement(trackId, template, viewerName, classesFileContent, useCasesFileContent) {
+    setEntitlement(trackId, track, viewerName, classesFileContent, useCasesFileContent) {
         console.log("Client::setEntitlement()");
         this.initializeClasses(classesFileContent, viewerName);
         this.initializeUseCases(useCasesFileContent, viewerName);
-        this.tracks[trackId].setUseCase(this.useCases[template.UseCaseSpec.Name]);
-        this.tracks[trackId].setItem(template.ItemSpec != null ? template.ItemSpec : {});
+        this.tracks[trackId].setUseCase(this.useCases[track.UseCaseSpec.Name]);
+        this.tracks[trackId].setItem(track.ItemSpec != null ? track.ItemSpec : {});
     }
 
     checkUserAuthentication() {
