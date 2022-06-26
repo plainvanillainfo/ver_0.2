@@ -218,7 +218,7 @@ class Model {
                 this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
             });
             */
-            this.classesFileContent.Classes.push(classesFileCurContent.Classes);
+            this.classesFileContent.Classes.concat(classesFileCurContent.Classes);
         });
         this.classesFileContent.Classes.forEach(classCur => {
             console.log("    ", classCur.Name);
@@ -239,7 +239,7 @@ class Model {
                 this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
             });
             */
-            this.useCasesFileContent.UseCases.push(useCasesFileCurContent.UseCases);
+            this.useCasesFileContent.UseCases.concat(useCasesFileCurContent.UseCases);
         });
         this.useCasesFileContent.UseCases.forEach(useCaseCur => {
             console.log("    ", useCaseCur);
