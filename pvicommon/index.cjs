@@ -140,13 +140,13 @@ class Item {
     }
 
     getItemSpec() {
-        let attrsLocal = [];
+        let attrsLocal = {};
         for (let attrsCur in this.attrs) {
-            attrsLocal.push(attrsCur);
+            attrsLocal[attrsCur] = this.attrs[attrsCur];
         }
-        let childItemsLocal = [];
-        for (let childAttrInCur in this.childItems) {
-            childItemsLocal.push(childAttrInCur);
+        let childItemsLocal = {};
+        for (let childAttrCur in this.childItems) {
+            childItemsLocal[childAttrCur] = this.childItems[childAttrCur].ListDBIds;
         }
         return {
             DBId: this.dbId,
