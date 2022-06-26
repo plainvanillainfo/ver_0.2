@@ -384,7 +384,7 @@ class TemplateList {
 
     setItemAttrChild(itemAttrChild) {
         console.log("TemplateList::setItemAttrChild");
-        this.useCitemAttrChildase = itemAttrChild;
+        this.itemAttrChild = itemAttrChild;
     }    
 
 }
@@ -452,12 +452,18 @@ class TemplateListWeb extends TemplateListClient {
         super(parent);
         this.forwardToServer = this.forwardToServer.bind(this);
     }
+
+    start() {
+        console.log("TemplateListWeb::start");
+    }
+
 }
 
 class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
         this.useCaseElem = useCaseElem;
+        this.itemAttr = {};
         if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
             this.fJoin = true;
         } else {
@@ -476,7 +482,7 @@ class TemplateElemServer extends TemplateElem {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
-                this.templateList.setItemAttrChild(null);
+                this.templateList.setItemAttrChild(this.itemAttr);
             }
         }
     }
@@ -491,6 +497,7 @@ class TemplateElemServer extends TemplateElem {
             if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                this.templateList.setItemAttrChild(this.itemAttr);
                 this.templateList.start();
             }
         }
@@ -566,6 +573,8 @@ class TemplateElemWeb extends TemplateElemClient{
             if (this.templateList == null) {
                 this.templateList = new TemplateListWeb(this);
                 this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                this.templateList.setItemAttrChild(this.itemAttr);
+                this.templateList.start();
             }
         }
     }
