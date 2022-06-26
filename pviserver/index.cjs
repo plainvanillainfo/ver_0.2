@@ -311,11 +311,19 @@ class Model {
                 if (childListItem == null) {
                     let dbKey = this.database.nextItemkey.toString(16).padStart(16, '0')
                     this.database.nextItemkey++;
+
+                    //
+                    // Create child item
+                    //
                     childListItem = new Item(this, dbKey, childAttrInSubItem.Id);
+
                     itemBase.childItems[childAttrInCur].List.push(childListItem);
                     itemBase.childItems[childAttrInCur].ListDBIds.push(dbKey);
                 }
-                // Recurse
+
+                //
+                // Call recursively for child item
+                //
                 if (childAttrInSubItem.ChildItems != null && childAttrInSubItem.Attrs != null) {
                     this.buildPutBatch(ops, childListItem, childAttrInSubItem);
                 }
