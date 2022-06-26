@@ -378,7 +378,7 @@ class TemplateList {
     }
 
     setUseCase(useCase) {
-        console.log("TemplateList::setUseCase:"); // Name ", useCase.spec);
+        console.log("TemplateList::setUseCase:", useCase.spec);
         this.useCase = useCase;
     }    
 
