@@ -138,6 +138,9 @@ class Session {
                     if (message.UserId != null && message.TrackId != null) {
                         if (this.model.users[message.UserId] != null) {
                             let entitlementCur = this.model.users[message.UserId].entitlements[0];
+
+                            console.log("Session::receiveMessage - entitlementCur: ", entitlementCur);
+
                             this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
                             this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
                             this.forwardMessage({
