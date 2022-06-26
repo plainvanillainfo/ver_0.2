@@ -30,6 +30,7 @@ class Client {
         this.parent = parent;
         this.isAuthenticated = false;
         this.forwardToServer = this.forwardToServer.bind(this);
+        this.classes = {};
         this.useCases = {};
         this.tracks = {};
     }
@@ -101,6 +102,26 @@ class Client {
 
     terminateTracks() {
     }
+
+    //
+    // classesFileCurContent and useCasesFileCurContent to come from server
+    // in initial message
+    //
+
+    initializeClasses(classesFileCurContent) {
+        classesFileCurContent.Classes.forEach(classCur => {
+            console.log("    ", classCur.Name);
+            this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
+        });
+    }    
+
+    initializeUseCases(useCasesFileCurContent) {
+        console.log("Model::initializeUseCases - file: ", useCasesFileCurContent.Name);
+        useCasesFileCurContent.UseCases.forEach(useCaseCur => {
+            console.log("    ", useCaseCur.Name);
+            this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
+        });
+    }      
 
 }
 
