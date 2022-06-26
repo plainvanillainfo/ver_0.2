@@ -85,8 +85,8 @@ class Client {
         this.useCases[useCaseSpec.Name] = new UseCase(this, useCaseSpec);
         */
 
-        this.tracks[trackId].setUseCase(this.useCases[useCaseSpec.Name]);
-        this.tracks[trackId].setItem(template.ItemSpec);
+        this.tracks[trackId].setUseCase(this.useCases[template.UseCaseSpec.Name]);
+        this.tracks[trackId].setItem(template.ItemSpec != null ? template.ItemSpec : {});
     }
 
     checkUserAuthentication() {

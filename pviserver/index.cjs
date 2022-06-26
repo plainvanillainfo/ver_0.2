@@ -216,15 +216,9 @@ class Model {
             let filePathCur = classesDir + '/' + fileCur;
             let classesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
             console.log("Model::initializeClasses - file: ", classesFileCurContent);
-            
             classesFileCurContent.Classes.forEach(classCur => {
-                console.log("    ", classCur.Name);
-                //this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
                 this.classesFileContent.Classes.push(classCur);
             });
-            
-            //this.classesFileContent.Classes.concat(classesFileCurContent.Classes);
-
         });
         this.classesFileContent.Classes.forEach(classCur => {
             console.log("AAA     ", classCur.Name);
@@ -239,14 +233,9 @@ class Model {
             let filePathCur = useCasesDir + '/' + fileCur;
             let useCasesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
             console.log("Model::initializeUseCases - file: ", useCasesFileCurContent);
-            
             useCasesFileCurContent.UseCases.forEach(useCaseCur => {
-                console.log("    ", useCaseCur.Name);
-                //this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
                 this.useCasesFileContent.UseCases.push(useCaseCur);
             });
-            
-            //this.useCasesFileContent.UseCases.concat(useCasesFileCurContent.UseCases);
         });
         this.useCasesFileContent.UseCases.forEach(useCaseCur => {
             console.log("BBB    ", useCaseCur);
