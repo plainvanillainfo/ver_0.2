@@ -140,6 +140,7 @@ class Session {
                             let entitlementCur = this.model.users[message.UserId].entitlements[0];
 
                             console.log("Session::receiveMessage - entitlementCur: ", entitlementCur);
+                            console.log("Session::receiveMessage - this.model.useCases: ", this.model.useCases);
 
                             this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
                             this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
