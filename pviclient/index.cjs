@@ -95,15 +95,15 @@ class Client {
 
     initializeClasses(classesFileCurContent, viewerName) {
         classesFileCurContent.Classes.forEach(classCur => {
-            console.log("    ", classCur.Name);
+            //console.log("    ", classCur.Name);
             this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
         });
     }    
 
     initializeUseCases(useCasesFileCurContent, viewerName) {
-        console.log("Model::initializeUseCases - file: ", useCasesFileCurContent.Name);
+        console.log("Client::initializeUseCases - useCasesFileCurContent: ", useCasesFileCurContent.Name);
         useCasesFileCurContent.UseCases.forEach(useCaseCur => {
-            console.log("    ", useCaseCur.Name);
+            //console.log("    ", useCaseCur.Name);
             if (useCaseCur.Viewers != null) {
                 let viewerCur = useCaseCur.Viewers.find(cur => cur.Name === viewerName);
                 useCaseCur.Viewers = viewerCur != null ? [viewerCur] : [];
