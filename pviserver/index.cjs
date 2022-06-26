@@ -194,11 +194,11 @@ class Model {
         this.useCases = {};
         this.users = {};
         this.itemSeed = new Item(this, '0000000000000001', '1');
+        this.classesFileContent = {Classes: []};
+        this.useCasesFileContent = {UseCases: []};
         this.initializeClasses();
         this.initializeUseCases();
         this.initializeUsers();
-        this.classesFileContent = {Classes: []};
-        this.useCasesFileContent = {UseCases: []};
         this.database = new Database(this, this.parent.serverConfig.DBDir);
     }
 
