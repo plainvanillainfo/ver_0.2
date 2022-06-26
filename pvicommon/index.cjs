@@ -412,6 +412,7 @@ class TemplateListServer extends TemplateList {
     }
 
     start() {
+        console.log("TemplateListServer::start");
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateList: {
@@ -638,6 +639,13 @@ class TrackServer extends Track {
             }
         };
         this.parent.forwardMessage(messageOut);
+    }
+
+    getInitialMessage(){
+        return({
+            UseCaseSpec: this.template.useCase.spec,
+            ItemSpec: this.template.item
+        });
     }
 
 }
