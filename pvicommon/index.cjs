@@ -138,6 +138,25 @@ class Item {
         this.childItems = {};
         this.sessionsWatching = [];
     }
+
+    getItemSpec() {
+        let attrsLocal = [];
+        for (let attrsCur in this.attrs) {
+            attrsLocal.push(attrsCur);
+        }
+        let childItemsLocal = [];
+        for (let childAttrInCur in this.childItems) {
+            childItemsLocal.push(childAttrInCur);
+        }
+        return {
+            DBId: this.dbId,
+            Id: this.id,
+            Ext: this.ext,
+            Attrs: attrsLocal,
+            ChildItems: childItemsLocal
+        }
+    }
+
 }
 
 class Template {
@@ -220,14 +239,6 @@ class TemplateServer extends Template {
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         let templateElemNew = new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
                         this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
-
-                        /*
-                        templateElemNew.forwardToClient({
-                            Action: 'ContinueTemplateElem',
-                            UseCaseElemSpec: templateElemNew.useCaseElem.spec
-                        });
-                        */
-
                         templateElemNew.start();
                     }
                     break;
@@ -641,27 +652,11 @@ class TrackServer extends Track {
         this.parent.forwardMessage(messageOut);
     }
 
-    getInitialMessage(){
-
-        let attrsLocal = [];
-        for (let attrsCur in this.template.item.attrs) {
-            attrsLocal.push(attrsCur);
-        }
-        let childItemsLocal = [];
-        for (let childAttrInCur in this.template.item.childItems) {
-            childItemsLocal.push(childAttrInCur);
-        }
-
+    getInitialMessage() {
         return({
             UseCaseSpec: this.template.useCase.spec,
-            ItemSpec: {
-                DBId: this.template.item.dbId,
-                Id: this.template.item.id,
-                Ext: this.template.item.ext,
-                Attrs: attrsLocal,
-                ChildItems: childItemsLocal
-            }
-        });
+            ItemSpec:  this.template.item.getItemSpec()
+        })
     }
 
 }
