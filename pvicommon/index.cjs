@@ -140,10 +140,10 @@ class Item {
     }
 
     getItemSpec() {
-        let attrsLocal = {};
-        for (let attrsCur in this.attrs) {
-            attrsLocal[attrsCur] = this.attrs[attrsCur];
-        }
+        //let attrsLocal = {};
+        // for (let attrsCur in this.attrs) {
+        //    attrsLocal[attrsCur] = this.attrs[attrsCur];
+        //}
         let childItemsLocal = {};
         for (let childAttrCur in this.childItems) {
             childItemsLocal[childAttrCur] = this.childItems[childAttrCur].ListDBIds;
@@ -152,7 +152,7 @@ class Item {
             DBId: this.dbId,
             Id: this.id,
             Ext: this.ext,
-            Attrs: attrsLocal,
+            Attrs: this.attrs,
             ChildItems: childItemsLocal
         }
     }
