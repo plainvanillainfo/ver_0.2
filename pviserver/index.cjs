@@ -211,7 +211,7 @@ class Model {
         classesFiles.forEach(fileCur => {
             let filePathCur = classesDir + '/' + fileCur;
             let classesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
-            console.log("Model::initializeClasses - file: ", classesFileCurContent.Name);
+            console.log("Model::initializeClasses - file: ", classesFileCurContent);
             /*
             classesFileCurContent.Classes.forEach(classCur => {
                 console.log("    ", classCur.Name);
