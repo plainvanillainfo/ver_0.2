@@ -69,22 +69,6 @@ class Client {
         console.log("Client::setEntitlement()");
         this.initializeClasses(classesFileContent, viewerName);
         this.initializeUseCases(useCasesFileContent, viewerName);
-
-        /*
-        let useCaseSpec = template.UseCaseSpec;
-        if (useCaseSpec.Viewers != null) {
-            let viewerCur = useCaseSpec.Viewers.find(cur => cur.Name === viewerName);
-            useCaseSpec.Viewers = viewerCur != null ? [viewerCur] : [];
-        }
-        useCaseSpec.Elems.forEach(elemCur => {
-            if (elemCur.Viewers != null) {
-                let elemViewerCur = elemCur.Viewers.find(cur => cur.Name === viewerName);
-                elemCur.Viewers = elemViewerCur != null ? [elemViewerCur] : [];
-            }
-        });
-        this.useCases[useCaseSpec.Name] = new UseCase(this, useCaseSpec);
-        */
-
         this.tracks[trackId].setUseCase(this.useCases[template.UseCaseSpec.Name]);
         this.tracks[trackId].setItem(template.ItemSpec != null ? template.ItemSpec : {});
     }

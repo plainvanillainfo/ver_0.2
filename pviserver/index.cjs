@@ -139,8 +139,8 @@ class Session {
                         if (this.model.users[message.UserId] != null) {
                             let entitlementCur = this.model.users[message.UserId].entitlements[0];
 
-                            console.log("Session::receiveMessage - entitlementCur: ", entitlementCur);
-                            console.log("Session::receiveMessage - this.model.useCases: ", this.model.useCases);
+                            //console.log("Session::receiveMessage - entitlementCur: ", entitlementCur);
+                            //console.log("Session::receiveMessage - this.model.useCases: ", this.model.useCases);
 
                             this.trackMain.setUseCase(this.model.useCases[entitlementCur.UseCase]);
                             this.trackMain.setItem(this.model.getItem(entitlementCur.ItemPath));
@@ -215,7 +215,7 @@ class Model {
         classesFiles.forEach(fileCur => {
             let filePathCur = classesDir + '/' + fileCur;
             let classesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
-            console.log("Model::initializeClasses - file: ", classesFileCurContent);
+            //console.log("Model::initializeClasses - file: ", classesFileCurContent);
             classesFileCurContent.Classes.forEach(classCur => {
                 this.classesFileContent.Classes.push(classCur);
             });
@@ -232,7 +232,7 @@ class Model {
         useCasesFiles.forEach(fileCur => {
             let filePathCur = useCasesDir + '/' + fileCur;
             let useCasesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
-            console.log("Model::initializeUseCases - file: ", useCasesFileCurContent);
+            //console.log("Model::initializeUseCases - file: ", useCasesFileCurContent);
             useCasesFileCurContent.UseCases.forEach(useCaseCur => {
                 this.useCasesFileContent.UseCases.push(useCaseCur);
             });
