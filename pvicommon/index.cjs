@@ -143,7 +143,6 @@ class Item {
 class Template {
     constructor(parent) {
         this.parent = parent;
-        this.model = this.parent.model;
         this.useCase = null;
         this.item = {};
         this.elems = {};
@@ -209,6 +208,7 @@ class Template {
 class TemplateServer extends Template {
     constructor(parent) {
         super(parent);
+        this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
     }
 
@@ -264,6 +264,7 @@ class TemplateServer extends Template {
 class TemplateClient extends Template {
     constructor(parent) {
         super(parent);
+        this.client = this.parent.client;
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
@@ -374,7 +375,6 @@ class TemplateWeb extends TemplateClient {
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
-        this.model = this.parent.model;
     }
 
     setUseCase(useCase) {
@@ -392,6 +392,7 @@ class TemplateList {
 class TemplateListServer extends TemplateList {
     constructor(parent) {
         super(parent);
+        this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
     }
 
@@ -425,6 +426,7 @@ class TemplateListServer extends TemplateList {
 class TemplateListClient extends TemplateList {
     constructor(parent) {
         super(parent);
+        this.client = this.parent.client;
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
@@ -455,7 +457,6 @@ class TemplateListWeb extends TemplateListClient {
 class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
-        this.model = this.parent.model;
         this.useCaseElem = useCaseElem;
         if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
             this.fJoin = true;
@@ -469,6 +470,7 @@ class TemplateElem {
 class TemplateElemServer extends TemplateElem {
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
+        this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
         if (this.fJoin) {
             if (useCaseElem.attribute.Type === 'Child') {
@@ -510,6 +512,7 @@ class TemplateElemServer extends TemplateElem {
 class TemplateElemClient extends TemplateElem{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
+        this.client = this.parent.client;
         this.forwardToServer = this.forwardToServer.bind(this);
         this.forwardToServer({
             Action: 'StartTemplateElem',
@@ -580,7 +583,6 @@ class Track {
     constructor(parent, id) {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
-        this.model = this.parent.model;
         this.id = id;
     }
 
@@ -599,6 +601,7 @@ class Track {
 class TrackServer extends Track {
     constructor(parent, trackId) {
         super(parent, trackId);
+        this.model = this.parent.model;
         this.template = new TemplateServer(this);
         this.forwardToClient = this.forwardToClient.bind(this);
     }
@@ -632,6 +635,7 @@ class TrackServer extends Track {
 class TrackClient extends Track {
     constructor(parent, trackId) {
         super(parent, trackId);
+        this.client = this.parent;
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
