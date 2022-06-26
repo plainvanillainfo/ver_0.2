@@ -140,10 +140,6 @@ class Item {
     }
 
     getItemSpec() {
-        //let attrsLocal = {};
-        // for (let attrsCur in this.attrs) {
-        //    attrsLocal[attrsCur] = this.attrs[attrsCur];
-        //}
         let childItemsLocal = {};
         for (let childAttrCur in this.childItems) {
             childItemsLocal[childAttrCur] = this.childItems[childAttrCur].ListDBIds;
