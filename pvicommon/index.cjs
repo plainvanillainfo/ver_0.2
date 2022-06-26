@@ -674,7 +674,7 @@ class TrackWeb extends TrackClient {
     }
 
     setUseCase(useCase) {
-        console.log("TrackWeb::setUseCase - ViewerSpec: ");
+        console.log("TrackWeb::setUseCase()");
         super.setUseCase(useCase);
     }
 
