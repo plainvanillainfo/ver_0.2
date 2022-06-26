@@ -242,7 +242,7 @@ class Model {
             this.useCasesFileContent.UseCases.push(useCasesFileCurContent.UseCases);
         });
         this.useCasesFileContent.UseCases.forEach(useCaseCur => {
-            console.log("    ", useCaseCur.Name);
+            console.log("    ", useCaseCur);
             this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
         });
     }    
