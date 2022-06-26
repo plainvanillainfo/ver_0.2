@@ -45,7 +45,7 @@ class Client {
                 this.setViewerSpec(message.ViewerSpec);
                 break;
             case 'ReceiveEntitlement':
-                this.setEntitlement(message.TrackId, message.Template); // message.UseCase, message.Item);
+                this.setEntitlement(message.TrackId, message.Template, message.ClassesFileContent, message.UseCasesFileContent);
                 break;
             case 'ContinueTrack':
                 if (message.TrackId != null && message.Track != null && this.tracks[message.TrackId] != null) {
@@ -65,8 +65,12 @@ class Client {
         console.log("Client::setViewerSpec()");
     }
 
-    setEntitlement(trackId, template, viewerName) { //useCase, item, viewerName) {
+    setEntitlement(trackId, template, viewerName, classesFileContent, useCasesFileContent) {
         console.log("Client::setEntitlement()");
+        this.initializeClasses(classesFileContent, viewerName);
+        this.initializeUseCases(useCasesFileContent, viewerName);
+
+        /*
         let useCaseSpec = template.UseCaseSpec;
         if (useCaseSpec.Viewers != null) {
             let viewerCur = useCaseSpec.Viewers.find(cur => cur.Name === viewerName);
@@ -79,6 +83,8 @@ class Client {
             }
         });
         this.useCases[useCaseSpec.Name] = new UseCase(this, useCaseSpec);
+        */
+
         this.tracks[trackId].setUseCase(this.useCases[useCaseSpec.Name]);
         this.tracks[trackId].setItem(template.ItemSpec);
     }
@@ -103,22 +109,27 @@ class Client {
     terminateTracks() {
     }
 
-    //
-    // classesFileCurContent and useCasesFileCurContent to come from server
-    // in initial message
-    //
-
-    initializeClasses(classesFileCurContent) {
+    initializeClasses(classesFileCurContent, viewerName) {
         classesFileCurContent.Classes.forEach(classCur => {
             console.log("    ", classCur.Name);
             this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
         });
     }    
 
-    initializeUseCases(useCasesFileCurContent) {
+    initializeUseCases(useCasesFileCurContent, viewerName) {
         console.log("Model::initializeUseCases - file: ", useCasesFileCurContent.Name);
         useCasesFileCurContent.UseCases.forEach(useCaseCur => {
             console.log("    ", useCaseCur.Name);
+            if (useCaseCur.Viewers != null) {
+                let viewerCur = useCaseCur.Viewers.find(cur => cur.Name === viewerName);
+                useCaseCur.Viewers = viewerCur != null ? [viewerCur] : [];
+            }
+            useCaseCur.Elems.forEach(elemCur => {
+                if (elemCur.Viewers != null) {
+                    let elemViewerCur = elemCur.Viewers.find(cur => cur.Name === viewerName);
+                    elemCur.Viewers = elemViewerCur != null ? [elemViewerCur] : [];
+                }
+            });
             this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
         });
     }      
@@ -194,9 +205,9 @@ class ClientWeb extends Client {
         }
     }
 
-    setEntitlement(trackId, template) {
+    setEntitlement(trackId, template, classesFileContent, useCasesFileContent) {
         console.log("ClientWeb::setEntitlement()");
-        super.setEntitlement(trackId, template, this.name);
+        super.setEntitlement(trackId, template, this.name, classesFileContent, useCasesFileContent);
     }
     
     checkUserAuthentication() {
@@ -275,9 +286,9 @@ class ClientEngine extends Client {
         this.checkUserAuthentication();
     }
 
-    setEntitlement(trackId, template) {
+    setEntitlement(trackId, template, classesFileContent, useCasesFileContent) {
         console.log("ClientEngine::setEntitlement()");
-        super.setEntitlement(trackId, template, this.name);
+        super.setEntitlement(trackId, template, this.name, classesFileContent, useCasesFileContent);
     }
     
     checkUserAuthentication() {

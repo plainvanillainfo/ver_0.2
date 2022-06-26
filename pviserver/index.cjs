@@ -146,7 +146,9 @@ class Session {
                                 Template: {
                                     UseCaseSpec: this.trackMain.template.useCase.spec,
                                     Elems: this.trackMain.template.getElems()
-                                }
+                                },
+                                ClassesFileContent: this.model.classesFileContent,
+                                UseCasesFileContent: this.model.useCasesFileContent
                             });
                         }
                     }
@@ -195,6 +197,8 @@ class Model {
         this.initializeClasses();
         this.initializeUseCases();
         this.initializeUsers();
+        this.classesFileContent = {Classes: []};
+        this.useCasesFileContent = {UseCases: []};
         this.database = new Database(this, this.parent.serverConfig.DBDir);
     }
 
@@ -208,10 +212,17 @@ class Model {
             let filePathCur = classesDir + '/' + fileCur;
             let classesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
             console.log("Model::initializeClasses - file: ", classesFileCurContent.Name);
+            /*
             classesFileCurContent.Classes.forEach(classCur => {
                 console.log("    ", classCur.Name);
                 this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
             });
+            */
+            this.classesFileContent.Classes.push(classesFileCurContent.Classes);
+        });
+        this.classesFileContent.Classes.forEach(classCur => {
+            console.log("    ", classCur.Name);
+            this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
         });
     }    
 
@@ -222,10 +233,17 @@ class Model {
             let filePathCur = useCasesDir + '/' + fileCur;
             let useCasesFileCurContent = JSON.parse(fs.readFileSync(filePathCur));
             console.log("Model::initializeUseCases - file: ", useCasesFileCurContent.Name);
+            /*
             useCasesFileCurContent.UseCases.forEach(useCaseCur => {
                 console.log("    ", useCaseCur.Name);
                 this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
             });
+            */
+            this.useCasesFileContent.UseCases.push(useCasesFileCurContent.UseCases);
+        });
+        this.useCasesFileContent.UseCases.forEach(useCaseCur => {
+            console.log("    ", useCaseCur.Name);
+            this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
         });
     }    
 
