@@ -415,7 +415,7 @@ class TemplateListServer extends TemplateList {
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateList: {
-                UseCaseSpec: this.useCase.spec
+                //UseCaseSpec: this.useCase.spec
             }
         };
         this.parent.forwardToClient(messageOut);
