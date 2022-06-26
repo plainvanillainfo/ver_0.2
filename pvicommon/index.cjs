@@ -525,15 +525,15 @@ class TemplateElemClient extends TemplateElem{
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplateList':
-                    //if (this.useCaseElem.attribute.Type === 'Child') {
-                        /*
+                    /*
+                    if (this.useCaseElem.attribute.Type === 'Child') {
                         if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                             this.templateList = new TemplateListCient(this);
                             this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
                             this.templateList.start();
                         }
-                        */
-                    //}
+                    }
+                    */
                     this.start();
                     break;
                 default:
@@ -565,7 +565,7 @@ class TemplateElemWeb extends TemplateElemClient{
         if (this.useCaseElem.attribute.Type === 'Child') {
             if (this.templateList == null) {
                 this.templateList = new TemplateListWeb(this);
-                this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.SubUseCase]);
+                this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
             }
         }
     }
