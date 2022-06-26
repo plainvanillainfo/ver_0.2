@@ -648,7 +648,7 @@ class TrackServer extends Track {
                 DBId: this.template.item.dbId,
                 Id: this.template.item.id,
                 Ext: this.template.item.ext,
-                Attrs: this.template.item.attrs,
+                Attrs: {}, //this.template.item.attrs,
                 ChildItems: this.template.item.childItems
             }
         });
