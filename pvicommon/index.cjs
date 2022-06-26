@@ -565,7 +565,7 @@ class TemplateElemWeb extends TemplateElemClient{
         if (this.useCaseElem.attribute.Type === 'Child') {
             if (this.templateList == null) {
                 this.templateList = new TemplateListWeb(this);
-                this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.SubUseCase]);
+                this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.SubUseCase]);
             }
         }
     }
