@@ -384,9 +384,8 @@ class TemplateWeb extends TemplateClient {
             itemLICur.A.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("templateElemCur) - if - click on menu", menuItemCur);
-                //alert(menuItemCur.Viewers[0].Label);
                 let elemPicked = this.useCase.elems[menuItemCur.Name];
-                if (this.elems[menuItemCur.Name] == null) {
+                if (true || this.elems[menuItemCur.Name] == null) {
                     this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked);
                 }
             });
