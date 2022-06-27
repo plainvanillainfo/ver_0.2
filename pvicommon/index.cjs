@@ -83,6 +83,7 @@ class UseCaseElem {
     }
 }
 
+/*
 class ItemAttr {
     constructor(parent) {
         this.parent = parent;
@@ -126,6 +127,7 @@ class ItemAttrExtension extends ItemAttr {
         super(parent);
     }
 }
+*/
 
 class Item {
     constructor(parent, dbId, id) {
@@ -155,6 +157,16 @@ class Item {
             Attrs: this.attrs,
             ChildItems: childItemsLocal
         }
+    }
+
+    getChildItems(name) {
+        let retVal;
+        if (this.childItems[name] != null) {
+            retVal = this.childItems[name];
+        } else {
+            retVal = [];
+        }
+        return retVal;
     }
 
 }
@@ -386,6 +398,7 @@ class TemplateWeb extends TemplateClient {
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
+        this.childItemList = [];
     }
 
     setUseCase(useCase) {
@@ -393,9 +406,9 @@ class TemplateList {
         this.useCase = useCase;
     }    
 
-    setItemAttrChild(itemAttrChild) {
-        console.log("TemplateList::setItemAttrChild");
-        this.itemAttrChild = itemAttrChild;
+    setChildItemList(childItemList) {
+        console.log("TemplateList::setChildItemList");
+        this.childItemList = childItemList;
     }    
 
 }
@@ -428,6 +441,7 @@ class TemplateListServer extends TemplateList {
             Action: 'StartTemplateList',
             TemplateList: {
                 //UseCaseSpec: this.useCase.spec
+                ItemList: this.childItemList.ListDBIds
             }
         };
         this.parent.forwardToClient(messageOut);
@@ -475,7 +489,7 @@ class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
         this.useCaseElem = useCaseElem;
-        this.itemAttr = {};
+        //this.itemAttr = {};
         if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
             this.fJoin = true;
         } else {
@@ -489,12 +503,13 @@ class TemplateElemServer extends TemplateElem {
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
         this.model = this.parent.model;
+        this.itemParent = parent.item;
         this.forwardToClient = this.forwardToClient.bind(this);
         if (this.fJoin) {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
-                this.templateList.setItemAttrChild(this.itemAttr);
+                this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute));
             }
         }
     }
@@ -509,7 +524,7 @@ class TemplateElemServer extends TemplateElem {
             if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setItemAttrChild(this.itemAttr);
+                this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute));
                 this.templateList.start();
             }
         }
