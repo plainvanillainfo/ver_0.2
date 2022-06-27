@@ -507,16 +507,55 @@ class TemplateListWeb extends TemplateListClient {
             child = this.divTarget.lastElementChild;
         }
 
+        this.tableList = document.createElement('table');
+        this.divTarget.appendChild(this.tableList);
+        this.tableList.className = 'table';
+        let tableHead = document.createElement('thead');
+        this.tableList.appendChild(tableHead);
+        this.tableHeadRow = document.createElement('tr');
+        tableHead.appendChild(this.tableHeadRow);
+        this.tableBody = document.createElement('tbody');
+        this.tableList.appendChild(this.tableBody);
+
+
         this.listFromServer.forEach(cur => {
 
+            /*
             let divCur = document.createElement('div');
             this.divTarget.appendChild(divCur);
-
-            divCur.appendChild(document.createTextNode(cur.Id + ' '));
             for (let attrCur in cur.Attrs) {
                 let attrDetail = cur.Attrs[attrCur];
                 divCur.appendChild(document.createTextNode(attrDetail.Value + ' '));
+            }
+            */
 
+            let tableItemRow = document.createElement('tr');
+            this.tableBody.appendChild(tableItemRow);
+            /*
+            tableItemRow.ownerRow = rowCur;
+            if (this.viewerSpec.SubUseCase != null) {
+                tableItemRow.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    console.log("click on row", indexCur+1);
+                    let rowCurCopy = event.target.parentElement.ownerRow;
+                    this.rowPicked(rowCurCopy.TemplateListParent, this.viewerSpec.SubPositioning, rowCurCopy.Template, rowCurCopy);
+                    
+                });
+            }
+            this.columns.forEach(columnCur => {
+                let tableItemRowCell = document.createElement('td');
+                tableItemRow.appendChild(tableItemRowCell);
+                if (rowCur.Attrs[columnCur.Name] != null) {
+                    tableItemRowCell.appendChild(document.createTextNode(rowCur.Attrs[columnCur.Name]));
+                }
+            });
+            */
+
+            for (let attrCur in cur.Attrs) {
+                let attrDetail = cur.Attrs[attrCur];
+                let tableItemRowCell = document.createElement('td');
+                tableItemRow.appendChild(tableItemRowCell);
+                tableItemRowCell.appendChild(document.createTextNode(attrDetail.Value));
             }
 
         });
