@@ -364,7 +364,7 @@ class Model {
 
     buildPutBatchItem(ops, itemBase, itemDataIn) {
         console.log("Model::buildPutBatchItem");
-        this.buildPutBatchRecursive(ops, itemBase, itemDataIn);
+        this.buildPutBatchNode(ops, itemBase, itemDataIn);
         let itemBuiltRaw = {
             DBId: itemBase.dbId,
             Id: itemBase.id,
@@ -380,7 +380,7 @@ class Model {
 
     }
 
-    buildPutBatchRecursive(ops, itemBase, itemDataIn) {
+    buildPutBatchNode(ops, itemBase, itemDataIn) {
         itemBase.ext = itemDataIn.Ext != null ? itemDataIn.Ext : '';
         for (let attrInCur in itemDataIn.Attrs) {
             let attrInDetail = itemDataIn.Attrs[attrInCur];
@@ -405,10 +405,10 @@ class Model {
         }
 
         for (let childAttrInCur in itemDataIn.ChildItems) {
-            console.log("Model::buildPutBatchRecursive: childAttrInCur: ", childAttrInCur);
+            console.log("Model::buildPutBatchNode: childAttrInCur: ", childAttrInCur);
             let childAttrInDetail = itemDataIn.ChildItems[childAttrInCur];
             childAttrInDetail.forEach(childAttrInSubItem =>{
-                console.log("Model::buildPutBatchRecursive: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
+                console.log("Model::buildPutBatchNode: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
                 console.log(childAttrInSubItem);
                 if (itemBase.childItems[childAttrInCur] == null) {
                     itemBase.childItems[childAttrInCur] = {
@@ -434,7 +434,7 @@ class Model {
                 // Call recursively for child item
                 //
                 if (childAttrInSubItem.ChildItems != null && childAttrInSubItem.Attrs != null) {
-                    this.buildPutBatchRecursive(ops, childListItem, childAttrInSubItem);
+                    this.buildPutBatchItem(ops, childListItem, childAttrInSubItem);
                 }
             });
             if (itemBase.childItems[childAttrInCur] != null) {
