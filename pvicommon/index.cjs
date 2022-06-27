@@ -501,7 +501,9 @@ class TemplateListWeb extends TemplateListClient {
 
     setListFromServer(listFromServer) {
         this.listFromServer = listFromServer;
-
+        while (this.divTarget.hasChildElements()) {
+            this.divTarget.removeChild(this.divTarget.lastChild)
+        }
         this.listFromServer.forEach(cur => {
 
             let divCur = document.createElement('div');
