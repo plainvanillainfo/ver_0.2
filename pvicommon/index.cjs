@@ -135,6 +135,10 @@ class Item {
         this.rawData = null;
         this.attrs = {};
         this.ext = '';
+        this.primitives = {};
+        this.embededItems = {};
+        this.referedItems = {};
+        this.entensionItems = {};
         this.childItems = {};
         this.sessionsWatching = [];
     }
