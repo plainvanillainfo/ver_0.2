@@ -362,6 +362,9 @@ class Model {
 
 }
 
+    buildPutBatchNode(ops, itemBase, itemIn, path) {
+    }
+
 class WebServer {
     constructor(parent) {
         this.parent = parent;
