@@ -392,6 +392,10 @@ class TemplateWeb extends TemplateClient {
             });
         });
 
+        this.divTarget = document.createElement('div');
+        this.parent.div.appendChild(this.divTarget);
+
+
     }
 
 }
@@ -487,11 +491,31 @@ class TemplateListClient extends TemplateList {
 class TemplateListWeb extends TemplateListClient {
     constructor(parent) {
         super(parent);
+        this.divTarget = this.parent.divTarget;
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
     start() {
         console.log("TemplateListWeb::start");
+    }
+
+    setListFromServer(listFromServer) {
+        this.listFromServer = listFromServer;
+
+        this.listFromServer.forEach(cur => {
+
+            let divCur = document.createElement('div');
+            this.divTarget.appendChild(divCur);
+
+            divCur.appendChild(document.createTextNode(cur.Id + ' '));
+            for (let attrCur in cur.Attrs) {
+                let attrDetail = cur.Attrs[attrCur];
+                divCur.appendChild(document.createTextNode(attrDetail.Value + ' '));
+
+            }
+
+        });
+
     }
 
 }
@@ -580,7 +604,7 @@ class TemplateElemClient extends TemplateElem{
                         }
                     }
                     */
-                    this.start();
+                    this.start(message.TemplateList.ItemList);
                     break;
                 default:
                     break;
@@ -604,15 +628,17 @@ class TemplateElemClient extends TemplateElem{
 class TemplateElemWeb extends TemplateElemClient{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
+        this.divTarget = this.parent.divTarget;
     }
 
-    start() {
+    start(itemList) {
         console.log("TemplateElemWeb::start(): ");
         if (this.useCaseElem.attribute.Type === 'Child') {
             if (this.templateList == null) {
                 this.templateList = new TemplateListWeb(this);
                 this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
+                //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
+                this.templateList.setListFromServer(itemList));
                 this.templateList.start();
             }
         }
