@@ -507,7 +507,7 @@ class TemplateListWeb extends TemplateListClient {
         }
         this.tableList = document.createElement('table');
         this.divTarget.appendChild(this.tableList);
-        this.tableList.className = 'table';
+        this.tableList.className = 'table table-hover table-striped';
         let tableHead = document.createElement('thead');
         this.tableList.appendChild(tableHead);
         this.tableHeadRow = document.createElement('tr');
