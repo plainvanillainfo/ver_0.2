@@ -161,6 +161,7 @@ class Item {
 
     getChildItems(name) {
         let retVal;
+        console.log("Item::getChildItems:", this.childItems[name]);
         if (this.childItems[name] != null) {
             retVal = this.childItems[name];
         } else {
@@ -600,7 +601,7 @@ class TemplateElemWeb extends TemplateElemClient{
             if (this.templateList == null) {
                 this.templateList = new TemplateListWeb(this);
                 this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setItemAttrChild(this.itemAttr);
+                this.templateList.setChildItemList([]);
                 this.templateList.start();
             }
         }
