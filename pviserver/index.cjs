@@ -281,7 +281,7 @@ class Model {
     putItem(path, item) {
         let ops = [];
         if (item.ChildItems != null && item.Attrs != null) {
-            this.buildPutBatch(ops, this.itemSeed, item);
+            this.buildPutBatchItem(ops, this.itemSeed, item);
         }
         this.database.dbHandle.batch(ops, (err) => {
             if (err) {
@@ -292,6 +292,7 @@ class Model {
         });
     }
 
+    /*
     buildPutBatch(ops, itemBase, itemIn) {
         console.log("Model::buildPutBatch");
         let isChanged = false;
@@ -359,11 +360,95 @@ class Model {
             });
         }
     }
+    */
 
-}
+    buildPutBatchItem(ops, itemBase, itemDataIn) {
+        console.log("Model::buildPutBatchItem");
+        this.buildPutBatchRecursive(ops, itemBase, itemDataIn);
+        let itemBuiltRaw = {
+            DBId: itemBase.dbId,
+            Id: itemBase.id,
+            Ext: itemBase.ext,
+            Attrs: itemBase.attrs,
+            ChildItems: {}
+        };
+        ops.push({
+            type: 'put',
+            key: itemBuiltRaw.DBId,
+            value: JSON.stringify(itemBuiltRaw)
+        });
 
-    buildPutBatchNode(ops, itemBase, itemIn, path) {
     }
+
+    buildPutBatchRecursive(ops, itemBase, itemDataIn) {
+        itemBase.ext = itemDataIn.Ext != null ? itemDataIn.Ext : '';
+        for (let attrInCur in itemDataIn.Attrs) {
+            let attrInDetail = itemDataIn.Attrs[attrInCur];
+            switch (attrInDetail.Type) {
+                case 'P':
+                    itemBase.attrs[attrInCur] = attrInDetail;
+                    break;
+                case 'E':
+                    itemBase.attrs[attrInCur] = {Type: 'E', Value: this.buildPutBatchNode(ops, attrInDetail.Value)};
+                    break;
+                case 'R':
+                    itemBase.attrs[attrInCur] = attrInDetail;
+                    break;
+                case 'X':
+                    itemBase.attrs[attrInCur] = {Type: 'X', Value: this.buildPutBatchNode(ops, attrInDetail.Value)};
+                    break;
+                case 'C':
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        for (let childAttrInCur in itemDataIn.ChildItems) {
+            console.log("Model::buildPutBatchRecursive: childAttrInCur: ", childAttrInCur);
+            let childAttrInDetail = itemDataIn.ChildItems[childAttrInCur];
+            childAttrInDetail.forEach(childAttrInSubItem =>{
+                console.log("Model::buildPutBatchRecursive: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
+                console.log(childAttrInSubItem);
+                if (itemBase.childItems[childAttrInCur] == null) {
+                    itemBase.childItems[childAttrInCur] = {
+                        ListItems: [],
+                        ListDBIds: []
+                    };
+                }
+                let childListItem = itemBase.childItems[childAttrInCur].ListItems.find(cur => cur.Id === childAttrInSubItem.Id);
+                if (childListItem == null) {
+                    let dbKey = this.database.nextItemkey.toString(16).padStart(16, '0')
+                    this.database.nextItemkey++;
+
+                    //
+                    // Create child item
+                    //
+                    childListItem = new Item(this, dbKey, childAttrInSubItem.Id);
+
+                    itemBase.childItems[childAttrInCur].ListItems.push(childListItem);
+                    itemBase.childItems[childAttrInCur].ListDBIds.push(dbKey);
+                }
+
+                //
+                // Call recursively for child item
+                //
+                if (childAttrInSubItem.ChildItems != null && childAttrInSubItem.Attrs != null) {
+                    this.buildPutBatchRecursive(ops, childListItem, childAttrInSubItem);
+                }
+            });
+            if (itemBase.childItems[childAttrInCur] != null) {
+                ops.push({
+                    type: 'put', 
+                    key: itemBase.dbId + childAttrInCur, 
+                    value:  JSON.stringify(itemBase.childItems[childAttrInCur].ListDBIds)
+                });
+            }
+        }
+
+
+    }
+}
 
 class WebServer {
     constructor(parent) {

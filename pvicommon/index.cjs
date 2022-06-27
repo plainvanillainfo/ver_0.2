@@ -736,7 +736,7 @@ class TrackEngine extends TrackClient {
                 let itemCur = {Id: rowCur.Id, Attrs: {}, ChildItems: rowCur.ChildItems};
                 for (let rowAttrCur in rowCur.Attrs) {
                     let rowAttrDetail = rowCur.Attrs[rowAttrCur];
-                    itemCur.Attrs[rowAttrCur] = jsesc(rowAttrDetail.Value, {'quotes': 'double'});
+                    itemCur.Attrs[rowAttrCur] = {Type: 'P', Value: jsesc(rowAttrDetail.Value, {'quotes': 'double'})};
                 }
                 itemSeed.ChildItems[tableCur].push(itemCur);
             });            
