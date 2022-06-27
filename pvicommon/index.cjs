@@ -161,7 +161,7 @@ class Item {
 
     getChildItems(name) {
         let retVal;
-        console.log("Item::getChildItems:", this.childItems[name]);
+        console.log("Item::getChildItems:", name, this.childItems[name]);
         if (this.childItems[name] != null) {
             retVal = this.childItems[name];
         } else {
