@@ -406,6 +406,14 @@ class Model {
 
         for (let childAttrInCur in itemDataIn.ChildItems) {
             console.log("Model::buildPutBatchNode: childAttrInCur: ", childAttrInCur);
+            //
+            // childAttrInCur has to be a concatenation, like:
+            // vehicle - front left wheel assembly / tire - nuts
+            // vehicle - front right wheel assembly / tire - nuts
+            //
+            // this is to disambiguate child lists that may have the same immediate name, but descend
+            // from different ancestries
+            //
             let childAttrInDetail = itemDataIn.ChildItems[childAttrInCur];
             childAttrInDetail.forEach(childAttrInSubItem =>{
                 console.log("Model::buildPutBatchNode: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
