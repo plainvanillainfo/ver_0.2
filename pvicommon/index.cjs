@@ -638,7 +638,7 @@ class TemplateElemWeb extends TemplateElemClient{
                 this.templateList = new TemplateListWeb(this);
                 this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
                 //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
-                this.templateList.setListFromServer(itemList));
+                this.templateList.setListFromServer(itemList);
                 this.templateList.start();
             }
         }
