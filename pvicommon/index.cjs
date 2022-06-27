@@ -548,6 +548,7 @@ class TemplateElemClient extends TemplateElem{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
         this.client = this.parent.client;
+        this.itemParent = parent.item;
         this.forwardToServer = this.forwardToServer.bind(this);
         this.forwardToServer({
             Action: 'StartTemplateElem',
