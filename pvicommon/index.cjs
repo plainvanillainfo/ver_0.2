@@ -598,7 +598,9 @@ class TemplateWeb extends TemplateClient {
                 inputCur = document.createElement('input');
                 divCur.appendChild(inputCur);
                 inputCur.setAttribute("type", "input");
-                inputCur.value = ''; //itemAttrCur.Value != null ? itemAttrCur.Value : '';
+                if (this.itemPtr != null && this.itemPtr.Attrs[elemCur.Name] != null) {
+                    inputCur.value = this.itemPtr.Attrs[elemCur.Name].Value != null ? this.itemPtr.Attrs[elemCur.Name].Value : '';
+                }
                 inputCur.style.width = '70%';
                 inputCur.addEventListener('blur', (event) => {
                     event.preventDefault();
