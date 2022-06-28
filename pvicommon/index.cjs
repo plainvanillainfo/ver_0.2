@@ -291,7 +291,8 @@ class TemplateWeb extends TemplateClient {
     constructor(parent) {
         super(parent);
         this.track = this.parent.track;
-        this.setVisibility = this.setVisibility.bind(this);
+        this.nav = null;
+        this.divTarget = null;
     }
 
     setUseCase(useCase) {
