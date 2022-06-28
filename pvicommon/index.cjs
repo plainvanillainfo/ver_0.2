@@ -705,13 +705,17 @@ class TemplateWeb extends TemplateClient {
 
     setVisibility(trueOrFalse) {
         if (trueOrFalse === true) {
-            this.nav.style.visibility = 'visible';
-            this.nav.style.display = 'flex';
+            if (this.nav != null)
+                this.nav.style.visibility = 'visible';
+                this.nav.style.display = 'flex';
+            }
             this.divTarget.style.visibility = 'visible';
             this.divTarget.style.display = 'block';
         } else {
-            this.nav.style.visibility = 'hidden';
-            this.nav.style.display = 'none';
+            if (this.nav != null)
+                this.nav.style.visibility = 'hidden';
+                this.nav.style.display = 'none';
+            }
             this.divTarget.style.visibility = 'hidden';
             this.divTarget.style.display = 'none';
         }
