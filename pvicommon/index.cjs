@@ -421,6 +421,7 @@ class TemplateListClient extends TemplateList {
     constructor(parent) {
         super(parent);
         this.client = this.parent.client;
+        this.itemTemplates = [];
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
@@ -490,6 +491,9 @@ class TemplateListWeb extends TemplateListClient {
         buttonAdd.addEventListener('click', (event) => {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
+
+            this.itemTemplates.push(new TemplateWeb(this));
+
         });
        
         let iconAdd = document.createElement('i');
@@ -523,6 +527,9 @@ class TemplateListWeb extends TemplateListClient {
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
+
+                this.itemTemplates.push(new TemplateWeb(this));
+
             });
 
             for (let attrCur in itemCur.Attrs) {
