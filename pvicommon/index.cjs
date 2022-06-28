@@ -904,8 +904,8 @@ class TemplateListWeb extends TemplateListClient {
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
 
                 let templateUpdate = new TemplateWeb(this);
-                templateUpdate.setUseCase(this.useCase);
                 templateUpdate.setItem(itemCur)
+                templateUpdate.setUseCase(this.useCase);
                 this.track.pushBreadcrumb(templateUpdate);
 
             });
