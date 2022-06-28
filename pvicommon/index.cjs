@@ -577,27 +577,6 @@ class TemplateWeb extends TemplateClient {
         });
 
         this.useCase.spec.Elems.forEach( (elemCur, menuItemIndex) => {
-
-            /*
-            let itemLICur = document.createElement('li');
-            this.ulMenu.appendChild(itemLICur);
-            itemLICur.className = 'nav-item';
-            this.ulMenu.ItemLIs.push(itemLICur);
-            itemLICur.A = document.createElement('a');
-            itemLICur.appendChild(itemLICur.A);
-            itemLICur.A.className = 'nav-link';
-            itemLICur.A.setAttribute("href", "#");
-            itemLICur.A.appendChild(document.createTextNode(menuItemCur.Viewers[0].Label));
-            itemLICur.A.addEventListener('click', (event) => {
-                event.preventDefault();
-                console.log("templateElemCur) - if - click on menu", menuItemCur);
-                let elemPicked = this.useCase.elems[menuItemCur.Name];
-                if (true || this.elems[menuItemCur.Name] == null) {
-                    this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked);
-                }
-            });
-            */
-
             divCur = document.createElement('div');
             this.form.appendChild(divCur);
             divCur.style.marginBottom = "10px";
@@ -662,6 +641,7 @@ class TemplateWeb extends TemplateClient {
     }
 
     hideForm() {
+        this.track.popBreadcrumb();
     }
 
     saveFormData() {
@@ -1194,8 +1174,9 @@ class TrackWeb extends TrackClient {
     }
 
     popBreadcrumb() {
-        this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(true);
+        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.pop();
+        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
         this.showCrumbs();
     }
 
