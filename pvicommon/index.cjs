@@ -623,7 +623,7 @@ class TemplateWeb extends TemplateClient {
                 });
             }
             if (inputCur != null) {
-                inputCur.id = templateElemCur.Nm;
+                //inputCur.id = templateElemCur.Nm;
             }
 
 
