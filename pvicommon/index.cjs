@@ -644,7 +644,7 @@ class TemplateWeb extends TemplateClient {
         this.divMenu.appendChild(this.ulMenu);
         this.ulMenu.className = 'navbar-nav me-auto mb-2 mb-md-0';
         this.ulMenu.ItemLIs = [];
-        useCase.spec.Elems.forEach( (menuItemCur, menuItemIndex) => {
+        this.spec.Elems.forEach( (menuItemCur, menuItemIndex) => {
             let itemLICur = document.createElement('li');
             this.ulMenu.appendChild(itemLICur);
             itemLICur.className = 'nav-item';
