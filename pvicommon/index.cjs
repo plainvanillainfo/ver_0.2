@@ -802,7 +802,8 @@ class TrackWeb extends TrackClient {
 
     pushBreadcrumb(templatePushed) {
         this.breadcrumbs.push(templatePushed);
-        this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
+        let templatePrev = this.breadcrumbs[this.breadcrumbs.length-1];
+        templatePrev.setVisibility(false);
     }
 
     popBreadcrumb() {
