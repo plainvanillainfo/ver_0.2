@@ -546,7 +546,9 @@ class TemplateListWeb extends TemplateListClient {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
 
-                this.track.pushBreadcrumb(new TemplateWeb(this));
+                let templateUpdate = new TemplateWeb(this);
+                templateUpdate.setUseCase(this.useCase);
+                this.track.pushBreadcrumb(templateUpdate);
 
             });
 
@@ -802,6 +804,7 @@ class TrackWeb extends TrackClient {
         this.divBreadcrumbs = document.createElement('nav');
         this.div.appendChild(this.divBreadcrumbs);
         this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+        this.divBreadcrumbs.style.setProperty('--bs-breadcrumb-divider', '>');
 
         this.olBreadcrumbs = document.createElement('ol');
         this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
