@@ -808,10 +808,7 @@ class TrackWeb extends TrackClient {
         let templatePrev = this.breadcrumbs[this.breadcrumbs.length-1];
         //this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
 
-            templatePrev.nav.style.visibility = 'hidden';
-            templatePrev.nav.style.display = 'none';
-            templatePrev.divTarget.style.visibility = 'hidden';
-            templatePrev.divTarget.style.display = 'none';
+        this.template.setVisibility(false);
 
 
     }
