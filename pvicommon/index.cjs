@@ -508,9 +508,38 @@ class TemplateListWeb extends TemplateListClient {
         this.tableList = document.createElement('table');
         this.divTarget.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
-        let tableCaption = document.createElement('caption');
-        this.tableList.appendChild(tableCaption);
+
+
+        let divTitle = document.createElement('div');
+        this.tableList.appendChild(divTitle);
+        divTitle.className = 'table-title';
+
+        let divTitleRow = document.createElement('div');
+        divTitle.appendChild(divTitleRow);
+        divTitleRow.className = 'row';
+
+        let divTitleRowTitle = document.createElement('div');
+        divTitleRow.appendChild(divTitleRowTitle);
+        divTitleRowTitle.className = 'col-sm-8';
+        
+        let tableCaption = document.createElement('h2');
+        divTitleRowTitle.appendChild(tableCaption);
         tableCaption.appendChild(document.createTextNode(this.useCase.spec.Viewers[0].Label));
+
+        let divTitleRowAddButton = document.createElement('div');
+        divTitleRow.appendChild(divTitleRowAddButton);
+        divTitleRowAddButton.className = 'col-sm-4';
+        
+        let buttonAdd = document.createElement('button');
+        divTitleRowAddButton.appendChild(buttonAdd);
+        buttonAdd.className = 'btn btn-info add-new';
+       
+        let iconAdd = document.createElement('i');
+        divTitleRowTitle.appendChild(iconAdd);
+        iconAdd.className = 'fa fa-plus';
+        buttonAdd.appendChild(iconAdd);
+        buttonAdd.appendChild(document.createTextNode('Add New'));
+
         let tableHead = document.createElement('thead');
         this.tableList.appendChild(tableHead);
         this.tableHeadRow = document.createElement('tr');
