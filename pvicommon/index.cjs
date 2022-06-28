@@ -812,30 +812,42 @@ class TrackWeb extends TrackClient {
     setUseCase(useCase) {
         console.log("TrackWeb::setUseCase()");
         super.setUseCase(useCase);
-
-        let liCrumb = document.createElement('li');
-        this.olBreadcrumbs.appendChild(liCrumb);
-        liCrumb.className = 'breadcrumb-item active';
-        liCrumb.appendChild(document.createTextNode(this.template.useCase.spec.Viewers[0].Label));
-
-        /*
-        let aCrumb = document.createElement('a');
-        liCrumb.appendChild(aCrumb);
-        aCrumb.setAttribute('href', '#');
-        aCrumb.appendChild(document.createTextNode(this.template.useCase.spec.Viewers[0].Label));
-        */
-
+        this.showCrumbs();
     }
 
     pushBreadcrumb(templatePushed) {
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
-
-
-
+        this.showCrumbs();
     }
 
     popBreadcrumb() {
+        this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(true);
+        this.breadcrumbs.pop();
+        this.showCrumbs();
+    }
+
+    showCrumbs() {
+        let child = this.olBreadcrumbs.lastElementChild; 
+        while (child) {
+            this.olBreadcrumbs.removeChild(child);
+            child = this.olBreadcrumbs.lastElementChild;
+        }
+        this.breadcrumbs.forEach((crumbCur, indexCur) => {
+            let liCrumb = document.createElement('li');
+            this.olBreadcrumbs.appendChild(liCrumb);
+
+            if (indexCur === (this.breadcrumbs.length-1)) {
+                liCrumb.className = 'breadcrumb-item active';
+                liCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label));
+            } else {
+                liCrumb.className = 'breadcrumb-item';
+                let aCrumb = document.createElement('a');
+                liCrumb.appendChild(aCrumb);
+                aCrumb.setAttribute('href', '#');
+                aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label));
+            }
+        });
     }
 
 }
