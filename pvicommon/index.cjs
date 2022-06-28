@@ -295,6 +295,10 @@ class TemplateWeb extends TemplateClient {
         this.divTarget = null;
     }
 
+    setItem(item) {
+        this.itemPtr = item;
+    }
+
     setUseCase(useCase) {
         super.setUseCase(useCase);
         if (this.useCase.spec.Viewers[0].ViewerSpec.Format === 'Menu') {
@@ -901,6 +905,7 @@ class TemplateListWeb extends TemplateListClient {
 
                 let templateUpdate = new TemplateWeb(this);
                 templateUpdate.setUseCase(this.useCase);
+                templateUpdate.setItem(itemCur)
                 this.track.pushBreadcrumb(templateUpdate);
 
             });
