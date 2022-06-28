@@ -290,6 +290,7 @@ class TemplateClient extends Template {
 class TemplateWeb extends TemplateClient {
     constructor(parent) {
         super(parent);
+        this.breadcrumbs = this.parent.breadcrumbs;
     }
 
     setUseCase(useCase) {
@@ -447,6 +448,7 @@ class TemplateListWeb extends TemplateListClient {
         super(parent);
         this.divTarget = this.parent.divTarget;
         this.forwardToServer = this.forwardToServer.bind(this);
+        this.breadcrumbs = this.parent.breadcrumbs;
     }
 
     start() {
@@ -653,6 +655,7 @@ class TemplateElemWeb extends TemplateElemClient{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
         this.divTarget = this.parent.divTarget;
+        this.breadcrumbs = this.parent.breadcrumbs;
     }
 
     start(itemList) {
