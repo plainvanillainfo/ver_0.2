@@ -776,6 +776,7 @@ class TrackWeb extends TrackClient {
         super(parent, trackId);
         this.template = new TemplateWeb(this);
         this.div = div;
+        this.breadcrumbs = [];
     }
 
     setUseCase(useCase) {
