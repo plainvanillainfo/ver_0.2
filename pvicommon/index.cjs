@@ -83,52 +83,6 @@ class UseCaseElem {
     }
 }
 
-/*
-class ItemAttr {
-    constructor(parent) {
-        this.parent = parent;
-    }
-}
-
-class ItemAttrComponent extends ItemAttr {
-    constructor(parent) {
-        super(parent);
-    }
-}
-
-class ItemAttrComponentPrimitive extends ItemAttrComponent {
-    constructor(parent) {
-        super(parent);
-    }
-}
-
-class ItemAttrComponentEmbedded extends ItemAttrComponent {
-    constructor(parent) {
-        super(parent);
-    }
-}
-
-class ItemAttrReference extends ItemAttr {
-    constructor(parent) {
-        super(parent);
-    }
-}
-
-class ItemAttrChild extends ItemAttr {
-    constructor(parent) {
-        super(parent);
-        this.levels = 1;
-        this.nodes = {};
-    }
-}
-
-class ItemAttrExtension extends ItemAttr {
-    constructor(parent) {
-        super(parent);
-    }
-}
-*/
-
 class Item {
     constructor(parent, dbId, id) {
         this.parent = parent;
