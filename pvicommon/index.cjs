@@ -508,7 +508,9 @@ class TemplateListWeb extends TemplateListClient {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
 
-            this.track.pushBreadcrumb(new TemplateWeb(this));
+            let templateAdd = new TemplateWeb(this);
+            templateAdd.setUseCase(this.useCase);
+            this.track.pushBreadcrumb(templateAdd);
 
         });
        
@@ -814,12 +816,14 @@ class TrackWeb extends TrackClient {
         let liCrumb = document.createElement('li');
         this.olBreadcrumbs.appendChild(liCrumb);
         liCrumb.className = 'breadcrumb-item active';
+        liCrumb.appendChild(document.createTextNode(this.template.useCase.spec.Viewers[0].Label));
 
+        /*
         let aCrumb = document.createElement('a');
         liCrumb.appendChild(aCrumb);
         aCrumb.setAttribute('href', '#');
         aCrumb.appendChild(document.createTextNode(this.template.useCase.spec.Viewers[0].Label));
-
+        */
 
     }
 
@@ -827,11 +831,7 @@ class TrackWeb extends TrackClient {
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
 
-/*
-        let liCrumb = document.createElement('li');
-        this.olBreadcrumbs.appendChild(liCrumb);
-        liCrumb.className = 'breadcrumb-item active';
-*/
+
 
     }
 
