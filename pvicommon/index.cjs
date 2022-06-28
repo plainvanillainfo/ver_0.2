@@ -795,21 +795,43 @@ class TrackWeb extends TrackClient {
         this.div = div;
         this.breadcrumbs = [];
         this.template = new TemplateWeb(this);
+        this.breadcrumbs.push(this.template);
+
+        this.divBreadcrumbs = document.createElement('nav');
+        this.div.appendChild(this.divBreadcrumbs);
+        this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+
+        this.olBreadcrumbs = document.createElement('ol');
+        this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
+        this.olBreadcrumbs.className = 'breadcrumb';
+
     }
 
     setUseCase(useCase) {
         console.log("TrackWeb::setUseCase()");
         super.setUseCase(useCase);
-        this.breadcrumbs.push(this.template);
+
+        let liCrumb = document.createElement('li');
+        this.olBreadcrumbs.appendChild(liCrumb);
+        liCrumb.className = 'breadcrumb-item active';
+
+        let aCrumb = document.createElement('a');
+        liCrumb.appendChild(aCrumb);
+        aCrumb.setAttribute('href', '#');
+        aCrumb.appendChild(document.createTextNode(this.template.useCase.spec.Viewers[0].Label));
+
+
     }
 
     pushBreadcrumb(templatePushed) {
         this.breadcrumbs.push(templatePushed);
-        //let templatePrev = this.breadcrumbs[this.breadcrumbs.length-1];
         this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
 
-        //this.template.setVisibility(false);
-
+/*
+        let liCrumb = document.createElement('li');
+        this.olBreadcrumbs.appendChild(liCrumb);
+        liCrumb.className = 'breadcrumb-item active';
+*/
 
     }
 
