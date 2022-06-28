@@ -506,8 +506,15 @@ class TemplateListWeb extends TemplateListClient {
             child = this.divTarget.lastElementChild;
         }
 
+
+        let divTableWrapper = document.createElement('div');
+        this.divTarget.appendChild(divTableWrapper);
+        divTableWrapper.className = 'table-wrapper';
+
+
+
         let divTitle = document.createElement('div');
-        this.divTarget.appendChild(divTitle);
+        divTableWrapper.appendChild(divTitle);
         divTitle.className = 'table-title';
 
         let divTitleRow = document.createElement('div');
@@ -537,7 +544,7 @@ class TemplateListWeb extends TemplateListClient {
         buttonAdd.appendChild(document.createTextNode('Add New'));
 
         this.tableList = document.createElement('table');
-        this.divTarget.appendChild(this.tableList);
+        divTableWrapper.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
 
         let tableHead = document.createElement('thead');
