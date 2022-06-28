@@ -795,12 +795,12 @@ class TrackWeb extends TrackClient {
         this.div = div;
         this.breadcrumbs = [];
         this.template = new TemplateWeb(this);
-        this.breadcrumbs.push(this.template);
     }
 
     setUseCase(useCase) {
         console.log("TrackWeb::setUseCase()");
         super.setUseCase(useCase);
+        this.breadcrumbs.push(this.template);
     }
 
     pushBreadcrumb(templatePushed) {
