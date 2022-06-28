@@ -297,7 +297,7 @@ class TemplateWeb extends TemplateClient {
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
-        if (this.useCase.soec.Viewers[0].ViewerSpec.Format === 'Menu') {
+        if (this.useCase.spec.Viewers[0].ViewerSpec.Format === 'Menu') {
             this.setUseCaseMenu();
         } else {
             this.setUseCaseForm();
