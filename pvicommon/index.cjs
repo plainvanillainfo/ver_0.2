@@ -393,7 +393,7 @@ class TemplateWeb extends TemplateClient {
 
         this.divTarget = document.createElement('div');
         this.parent.div.appendChild(this.divTarget);
-        this.divTarget.style.padding = '4';
+        this.divTarget.style.margin = '10px';
 
     }
 
