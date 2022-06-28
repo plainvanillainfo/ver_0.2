@@ -533,6 +533,10 @@ class TemplateListWeb extends TemplateListClient {
         let buttonAdd = document.createElement('button');
         divTitleRowAddButton.appendChild(buttonAdd);
         buttonAdd.className = 'btn btn-info add-new';
+        buttonAdd.addEventListener('click', (event) => {
+            event.preventDefault();
+            console.log("TemplateListWeb - Add New");
+        });
        
         let iconAdd = document.createElement('i');
         divTitleRowTitle.appendChild(iconAdd);
@@ -558,11 +562,17 @@ class TemplateListWeb extends TemplateListClient {
             tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Viewers[0].Label));
         });
 
-        this.listFromServer.forEach(cur => {
+        this.listFromServer.forEach(itemCur => {
             let tableItemRow = document.createElement('tr');
             this.tableBody.appendChild(tableItemRow);
-            for (let attrCur in cur.Attrs) {
-                let attrDetail = cur.Attrs[attrCur];
+
+            tableItemRow.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log("TemplateListWeb - item picked: ", itemCur.id);
+            });
+
+            for (let attrCur in itemCur.Attrs) {
+                let attrDetail = itemCur.Attrs[attrCur];
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
                 tableItemRowCell.appendChild(document.createTextNode(attrDetail.Value));
