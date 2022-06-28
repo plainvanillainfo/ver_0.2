@@ -299,7 +299,7 @@ class TemplateWeb extends TemplateClient {
         super.setUseCase(useCase);
 
         this.nav = document.createElement('nav');
-        this.parent.div.appendChild(this.nav);
+        this.track.div.appendChild(this.nav);
         this.nav.className = 'navbar navbar-expand-md navbar-dark bg-primary';
         this.divNav = document.createElement('div');
         this.nav.appendChild(this.divNav);
@@ -349,7 +349,7 @@ class TemplateWeb extends TemplateClient {
         });
 
         this.divTarget = document.createElement('div');
-        this.parent.div.appendChild(this.divTarget);
+        this.track.div.appendChild(this.divTarget);
         this.divTarget.style.margin = '10px';
     }
 
