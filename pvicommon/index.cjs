@@ -393,7 +393,7 @@ class TemplateWeb extends TemplateClient {
 
         this.divTarget = document.createElement('div');
         this.parent.div.appendChild(this.divTarget);
-
+        this.divTarget.style.padding = '4';
 
     }
 
@@ -506,12 +506,9 @@ class TemplateListWeb extends TemplateListClient {
             child = this.divTarget.lastElementChild;
         }
 
-
         let divTableWrapper = document.createElement('div');
         this.divTarget.appendChild(divTableWrapper);
         divTableWrapper.className = 'table-wrapper';
-
-
 
         let divTitle = document.createElement('div');
         divTableWrapper.appendChild(divTitle);
