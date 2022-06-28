@@ -291,6 +291,7 @@ class TemplateWeb extends TemplateClient {
     constructor(parent) {
         super(parent);
         this.track = this.parent.track;
+        this.setVisibility = this.setVisibility.bind(this);
     }
 
     setUseCase(useCase) {
@@ -791,8 +792,9 @@ class TrackWeb extends TrackClient {
         super(parent, trackId);
         this.track = this;
         this.div = div;
+        this.breadcrumbs = [];
         this.template = new TemplateWeb(this);
-        this.breadcrumbs = [this.template];
+        this.breadcrumbs.push(this.template);
     }
 
     setUseCase(useCase) {
