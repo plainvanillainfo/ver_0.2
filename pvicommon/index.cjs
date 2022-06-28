@@ -290,7 +290,7 @@ class TemplateClient extends Template {
 class TemplateWeb extends TemplateClient {
     constructor(parent) {
         super(parent);
-        this.breadcrumbs = this.parent.breadcrumbs;
+        this.track = this.parent.track;
     }
 
     setUseCase(useCase) {
@@ -349,7 +349,20 @@ class TemplateWeb extends TemplateClient {
         this.divTarget = document.createElement('div');
         this.parent.div.appendChild(this.divTarget);
         this.divTarget.style.margin = '10px';
+    }
 
+    setVisibility(trueOrFalse) {
+        if (trueOrFalse === true) {
+            this.nav.style.visibility = 'visible';
+            this.nav.style.display = 'flex';
+            this.divTarget.style.visibility = 'visible';
+            this.divTarget.style.display = 'block';
+        } else {
+            this.nav.style.visibility = 'hidden';
+            this.nav.style.display = 'none';
+            this.divTarget.style.visibility = 'hidden';
+            this.divTarget.style.display = 'none';
+        }
     }
 
 }
@@ -422,7 +435,6 @@ class TemplateListClient extends TemplateList {
     constructor(parent) {
         super(parent);
         this.client = this.parent.client;
-        this.itemTemplates = [];
         this.forwardToServer = this.forwardToServer.bind(this);
     }
 
@@ -448,7 +460,7 @@ class TemplateListWeb extends TemplateListClient {
         super(parent);
         this.divTarget = this.parent.divTarget;
         this.forwardToServer = this.forwardToServer.bind(this);
-        this.breadcrumbs = this.parent.breadcrumbs;
+        this.track = this.parent.track;
     }
 
     start() {
@@ -494,7 +506,7 @@ class TemplateListWeb extends TemplateListClient {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
 
-            this.itemTemplates.push(new TemplateWeb(this));
+            this.track.pushBreadcrumb(new TemplateWeb(this));
 
         });
        
@@ -655,7 +667,7 @@ class TemplateElemWeb extends TemplateElemClient{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
         this.divTarget = this.parent.divTarget;
-        this.breadcrumbs = this.parent.breadcrumbs;
+        this.track = this.parent.track;
     }
 
     start(itemList) {
@@ -779,12 +791,21 @@ class TrackWeb extends TrackClient {
         super(parent, trackId);
         this.template = new TemplateWeb(this);
         this.div = div;
-        this.breadcrumbs = [];
+        this.track = this;
+        this.breadcrumbs = [this.template];
     }
 
     setUseCase(useCase) {
         console.log("TrackWeb::setUseCase()");
         super.setUseCase(useCase);
+    }
+
+    pushBreadcrumb(templatePushed) {
+        this.breadcrumbs.push(templatePushed);
+        this.breadcrumbs[this.breadcrumbs.length].setVisibility(false);
+    }
+
+    popBreadcrumb() {
     }
 
 }
