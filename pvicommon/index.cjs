@@ -520,15 +520,15 @@ class TemplateListWeb extends TemplateListClient {
 
         let divTitleRowTitle = document.createElement('div');
         divTitleRow.appendChild(divTitleRowTitle);
-        divTitleRowTitle.className = 'col-sm-8';
+        divTitleRowTitle.className = 'col-sm-10';
         
-        let tableCaption = document.createElement('h2');
+        let tableCaption = document.createElement('h3');
         divTitleRowTitle.appendChild(tableCaption);
         tableCaption.appendChild(document.createTextNode(this.useCase.spec.Viewers[0].Label));
 
         let divTitleRowAddButton = document.createElement('div');
         divTitleRow.appendChild(divTitleRowAddButton);
-        divTitleRowAddButton.className = 'col-sm-4';
+        divTitleRowAddButton.className = 'col-sm-2';
         
         let buttonAdd = document.createElement('button');
         divTitleRowAddButton.appendChild(buttonAdd);
