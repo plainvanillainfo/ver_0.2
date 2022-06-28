@@ -568,7 +568,7 @@ class TemplateListWeb extends TemplateListClient {
 
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.log("TemplateListWeb - item picked: ", itemCur.id);
+                console.log("TemplateListWeb - item picked: ", itemCur.Id);
             });
 
             for (let attrCur in itemCur.Attrs) {
