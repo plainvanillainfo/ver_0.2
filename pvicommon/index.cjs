@@ -542,7 +542,7 @@ class TemplateListWeb extends TemplateListClient {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
 
-                this.itemTemplates.push(new TemplateWeb(this));
+                this.track.pushBreadcrumb(new TemplateWeb(this));
 
             });
 
@@ -789,9 +789,9 @@ class TrackClient extends Track {
 class TrackWeb extends TrackClient {
     constructor(parent, trackId, div) {
         super(parent, trackId);
-        this.template = new TemplateWeb(this);
-        this.div = div;
         this.track = this;
+        this.div = div;
+        this.template = new TemplateWeb(this);
         this.breadcrumbs = [this.template];
     }
 
