@@ -245,6 +245,23 @@ class TemplateServer extends Template {
         this.item = item;
     }
 
+    pushOutData() {
+        console.log("TemplateServer::start");
+        let messageOut = {
+            Action: 'AcceptData',
+            Template: {
+                Item: {
+                    Id: cur.id,
+                    Ext: cur.ext,
+                    Attrs: cur.attrs,
+                    ChildItems: {}
+                }
+            }
+        };
+        this.parent.forwardToClient(messageOut);
+    }
+
+
 }
 
 class TemplateClient extends Template {
@@ -770,6 +787,22 @@ class TemplateListServer extends TemplateList {
 
     fromClient(message) {
         console.log("TemplateListServer::fromClient(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'StartTemplate':
+                    if (message.ItemId != null) {
+                        let templateNew = new TemplateServer(this);
+                        let itemCur = this.childItemList.find(listItemCur => cur.id === message.ItemId);
+                        if (itemCur != null) {
+                            templateNew.setItem(itemCur);
+                            templateNew.pushOutData();
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     forwardToClient(messageIn) {
@@ -798,8 +831,7 @@ class TemplateListServer extends TemplateList {
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateList: {
-                //UseCaseSpec: this.useCase.spec
-                ItemList: listItems // this.childItemList.ListDBIds
+                ItemList: listItems 
             }
         };
         this.parent.forwardToClient(messageOut);
@@ -972,6 +1004,19 @@ class TemplateElemServer extends TemplateElem {
 
     fromClient(message) {
         console.log("TemplateElemServer::fromClient(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateList':
+                    if (this.useCaseElem.attribute.Type === 'Child') {
+                        if (this.templateList != null && message.TemplateList != null) {
+                            this.templateList.fromClient(message.TemplateList);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     start() {
