@@ -691,11 +691,9 @@ class TemplateWeb extends TemplateClient {
             itemLICur.A.appendChild(document.createTextNode(menuItemCur.Viewers[0].Label));
             itemLICur.A.addEventListener('click', (event) => {
                 event.preventDefault();
-                console.log("templateElemCur) - if - click on menu", menuItemCur);
+                console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
                 let elemPicked = this.useCase.elems[menuItemCur.Name];
-                if (true || this.elems[menuItemCur.Name] == null) {
-                    this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked);
-                }
+                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked);
             });
         });
 
@@ -997,15 +995,6 @@ class TemplateElemClient extends TemplateElem{
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplateList':
-                    /*
-                    if (this.useCaseElem.attribute.Type === 'Child') {
-                        if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
-                            this.templateList = new TemplateListCient(this);
-                            this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                            this.templateList.start();
-                        }
-                    }
-                    */
                     this.start(message.TemplateList.ItemList);
                     break;
                 default:
