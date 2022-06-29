@@ -248,8 +248,9 @@ class TemplateServer extends Template {
     pushOutData() {
         console.log("TemplateServer::start");
         let messageOut = {
-            Action: 'AcceptData',
+            Action: 'ContinueTemplateSub',
             Template: {
+                Action: 'AcceptData',
                 Item: {
                     Id: this.item.id,
                     Ext: this.item.ext,
@@ -809,7 +810,6 @@ class TemplateListServer extends TemplateList {
         let messageOut = {
             Action: 'ContinueTemplateList',
             TemplateList: {
-                //UseCaseElemName: this.useCaseElem.spec.Name,
                 ...messageIn
             }
         };
@@ -848,6 +848,17 @@ class TemplateListClient extends TemplateList {
 
     fromServer(message) {
         console.log("TemplateListClient::fromServer(): ", message);
+        if (message.Action != null) {
+            switch (message.Action) {
+                case 'ContinueTemplateSub':
+                    if (this.templateSub != null && message.Template != null) {
+                        this.templateSub.fromServer(message.Template);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     forwardToServer(messageIn) {
@@ -913,11 +924,11 @@ class TemplateListWeb extends TemplateListClient {
         buttonAdd.addEventListener('click', (event) => {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
-            let templateAdd = new TemplateWeb(this);
+            this.templateSub = new TemplateWeb(this);
             if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
                 let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
-                templateAdd.setUseCase(useCaseSub);
-                this.track.pushBreadcrumb(templateAdd);
+                this.templateSub.setUseCase(useCaseSub);
+                this.track.pushBreadcrumb(this.templateSub);
             }
         });
        
@@ -952,12 +963,12 @@ class TemplateListWeb extends TemplateListClient {
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
-                let templateUpdate = new TemplateWeb(this);
-                templateUpdate.setItemId(itemCur.Id)
+                this.templateSub = new TemplateWeb(this);
+                this.templateSub.setItemId(itemCur.Id)
                 if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
                     let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
-                    templateUpdate.setUseCase(useCaseSub);
-                    this.track.pushBreadcrumb(templateUpdate);
+                    this.templateSub.setUseCase(useCaseSub);
+                    this.track.pushBreadcrumb(this.templateSub);
                 }
             });
 
@@ -1050,14 +1061,6 @@ class TemplateElemClient extends TemplateElem{
         this.client = this.parent.client;
         this.itemParent = parent.item;
         this.forwardToServer = this.forwardToServer.bind(this);
-
-        /*
-        this.forwardToServer({
-            Action: 'StartTemplateElem',
-            Name: this.useCaseElem.spec.Name
-        });
-        */
-
         let messageOut = {
             Action: 'StartTemplateElem',
             TemplateElem: {
@@ -1074,6 +1077,11 @@ class TemplateElemClient extends TemplateElem{
             switch (message.Action) {
                 case 'StartTemplateList':
                     this.start(message.TemplateList.ItemList);
+                    break;
+                case 'ContinueTemplateList':
+                    if (this.templateList != null && message.TemplateList != null) {
+                        this.templateList.fromServer(message.TemplateList);
+                    }
                     break;
                 default:
                     break;
