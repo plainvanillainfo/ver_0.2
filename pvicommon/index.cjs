@@ -867,10 +867,12 @@ class TemplateListWeb extends TemplateListClient {
         buttonAdd.addEventListener('click', (event) => {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
-
             let templateAdd = new TemplateWeb(this);
-            templateAdd.setUseCase(this.useCase);
-            this.track.pushBreadcrumb(templateAdd);
+            if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
+                let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
+                templateAdd.setUseCase(useCaseSub);
+                this.track.pushBreadcrumb(templateAdd);
+            }
         });
        
         let iconAdd = document.createElement('i');
@@ -904,12 +906,13 @@ class TemplateListWeb extends TemplateListClient {
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
-
                 let templateUpdate = new TemplateWeb(this);
                 templateUpdate.setItem(itemCur)
-                templateUpdate.setUseCase(this.useCase);
-                this.track.pushBreadcrumb(templateUpdate);
-
+                if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
+                    let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
+                    templateUpdate.setUseCase(useCaseSub);
+                    this.track.pushBreadcrumb(templateUpdate);
+                }
             });
 
             for (let attrCur in itemCur.Attrs) {
