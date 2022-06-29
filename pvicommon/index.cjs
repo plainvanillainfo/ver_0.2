@@ -301,10 +301,15 @@ class TemplateWeb extends TemplateClient {
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
-        if (this.useCase.spec.Viewers[0].ViewerSpec.Format === 'Menu') {
-            this.setUseCaseMenu();
-        } else {
-            this.setUseCaseForm();
+        switch (this.useCase.spec.Viewers[0].ViewerSpec.Format) {
+            case 'Menu':
+                this.setUseCaseMenu();
+                break;
+            case 'Form':
+                this.setUseCaseForm();
+                break;
+            default:
+                break;
         }
     }
 
@@ -610,11 +615,7 @@ class TemplateWeb extends TemplateClient {
             if (inputCur != null) {
                 //inputCur.id = templateElemCur.Nm;
             }
-
-
         });
-
-
         divCur = document.createElement('div');
         this.form.appendChild(divCur);
         divCur.className = 'mb-3';
@@ -643,7 +644,6 @@ class TemplateWeb extends TemplateClient {
             this.saveFormData();
             //this.hideForm();
         });
-
     }
 
     hideForm() {
