@@ -251,9 +251,9 @@ class TemplateServer extends Template {
             Action: 'AcceptData',
             Template: {
                 Item: {
-                    Id: cur.id,
-                    Ext: cur.ext,
-                    Attrs: cur.attrs,
+                    Id: this.item.id,
+                    Ext: this.item.ext,
+                    Attrs: this.item.attrs,
                     ChildItems: {}
                 }
             }
