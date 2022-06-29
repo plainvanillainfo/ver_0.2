@@ -649,7 +649,7 @@ class TemplateWeb extends TemplateClient {
                 inputCur = document.createElement('input');
                 divCur.appendChild(inputCur);
                 inputCur.setAttribute("type", "input");
-                if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != nul) {
+                if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
                     inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
                 }
                 inputCur.style.width = '70%';
