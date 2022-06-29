@@ -131,7 +131,7 @@ class Template {
         this.parent = parent;
         this.useCase = null;
         this.itemId = null;
-        this.item = {};
+        this.item = null;
         this.elems = {};
     }
 
@@ -283,6 +283,15 @@ class TemplateClient extends Template {
                         }
                     }
                     break;
+                case 'AcceptData':
+                    if (this.item == null) {
+                        this.item = new Item(this, null, message.Item.Id);
+                    }
+                    this.item.attrs = message.Item.Attrs;
+                    this.item.ext = message.Item.Ext;
+                    this.item.childItems = message.Item.ChildItems;
+                    refreshUseCaseForm()
+                    break;
                 default:
                     break;
             }
@@ -312,7 +321,6 @@ class TemplateClient extends Template {
     }
 
     setItemId(itemId) {
-        //this.itemPtr = item;
         this.itemId = itemId;
     }
 
@@ -647,7 +655,7 @@ class TemplateWeb extends TemplateClient {
                 });
             }
             if (inputCur != null) {
-                //inputCur.id = templateElemCur.Nm;
+                inputCur.id = elemCur.Name;
             }
         });
         divCur = document.createElement('div');
@@ -668,7 +676,7 @@ class TemplateWeb extends TemplateClient {
         });
         buttonCur = document.createElement('button');
         divCur.appendChild(buttonCur);
-        buttonCur.className = 'btn btn-success';
+        buttonCur.className = 'btn btn-success'; 
         buttonCur.setAttribute("type", "button");
         buttonCur.id = 'savebutton';
         buttonCur.style.width = "12em";
@@ -678,6 +686,18 @@ class TemplateWeb extends TemplateClient {
             this.saveFormData();
             //this.hideForm();
         });
+    }
+
+    refreshUseCaseForm() {
+        if (this.form != null) {
+            for (let attrCur in this.item.attrs) {
+                let attrDetail = this.item.attrs[attrCur];
+                let attrElement = document.getElementById(attrCur);
+                if (attrElement) {
+                    attrElement.value = attrDetail.Value != null ? attrDetail.Value : '';
+                }
+            }
+        }
     }
 
     hideForm() {
