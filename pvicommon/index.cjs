@@ -130,6 +130,7 @@ class Template {
     constructor(parent) {
         this.parent = parent;
         this.useCase = null;
+        this.itemId = null;
         this.item = {};
         this.elems = {};
     }
@@ -209,6 +210,13 @@ class TemplateServer extends Template {
                         templateElemNew.start();
                     }
                     break;
+                case 'ContinueTemplateElem':
+                    if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
+                        if(this.elems[message.TemplateElem.UseCaseElemName] != null) {
+                            this.elems[message.TemplateElem.UseCaseElemName].fromClient(message.TemplateElem);
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
@@ -285,6 +293,11 @@ class TemplateClient extends Template {
         this.item = item;
     }
 
+    setItemId(itemId) {
+        //this.itemPtr = item;
+        this.itemId = itemId;
+    }
+
 }
 
 class TemplateWeb extends TemplateClient {
@@ -294,10 +307,6 @@ class TemplateWeb extends TemplateClient {
         this.nav = null;
         this.divTarget = null;
 
-    }
-
-    setItem(item) {
-        this.itemPtr = item;
     }
 
     setUseCase(useCase) {
@@ -313,14 +322,16 @@ class TemplateWeb extends TemplateClient {
                 break;
         }
 
-        let messageOut = {
-            Action: 'StartTemplate',
-            Template: {
-                UseCaseName: this.useCase.spec.Name
-            }
-
-        };
-        this.parent.forwardToServer(messageOut);
+        if (this.itemId != null) {
+            let messageOut = {
+                Action: 'StartTemplate',
+                Template: {
+                    UseCaseName: this.useCase.spec.Name,
+                    ItemId: this.itemId
+                }
+            };
+            this.parent.forwardToServer(messageOut);
+        }
     }
 
     setUseCaseForm() {
@@ -910,7 +921,7 @@ class TemplateListWeb extends TemplateListClient {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
                 let templateUpdate = new TemplateWeb(this);
-                templateUpdate.setItem(itemCur)
+                templateUpdate.setItemId(itemCur.Id)
                 if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
                     let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
                     templateUpdate.setUseCase(useCaseSub);
