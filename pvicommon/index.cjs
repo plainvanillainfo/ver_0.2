@@ -294,15 +294,6 @@ class TemplateWeb extends TemplateClient {
         this.nav = null;
         this.divTarget = null;
 
-        let messageOut = {
-            Action: 'StartTemplate',
-            Template: {
-                UseCaseName: this.useCase.spec.Name
-            }
-
-        };
-        this.parent.forwardToServer(messageOut);
-
     }
 
     setItem(item) {
@@ -321,6 +312,15 @@ class TemplateWeb extends TemplateClient {
             default:
                 break;
         }
+
+        let messageOut = {
+            Action: 'StartTemplate',
+            Template: {
+                UseCaseName: this.useCase.spec.Name
+            }
+
+        };
+        this.parent.forwardToServer(messageOut);
     }
 
     setUseCaseForm() {
