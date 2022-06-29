@@ -290,7 +290,7 @@ class TemplateClient extends Template {
                     this.item.attrs = message.Item.Attrs;
                     this.item.ext = message.Item.Ext;
                     this.item.childItems = message.Item.ChildItems;
-                    refreshUseCaseForm()
+                    this.refreshData()
                     break;
                 default:
                     break;
@@ -315,6 +315,9 @@ class TemplateClient extends Template {
         super.setUseCase(useCase);
     }
 
+    refreshData() {
+    }
+    
     setItem(item) {
         console.log("TemplateClient::setItem: ", item);
         this.item = item;
@@ -688,7 +691,7 @@ class TemplateWeb extends TemplateClient {
         });
     }
 
-    refreshUseCaseForm() {
+    refreshData() {
         if (this.form != null) {
             for (let attrCur in this.item.attrs) {
                 let attrDetail = this.item.attrs[attrCur];
