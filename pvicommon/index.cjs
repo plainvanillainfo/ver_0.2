@@ -293,6 +293,16 @@ class TemplateWeb extends TemplateClient {
         this.track = this.parent.track;
         this.nav = null;
         this.divTarget = null;
+
+        let messageOut = {
+            Action: 'StartTemplate',
+            Template: {
+                UseCaseName: this.useCase.spec.Name
+            }
+
+        };
+        this.parent.forwardToServer(messageOut);
+
     }
 
     setItem(item) {
@@ -799,9 +809,9 @@ class TemplateListClient extends TemplateList {
 
     forwardToServer(messageIn) {
         let messageOut = {
-            Action: 'StartTemplateElem',
+            Action: 'ContinueTemplateList',
             TemplateList: {
-                //UseCaseElemName: this.useCaseElem.spec.Name,
+                UseCaseName: this.useCase.spec.Name,
                 ...messageIn
             }
         };
@@ -984,10 +994,22 @@ class TemplateElemClient extends TemplateElem{
         this.client = this.parent.client;
         this.itemParent = parent.item;
         this.forwardToServer = this.forwardToServer.bind(this);
+
+        /*
         this.forwardToServer({
             Action: 'StartTemplateElem',
             Name: this.useCaseElem.spec.Name
         });
+        */
+
+        let messageOut = {
+            Action: 'StartTemplateElem',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.spec.Name
+            }
+
+        };
+        this.parent.forwardToServer(messageOut);
     }
 
     fromServer(message) {
@@ -1005,7 +1027,7 @@ class TemplateElemClient extends TemplateElem{
 
     forwardToServer(messageIn) {
         let messageOut = {
-            Action: 'StartTemplateElem',
+            Action: 'ContinueTemplateElem',
             TemplateElem: {
                 UseCaseElemName: this.useCaseElem.spec.Name,
                 ...messageIn
@@ -1029,7 +1051,6 @@ class TemplateElemWeb extends TemplateElemClient{
             if (this.templateList == null) {
                 this.templateList = new TemplateListWeb(this);
                 this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
                 this.templateList.setListFromServer(itemList);
                 this.templateList.start();
             }
