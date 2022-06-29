@@ -790,9 +790,9 @@ class TemplateListServer extends TemplateList {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplate':
-                    if (message.ItemId != null) {
+                    if (message.Template.ItemId != null && message.Template.ItemId != null) {
                         let templateNew = new TemplateServer(this);
-                        let itemCur = this.childItemList.find(listItemCur => cur.id === message.ItemId);
+                        let itemCur = this.childItemList.find(listItemCur => cur.id === message.Template.ItemId);
                         if (itemCur != null) {
                             templateNew.setItem(itemCur);
                             templateNew.pushOutData();
