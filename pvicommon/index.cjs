@@ -290,7 +290,8 @@ class TemplateClient extends Template {
                     this.item.attrs = message.Item.Attrs;
                     this.item.ext = message.Item.Ext;
                     this.item.childItems = message.Item.ChildItems;
-                    this.refreshData()
+                    this.setUseCaseForm();
+                    //this.refreshData();
                     break;
                 default:
                     break;
@@ -317,7 +318,7 @@ class TemplateClient extends Template {
 
     refreshData() {
     }
-    
+
     setItem(item) {
         console.log("TemplateClient::setItem: ", item);
         this.item = item;
@@ -648,8 +649,8 @@ class TemplateWeb extends TemplateClient {
                 inputCur = document.createElement('input');
                 divCur.appendChild(inputCur);
                 inputCur.setAttribute("type", "input");
-                if (this.itemPtr != null && this.itemPtr.Attrs[elemCur.Name] != null) {
-                    inputCur.value = this.itemPtr.Attrs[elemCur.Name].Value != null ? this.itemPtr.Attrs[elemCur.Name].Value : '';
+                if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != nul) {
+                    inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
                 }
                 inputCur.style.width = '70%';
                 inputCur.addEventListener('blur', (event) => {
@@ -691,6 +692,7 @@ class TemplateWeb extends TemplateClient {
         });
     }
 
+    /*
     refreshData() {
         if (this.form != null) {
             for (let attrCur in this.item.attrs) {
@@ -702,9 +704,11 @@ class TemplateWeb extends TemplateClient {
             }
         }
     }
+    */
 
     hideForm() {
         this.track.popBreadcrumb();
+        this.track.div.removeChild(this.divTarget);
     }
 
     saveFormData() {
