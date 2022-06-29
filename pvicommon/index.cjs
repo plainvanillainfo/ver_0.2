@@ -314,14 +314,11 @@ class TemplateWeb extends TemplateClient {
     }
 
     setUseCaseForm() {
-
         this.divTarget = document.createElement('div');
         this.track.div.appendChild(this.divTarget);
         this.divTarget.style.margin = '10px';
-
         this.form = document.createElement('form');
         this.divTarget.appendChild(this.form);
-
         this.formData = {};
         let divCur = document.createElement('div');
         this.form.appendChild(divCur);
@@ -584,7 +581,6 @@ class TemplateWeb extends TemplateClient {
             }
             */
         });
-
         this.useCase.spec.Elems.forEach( (elemCur, menuItemIndex) => {
             divCur = document.createElement('div');
             this.form.appendChild(divCur);
@@ -598,7 +594,6 @@ class TemplateWeb extends TemplateClient {
             labelSpan.style.width = "25%";
             let inputCur;
             let inputLabel;
-
             if (true) {
                 inputCur = document.createElement('input');
                 divCur.appendChild(inputCur);
