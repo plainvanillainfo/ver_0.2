@@ -340,16 +340,6 @@ class TemplateWeb extends TemplateClient {
 
     setUseCase(useCase) {
         super.setUseCase(useCase);
-        switch (this.useCase.spec.Viewers[0].ViewerSpec.Format) {
-            case 'Menu':
-                this.setUseCaseMenu();
-                break;
-            case 'Form':
-                //this.setUseCaseForm();
-                break;
-            default:
-                break;
-        }
 
         if (this.itemId != null) {
             let messageOut = {
@@ -361,7 +351,16 @@ class TemplateWeb extends TemplateClient {
             };
             this.parent.forwardToServer(messageOut);
         } else {
-            this.setUseCaseForm();
+            switch (this.useCase.spec.Viewers[0].ViewerSpec.Format) {
+                case 'Menu':
+                    this.setUseCaseMenu();
+                    break;
+                case 'Form':
+                    this.setUseCaseForm();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
