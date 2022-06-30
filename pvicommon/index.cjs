@@ -698,6 +698,23 @@ class TemplateWeb extends TemplateClient {
     }
 
     saveFormData() {
+        let attrs = {};
+        let fUpdated = false;
+        for (let formAttrCur in this.formData) {
+            let formAttrDetail = this.formData[formAttrCur];
+            attrs[formAttrCur] = formAttrDetail;
+            
+            fUpdated = true;
+        }
+        if (fUpdated) {
+            let messageOut = {
+                Action: 'UpdateItem',
+                Template: {
+                    ItemData: attrs
+                }
+            };
+            this.parent.forwardToServer(messageOut);
+        }
     }
 
     setUseCaseMenu() {
