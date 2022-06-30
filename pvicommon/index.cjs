@@ -710,6 +710,7 @@ class TemplateWeb extends TemplateClient {
             let messageOut = {
                 Action: 'UpdateItem',
                 Template: {
+                    ItemId: this.item != null ? this.item.id : null,
                     ItemData: attrs
                 }
             };
@@ -821,7 +822,7 @@ class TemplateListServer extends TemplateList {
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplate':
-                    if (message.Template.ItemId != null && message.Template.ItemId != null) {
+                    if (message.Template != null && message.Template.ItemId != null) {
                         let templateNew = new TemplateServer(this);
                         let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
                         if (itemCur != null) {
@@ -830,10 +831,21 @@ class TemplateListServer extends TemplateList {
                         }
                     }
                     break;
+                case 'UpdateItem':
+                    if (message.Template != null && message.Template.Item != null) {
+                        if (message.Template.ItemId != null) {
+                            let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
+                        } else {
+                        }
+
+                        this.model.putItem([], message.Template.Item);
+
+                    }
+                    break;
                 default:
                     break;
             }
-        }
+        }this.model
     }
 
     forwardToClient(messageIn) {
