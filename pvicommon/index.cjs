@@ -846,15 +846,17 @@ class TemplateListServer extends TemplateList {
     start() {
         console.log("TemplateListServer::start");
         let listItems = [];
-        this.childItemList.ListItems.forEach(cur => {
-            let listItemCur = {
-                Id: cur.id,
-                Ext: cur.ext,
-                Attrs: cur.attrs,
-                ChildItems: {}
-            };
-            listItems.push(listItemCur);
-        });
+        if (this.childItemList != null && this.childItemList.ListItems != null) {
+            this.childItemList.ListItems.forEach(cur => {
+                let listItemCur = {
+                    Id: cur.id,
+                    Ext: cur.ext,
+                    Attrs: cur.attrs,
+                    ChildItems: {}
+                };
+                listItems.push(listItemCur);
+            });
+        }
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateList: {
