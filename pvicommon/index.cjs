@@ -291,7 +291,6 @@ class TemplateClient extends Template {
                     this.item.ext = message.Item.Ext;
                     this.item.childItems = message.Item.ChildItems;
                     this.setUseCaseForm();
-                    //this.refreshData();
                     break;
                 default:
                     break;
@@ -361,6 +360,8 @@ class TemplateWeb extends TemplateClient {
                 }
             };
             this.parent.forwardToServer(messageOut);
+        } else {
+            this.setUseCaseForm();
         }
     }
 
@@ -691,20 +692,6 @@ class TemplateWeb extends TemplateClient {
             //this.hideForm();
         });
     }
-
-    /*
-    refreshData() {
-        if (this.form != null) {
-            for (let attrCur in this.item.attrs) {
-                let attrDetail = this.item.attrs[attrCur];
-                let attrElement = document.getElementById(attrCur);
-                if (attrElement) {
-                    attrElement.value = attrDetail.Value != null ? attrDetail.Value : '';
-                }
-            }
-        }
-    }
-    */
 
     hideForm() {
         this.track.popBreadcrumb();
