@@ -133,6 +133,7 @@ class Template {
         this.itemId = null;
         this.item = null;
         this.elems = {};
+        this.dbPath = [...this.parent.dbPath];
     }
 
     setUseCase(useCase) {
@@ -143,6 +144,7 @@ class Template {
     setItem(item) {
         console.log("Template::setItem: ", item);
         this.item = item;
+        this.dbPath.push(this.item.id);
     }
 
     getElems() {
@@ -711,6 +713,7 @@ class TemplateWeb extends TemplateClient {
                 Action: 'UpdateItem',
                 Template: {
                     ItemId: this.item != null ? this.item.id : null,
+                    ItemDBPath: this.dbPath,
                     ItemData: attrs
                 }
             };
@@ -796,6 +799,7 @@ class TemplateList {
     constructor(parent) {
         this.parent = parent;
         this.childItemList = [];
+        this.dbPath = [...this.parent.dbPath];
     }
 
     setUseCase(useCase) {
@@ -1032,7 +1036,7 @@ class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
         this.useCaseElem = useCaseElem;
-        //this.itemAttr = {};
+        this.dbPath = [...this.parent.dbPath, this.useCaseElem.attribute.Name];
         if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
             this.fJoin = true;
         } else {
@@ -1180,6 +1184,7 @@ class Track {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.id = id;
+        this.dbPath = [];
     }
 
     setUseCase(useCase) {
