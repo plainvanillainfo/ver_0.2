@@ -350,6 +350,11 @@ class Model {
                     };
                 }
                 let childListItem = itemBase.childItems[childAttrInCur].ListItems.find(cur => cur.Id === childAttrInSubItem.Id);
+
+                itemBase.childItems[childAttrInCur].ListItems.forEach(cur => {
+                    console.log("Model::buildPutBatchNode: itemBase.childItems[childAttrInCur].ListItems - cur.Id: ", cur.Id);
+                });
+
                 if (childListItem == null) {
                     let dbKey = this.database.nextItemkey.toString(16).padStart(16, '0')
                     this.database.nextItemkey++;
