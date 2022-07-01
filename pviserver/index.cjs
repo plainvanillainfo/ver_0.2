@@ -287,7 +287,7 @@ class Model {
     }
 
     buildPutBatchItem(ops, itemBase, itemDataIn) {
-        console.log("Model::buildPutBatchItem");
+        console.log("Model::buildPutBatchItem: ", itemDataIn);
         this.buildPutBatchNode(ops, itemBase, itemDataIn);
         let itemBuiltRaw = {
             DBId: itemBase.dbId,
