@@ -368,7 +368,7 @@ class Model {
                     if (childAttrInSubItem.Attrs != null) {
                         for (let attrCur in childAttrInSubItem.Attrs) {
                             let attrDetail = childAttrInSubItem.Attrs[attrCur];
-                            childListItem.attrs[attrCur] =  = attrDetail;
+                            childListItem.attrs[attrCur] = attrDetail;
                         }
                     }
                 }
