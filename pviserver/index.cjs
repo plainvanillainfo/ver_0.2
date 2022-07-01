@@ -361,6 +361,16 @@ class Model {
 
                     itemBase.childItems[childAttrInCur].ListItems.push(childListItem);
                     itemBase.childItems[childAttrInCur].ListDBIds.push(dbKey);
+                } else {
+                    if (childAttrInSubItem.Ext != null) {
+                        childListItem.ext = childAttrInSubItem.Ext;
+                    }
+                    if (childAttrInSubItem.Attrs != null) {
+                        for (let attrCur in childAttrInSubItem.Attrs) {
+                            let attrDetail in childAttrInSubItem.Attrs[attrCur];
+                            childListItem.attrs[attrCur] =  = attrDetail;
+                        }
+                    }
                 }
 
                 //
