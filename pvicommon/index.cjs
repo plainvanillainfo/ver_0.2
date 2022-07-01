@@ -715,7 +715,8 @@ class TemplateWeb extends TemplateClient {
                     ItemDBPath: this.dbPath,
                     ItemData: {
                         Id: this.item != null ? this.item.id : null,
-                        Attrs: attrs
+                        Attrs: attrs,
+                        ChildItems: {}
                     }
                 }
             };
