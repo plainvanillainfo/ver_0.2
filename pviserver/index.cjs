@@ -362,14 +362,17 @@ class Model {
                     itemBase.childItems[childAttrInCur].ListItems.push(childListItem);
                     itemBase.childItems[childAttrInCur].ListDBIds.push(dbKey);
                 } else {
+                    console.log("Model::buildPutBatchNode: AAAA: ");
                     if (childAttrInSubItem.Ext != null) {
                         childListItem.ext = childAttrInSubItem.Ext;
                     }
                     if (childAttrInSubItem.Attrs != null) {
+                        console.log("Model::buildPutBatchNode: BBBB: ");
                         for (let attrCur in childAttrInSubItem.Attrs) {
                             let attrDetail = childAttrInSubItem.Attrs[attrCur];
                             childListItem.attrs[attrCur] = attrDetail;
                         }
+                        console.log("Model::buildPutBatchNode: CCCC: ", childListItem.attrs);
                     }
                 }
 
