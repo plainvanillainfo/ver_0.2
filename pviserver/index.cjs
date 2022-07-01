@@ -349,10 +349,10 @@ class Model {
                         ListDBIds: []
                     };
                 }
-                let childListItem = itemBase.childItems[childAttrInCur].ListItems.find(cur => cur.Id === childAttrInSubItem.Id);
+                let childListItem = itemBase.childItems[childAttrInCur].ListItems.find(cur => cur.id === childAttrInSubItem.Id);
 
                 itemBase.childItems[childAttrInCur].ListItems.forEach(cur => {
-                    console.log("Model::buildPutBatchNode: itemBase.childItems[childAttrInCur].ListItems - cur.Id: ", cur.Id);
+                    console.log("Model::buildPutBatchNode: itemBase.childItems[childAttrInCur].ListItems - cur.id: ", cur.id);
                 });
 
                 if (childListItem == null) {
