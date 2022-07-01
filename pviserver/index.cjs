@@ -338,6 +338,7 @@ class Model {
             // from different ancestries
             //
             let childAttrInDetail = itemDataIn.ChildItems[childAttrInCur];
+            console.log("Model::buildPutBatchNode: childAttrInDetail: ", childAttrInDetail);
             childAttrInDetail.forEach(childAttrInSubItem =>{
                 console.log("Model::buildPutBatchNode: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
                 console.log(childAttrInSubItem);
