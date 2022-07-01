@@ -276,6 +276,7 @@ class Model {
         if (item.ChildItems != null && item.Attrs != null) {
             this.buildPutBatchItem(ops, this.itemSeed, item);
         }
+        console.log("Model::putItem - ops: ", ops);
         this.database.dbHandle.batch(ops, (err) => {
             if (err) {
                 console.log("Model::putItem: ", err);
@@ -338,7 +339,7 @@ class Model {
             // from different ancestries
             //
             let childAttrInDetail = itemDataIn.ChildItems[childAttrInCur];
-            console.log("Model::buildPutBatchNode: childAttrInDetail: ", childAttrInDetail);
+            //console.log("Model::buildPutBatchNode: childAttrInDetail: ", childAttrInDetail);
             childAttrInDetail.forEach(childAttrInSubItem =>{
                 console.log("Model::buildPutBatchNode: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
                 console.log(childAttrInSubItem);
