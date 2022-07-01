@@ -844,9 +844,11 @@ class TemplateListServer extends TemplateList {
                             if (itemCur != null) {
                                 if (message.Template.ItemDBPath.length === 1) {
                                     let itemLocal = {
-                                        ChildItems: { Attrs: {}, Ext: ''}
+                                        ChildItems: {},
+                                        Attrs: {}, 
+                                        Ext: ''}
                                     };
-                                    itemLocal[message.Template.ItemDBPath[0]] = [Template.ItemData];
+                                    itemLocal.ChildItems[message.Template.ItemDBPath[0]] = [Template.ItemData];
                                     this.model.putItem([], itemLocal);
                                 }
                             }
