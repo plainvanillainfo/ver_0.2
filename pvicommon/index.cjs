@@ -848,7 +848,7 @@ class TemplateListServer extends TemplateList {
                                         Attrs: {}, 
                                         Ext: ''
                                     };
-                                    itemLocal.ChildItems[message.Template.ItemDBPath[0]] = [Template.ItemData];
+                                    itemLocal.ChildItems[message.Template.ItemDBPath[0]] = [message.Template.ItemData];
                                     this.model.putItem([], itemLocal);
                                 }
                             }
