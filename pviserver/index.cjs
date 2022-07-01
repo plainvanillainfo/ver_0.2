@@ -291,7 +291,7 @@ class Model {
         let itemBuiltRaw = {
             DBId: itemBase.dbId,
             Id: itemBase.id,
-            Ext: itemBase.ext,
+            Ext: itemBase.ext != null ? itemBase.ext : '',
             Attrs: itemBase.attrs,
             ChildItems: {}
         };

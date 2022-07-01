@@ -704,7 +704,7 @@ class TemplateWeb extends TemplateClient {
         let fUpdated = false;
         for (let formAttrCur in this.formData) {
             let formAttrDetail = this.formData[formAttrCur];
-            attrs[formAttrCur] = formAttrDetail;
+            attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
             
             fUpdated = true;
         }
@@ -712,9 +712,11 @@ class TemplateWeb extends TemplateClient {
             let messageOut = {
                 Action: 'UpdateItem',
                 Template: {
-                    ItemId: this.item != null ? this.item.id : null,
                     ItemDBPath: this.dbPath,
-                    ItemData: attrs
+                    ItemData: {
+                        Id: this.item != null ? this.item.id : null,
+                        Attrs: attrs
+                    }
                 }
             };
             this.parent.forwardToServer(messageOut);
