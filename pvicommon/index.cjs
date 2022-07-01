@@ -838,13 +838,21 @@ class TemplateListServer extends TemplateList {
                     }
                     break;
                 case 'UpdateItem':
-                    if (message.Template != null && message.Template.Item != null) {
-                        if (message.Template.ItemId != null) {
-                            let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
+                    if (message.Template != null && message.Template.ItemData != null && message.Template.ItemDBPath != null) {
+                        if (message.Template.ItemData.Id != null) {
+                            let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemData.Id);
+                            if (itemCur != null) {
+                                if (message.Template.ItemDBPath.length === 1) {
+                                    let itemLocal = {
+                                        ChildItems: { Attrs: {}, Ext: ''}
+                                    };
+                                    itemLocal[message.Template.ItemDBPath[0]] = [Template.ItemData];
+                                    this.model.putItem([], itemLocal);
+                                }
+                            }
                         } else {
                         }
 
-                        this.model.putItem([], message.Template.Item);
 
                     }
                     break;
