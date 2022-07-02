@@ -284,7 +284,7 @@ class TemplateServer extends Template {
     }
 
     pushOutData() {
-        console.log("TemplateServer::pushOutData - item.id: ", this.session.id,  this.item.id);
+        console.log("TemplateServer::pushOutData - item.dbId, id: ", this.session.id, this.item.dbId, this.item.id);
         let messageOut = {
             Action: 'ContinueTemplateSub',
             Template: {
