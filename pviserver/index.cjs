@@ -180,7 +180,7 @@ class Session {
     accessNode(nodePath) {
         let retVal = null;
         if (this.isClosed == false) {
-            trackCur = nodePath.shift();
+            let trackCur = nodePath.shift();
             if (this.tracks[trackCur.id != null]) {
                 retVal = trackCur.accessNode(nodePath);
             }
