@@ -108,11 +108,12 @@ class Session {
         this.id = id;
         this.ws = ws;
         this.user = null;
+        this.isClosed = false;
         this.model = this.parent.model;
-        this.schemaSent = false;
+        //this.schemaSent = false;
         this.classes = {};
         this.useCases = {};
-        this.nodesWatched = {};
+        //this.nodesWatched = {};
         this.trackMain = new TrackServer(this, '1');
         this.tracks = {'1': this.trackMain};
         this.receiveMessage = this.receiveMessage.bind(this);
@@ -173,10 +174,18 @@ class Session {
     
     close() {
         console.log("Session::close: ", this.id);
-        for (let nodeCur in this.nodesWatched) {
-            //let nodeDetail = this.nodesWatched[nodeCur];
-            //delete nodeDetail.SessionsWatching[this.id];
+        this.isClosed = true;
+    }
+
+    accessNode(nodePath) {
+        let retVal = null;
+        if (this.isClosed == false) {
+            trackCur = nodePath.shift();
+            if (this.tracks[trackCur.id != null]) {
+                retVal = trackCur.accessNode(nodePath);
+            }
         }
+        return retVal;
     }
     
 }
@@ -282,13 +291,8 @@ class Model {
             if (err) {
                 console.log("Model::putItem: ", err);
             } else {
-                // Push to watchers
                 itemsUpdated.forEach(itemCur => {
-                    itemCur.templatesWatching.forEach(templateCur => {
-                        setTimeout(() => { 
-                            templateCur.pushOutData();
-                        }, 1);
-                    });
+                    itemCur.templatesWatchingPushOrPrune();
                 });
             }
         });
@@ -359,9 +363,9 @@ class Model {
                 }
                 let childListItem = itemBase.childItems[childAttrInCur].ListItems.find(cur => cur.id === childAttrInSubItem.Id);
 
-                itemBase.childItems[childAttrInCur].ListItems.forEach(cur => {
-                    //console.log("Model::buildPutBatchNode: itemBase.childItems[childAttrInCur].ListItems - cur.id: ", cur.id);
-                });
+                //itemBase.childItems[childAttrInCur].ListItems.forEach(cur => {
+                //    console.log("Model::buildPutBatchNode: itemBase.childItems[childAttrInCur].ListItems - cur.id: ", cur.id);
+                //});
 
                 if (childListItem == null) {
                     let dbKey = this.database.nextItemkey.toString(16).padStart(16, '0')

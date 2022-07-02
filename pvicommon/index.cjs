@@ -124,12 +124,29 @@ class Item {
         return retVal;
     }
 
+    templatesWatchingPushOrPrune() {
+        console.log("Item::templatesWatchingPushAndPrune");
+        for (let indexCur = this.templatesWatching.length - 1; indexCur >= 0; indexCur-- ) {
+            let templateWatchingPath = [...this.templatesWatching[indexCur]];
+            let templateWatchingSession = templateWatchingPath.shift();
+            let destNode = templateWatchingSession.accessNode(templateWatchingPath);
+            if (destNode == null) {
+                console.log("Item::templatesWatchingPushAndPrune - splice session: ", templateWatchingSession.id);
+                this.templatesWatching.splice(indexCur, 1);
+            } else {
+                setTimeout(() => { 
+                    destNode.pushOutData();
+                }, 1);
+            }
+        }
+    }
+
 }
 
 class Template {
     constructor(parent) {
         this.parent = parent;
-        this.session = this.parent.session;
+        this.track = this.parent.track;
         this.useCase = null;
         this.itemId = null;
         this.item = null;
@@ -193,17 +210,28 @@ class Template {
         return retVal;
     }
 
+    accessNode(nodePath) {
+        let retVal = this;
+        if (nodePath.length > 0) {
+            let templateElemNameCur = nodePath.shift();
+            if (this.elems[templateElemNameCur] != null) {
+                retVal = this.elems[templateElemNameCur].accessNode(nodePath);
+            } else {
+                retVal = null;
+            }
+        }
+        return retVal;
+    }
+
 }
 
 class TemplateServer extends Template {
     constructor(parent) {
         super(parent);
+        this.session = this.parent.session;
         this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
         this.pushOutData = this.pushOutData.bind(this);
-    }
-
-    destructor() {
     }
 
     fromClient(message) {
@@ -250,9 +278,7 @@ class TemplateServer extends Template {
     setItem(item) {
         console.log("TemplateServer::setItem: ", item.dbId, item.id);
         this.item = item;
-        this.item.templatesWatching.push(this);
-        //this.session.
-
+        this.item.templatesWatching.push([this.session, this.track, ...this.dbPath]);
     }
 
     pushOutData() {
@@ -271,7 +297,6 @@ class TemplateServer extends Template {
         };
         this.parent.forwardToClient(messageOut);
     }
-
 
 }
 
@@ -809,8 +834,9 @@ class TemplateWeb extends TemplateClient {
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
-        this.session = this.parent.session;
+        this.track = this.parent.track;
         this.childItemList = [];
+        this.childItemTemplates = {};
         this.dbPath = [...this.parent.dbPath];
     }
 
@@ -824,11 +850,22 @@ class TemplateList {
         this.childItemList = childItemList;
     }    
 
+    accessNode(nodePath) {
+        let retVal = null;
+        let templateIdCur = nodePath.shift();
+        if (this.childItemTemplates[templateIdCur] != null) {
+            retVal = this.childItemTemplates[templateIdCur].accessNode(nodePath);
+        }
+        return retVal;
+    }
+
+
 }
 
 class TemplateListServer extends TemplateList {
     constructor(parent) {
         super(parent);
+        this.session = this.parent.session;
         this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
     }
@@ -839,11 +876,11 @@ class TemplateListServer extends TemplateList {
             switch (message.Action) {
                 case 'StartTemplate':
                     if (message.Template != null && message.Template.ItemId != null) {
-                        let templateNew = new TemplateServer(this);
+                        this.childItemTemplates[message.Template.ItemId] = new TemplateServer(this);
                         let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
                         if (itemCur != null) {
-                            templateNew.setItem(itemCur);
-                            templateNew.pushOutData();
+                            this.childItemTemplates[message.Template.ItemId].setItem(itemCur);
+                            this.childItemTemplates[message.Template.ItemId].pushOutData();
                         }
                     }
                     break;
@@ -1057,7 +1094,7 @@ class TemplateListWeb extends TemplateListClient {
 class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
-        this.session = this.parent.session;
+        this.track = this.parent.track;
         this.useCaseElem = useCaseElem;
         this.dbPath = [...this.parent.dbPath, this.useCaseElem.attribute.Name];
         if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
@@ -1067,11 +1104,20 @@ class TemplateElem {
         }
     }
 
+    accessNode(nodePath) {
+        let retVal = null;
+        if (this.templateList != null) {
+            retVal = this.templateList.accessNode(nodePath);
+        }
+        return retVal;
+    }
+
 }
 
 class TemplateElemServer extends TemplateElem {
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
+        this.session = this.parent.session;
         this.model = this.parent.model;
         this.itemParent = parent.item;
         this.forwardToClient = this.forwardToClient.bind(this);
@@ -1207,7 +1253,9 @@ class Track {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
         this.session = this.parent;
+        this.track = this;
         this.id = id;
+        this.isClosed = false;
         this.dbPath = [];
     }
 
@@ -1219,6 +1267,17 @@ class Track {
     setItem(item) {
         console.log("Track::setItem");
         this.template.setItem(item);
+    }
+
+    accessNode(nodePath) {
+        let retVal = null;
+        if (this.isClosed == false) {
+            let templateCur = nodePath.shift();
+            if (nodePath.length > 0) {
+                retVal = templateCur.accessNode(nodePath);
+            }
+        }
+        return retVal;
     }
 
 }
