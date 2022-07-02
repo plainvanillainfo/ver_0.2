@@ -178,9 +178,11 @@ class Session {
     }
 
     accessNode(nodePath) {
+        console.log("Session::accessNode");
         let retVal = null;
         if (this.isClosed == false) {
             let trackCur = nodePath.shift();
+            console.log("Session::accessNode - trackCur.id: ", trackCur.id);
             if (this.tracks[trackCur.id != null]) {
                 retVal = trackCur.accessNode(nodePath);
             }

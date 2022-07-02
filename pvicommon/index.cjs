@@ -211,9 +211,11 @@ class Template {
     }
 
     accessNode(nodePath) {
+        console.log("Template::accessNode ");
         let retVal = this;
         if (nodePath.length > 0) {
             let templateElemNameCur = nodePath.shift();
+            console.log("Template::accessNode - templateElemNameCur: ", templateElemNameCur);
             if (this.elems[templateElemNameCur] != null) {
                 retVal = this.elems[templateElemNameCur].accessNode(nodePath);
             } else {
@@ -853,6 +855,7 @@ class TemplateList {
     accessNode(nodePath) {
         let retVal = null;
         let templateIdCur = nodePath.shift();
+        console.log("TemplateList::accessNode - templateIdCur: ", templateIdCur);
         if (this.childItemTemplates[templateIdCur] != null) {
             retVal = this.childItemTemplates[templateIdCur].accessNode(nodePath);
         }
@@ -1105,6 +1108,7 @@ class TemplateElem {
     }
 
     accessNode(nodePath) {
+        console.log("TemplateElem::accessNode");
         let retVal = null;
         if (this.templateList != null) {
             retVal = this.templateList.accessNode(nodePath);
@@ -1270,6 +1274,7 @@ class Track {
     }
 
     accessNode(nodePath) {
+        console.log("Track::accessNode");
         let retVal = null;
         if (this.isClosed == false) {
             let templateCur = nodePath.shift();
