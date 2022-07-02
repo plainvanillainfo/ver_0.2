@@ -1278,9 +1278,7 @@ class Track {
         let retVal = null;
         if (this.isClosed == false) {
             let templateCur = nodePath.shift();
-            if (nodePath.length > 0) {
-                retVal = templateCur.accessNode(nodePath);
-            }
+            retVal = templateCur.accessNode(nodePath);
         }
         return retVal;
     }
