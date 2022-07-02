@@ -96,7 +96,7 @@ class Item {
         this.referedItems = {};
         this.entensionItems = {};
         this.childItems = {};
-        this.sessionsWatching = [];
+        this.templatesWatching = [];
     }
 
     getItemSpec() {
@@ -115,7 +115,7 @@ class Item {
 
     getChildItems(name) {
         let retVal;
-        console.log("Item::getChildItems:", name, this.childItems[name]);
+        console.log("Item::getChildItems:", name); //, this.childItems[name]);
         if (this.childItems[name] != null) {
             retVal = this.childItems[name];
         } else {
@@ -129,6 +129,7 @@ class Item {
 class Template {
     constructor(parent) {
         this.parent = parent;
+        this.session = this.parent.session;
         this.useCase = null;
         this.itemId = null;
         this.item = null;
@@ -199,6 +200,10 @@ class TemplateServer extends Template {
         super(parent);
         this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
+        this.pushOutData = this.pushOutData.bind(this);
+    }
+
+    destructor() {
     }
 
     fromClient(message) {
@@ -245,10 +250,13 @@ class TemplateServer extends Template {
     setItem(item) {
         console.log("TemplateServer::setItem: ", item.dbId, item.id);
         this.item = item;
+        this.item.templatesWatching.push(this);
+        //this.session.
+
     }
 
     pushOutData() {
-        console.log("TemplateServer::start");
+        console.log("TemplateServer::pushOutData - item.id: ", this.item.id);
         let messageOut = {
             Action: 'ContinueTemplateSub',
             Template: {
@@ -801,6 +809,7 @@ class TemplateWeb extends TemplateClient {
 class TemplateList {
     constructor(parent) {
         this.parent = parent;
+        this.session = this.parent.session;
         this.childItemList = [];
         this.dbPath = [...this.parent.dbPath];
     }
@@ -1048,6 +1057,7 @@ class TemplateListWeb extends TemplateListClient {
 class TemplateElem {
     constructor(parent, useCaseElem) {
         this.parent = parent;
+        this.session = this.parent.session;
         this.useCaseElem = useCaseElem;
         this.dbPath = [...this.parent.dbPath, this.useCaseElem.attribute.Name];
         if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
@@ -1196,6 +1206,7 @@ class Track {
     constructor(parent, id) {
         console.log("Track::constructor - id: ", id);
         this.parent = parent;
+        this.session = this.parent;
         this.id = id;
         this.dbPath = [];
     }

@@ -174,8 +174,8 @@ class Session {
     close() {
         console.log("Session::close: ", this.id);
         for (let nodeCur in this.nodesWatched) {
-            let nodeDetail = this.nodesWatched[nodeCur];
-            delete nodeDetail.SessionsWatching[this.id];
+            //let nodeDetail = this.nodesWatched[nodeCur];
+            //delete nodeDetail.SessionsWatching[this.id];
         }
     }
     
@@ -273,8 +273,9 @@ class Model {
 
     putItem(path, item) {
         let ops = [];
+        let itemsUpdated = [];
         if (item.ChildItems != null && item.Attrs != null) {
-            this.buildPutBatchItem(ops, this.itemSeed, item);
+            this.buildPutBatchItem(ops, itemsUpdated, this.itemSeed, item);
         }
         console.log("Model::putItem - ops: ", ops);
         this.database.dbHandle.batch(ops, (err) => {
@@ -282,13 +283,20 @@ class Model {
                 console.log("Model::putItem: ", err);
             } else {
                 // Push to watchers
+                itemsUpdated.forEach(itemCur => {
+                    itemCur.templatesWatching.forEach(templateCur => {
+                        setTimeout(() => { 
+                            templateCur.pushOutData();
+                        }, 1);
+                    });
+                });
             }
         });
     }
 
-    buildPutBatchItem(ops, itemBase, itemDataIn) {
+    buildPutBatchItem(ops, itemsUpdated, itemBase, itemDataIn) {
         console.log("Model::buildPutBatchItem: ", itemDataIn);
-        this.buildPutBatchNode(ops, itemBase, itemDataIn);
+        this.buildPutBatchNode(ops, itemsUpdated, itemBase, itemDataIn);
         let itemBuiltRaw = {
             DBId: itemBase.dbId,
             Id: itemBase.id,
@@ -301,10 +309,10 @@ class Model {
             key: itemBuiltRaw.DBId,
             value: JSON.stringify(itemBuiltRaw)
         });
-
+        itemsUpdated.push(itemBase);
     }
 
-    buildPutBatchNode(ops, itemBase, itemDataIn) {
+    buildPutBatchNode(ops, itemsUpdated, itemBase, itemDataIn) {
         itemBase.ext = itemDataIn.Ext != null ? itemDataIn.Ext : '';
         for (let attrInCur in itemDataIn.Attrs) {
             let attrInDetail = itemDataIn.Attrs[attrInCur];
@@ -385,7 +393,7 @@ class Model {
                 // Call recursively for child item
                 //
                 if (childAttrInSubItem.ChildItems != null && childAttrInSubItem.Attrs != null) {
-                    this.buildPutBatchItem(ops, childListItem, childAttrInSubItem);
+                    this.buildPutBatchItem(ops, itemsUpdated, childListItem, childAttrInSubItem);
                 }
             });
             if (itemBase.childItems[childAttrInCur] != null) {
