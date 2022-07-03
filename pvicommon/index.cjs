@@ -211,7 +211,7 @@ class Template {
     }
 
     accessNode(nodePath) {
-        //console.log("Template::accessNode ");
+        console.log("Template::accessNode ");
         let retVal = this;
         if (nodePath.length > 0) {
             let templateElemNameCur = nodePath.shift();
@@ -1274,7 +1274,7 @@ class Track {
     }
 
     accessNode(nodePath) {
-        //console.log("Track::accessNode");
+        console.log("Track::accessNode");
         let retVal = null;
         if (this.isClosed == false) {
             nodePath.shift();
