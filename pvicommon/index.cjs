@@ -859,7 +859,7 @@ class TemplateList {
     }    
 
     accessNode(nodePath) {
-        let retVal = null;
+        let retVal = this;
         let templateIdCur = nodePath.shift();
         console.log("TemplateList::accessNode - templateIdCur: ", templateIdCur);
         if (this.childItemTemplates[templateIdCur] != null) {
