@@ -983,7 +983,7 @@ class TemplateListServer extends TemplateList {
                 }
             }
             */
-            Action: 'StartTemplateList',
+            Action: 'ContinueTemplateList',
             TemplateList: {
                 ItemList: listItems 
             }
@@ -1012,6 +1012,10 @@ class TemplateListClient extends TemplateList {
                     break;
                 default:
                     break;
+            }
+        } else {
+            if (message.ItemList != null) {
+                this.setListFromServer(message.ItemList);
             }
         }
     }
