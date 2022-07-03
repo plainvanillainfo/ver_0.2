@@ -941,7 +941,7 @@ class TemplateListServer extends TemplateList {
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
 
                 this.childItemTemplates[cur.id] = new TemplateServer(this);
-                this.childItemTemplates[message.Template.ItemId].setItem(cur);
+                this.childItemTemplates[cur.id].setItem(cur);
 
                 console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
             });
