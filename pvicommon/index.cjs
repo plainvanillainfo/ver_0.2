@@ -851,9 +851,11 @@ class TemplateList {
         this.useCase = useCase;
     }    
 
-    setChildItemList(childItemList) {
+    setChildItemList(itemParent, attributeName) {
+        //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
         console.log("TemplateList::setChildItemList");
-        this.childItemList = childItemList;
+        this.itemParent = itemParent;
+        this.childItemList = itemParent.getChildItems(attributeName);
     }    
 
     accessNode(nodePath) {
@@ -942,6 +944,8 @@ class TemplateListServer extends TemplateList {
 
                 //this.childItemTemplates[cur.id] = new TemplateServer(this);
                 //this.childItemTemplates[cur.id].setItem(cur);
+
+                this.itemParent.templatesWatching.push([this.session, this.track, ...this.dbPath]);
 
                 console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
             });
@@ -1137,7 +1141,8 @@ class TemplateElemServer extends TemplateElem {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
+                //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
+                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name);
             }
         }
     }
@@ -1165,7 +1170,8 @@ class TemplateElemServer extends TemplateElem {
             if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
+                //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
+                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name);
                 this.templateList.start();
             }
         }
