@@ -967,7 +967,6 @@ class TemplateListServer extends TemplateList {
                 };
                 listItems.push(listItemCur);
                 console.log("TemplateListServer::pushOutData path: ", [...this.dbPath, cur.id]);
-                cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
                 console.log("TemplateListServer::pushOutData pathLen: ",cur.templatesWatching.length);
             });
         }
