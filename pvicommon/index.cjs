@@ -401,6 +401,11 @@ class TemplateWeb extends TemplateClient {
     }
 
     setUseCaseForm() {
+
+        if (this.divTarget != null) {
+            this.track.div.removeChild(this.divTarget);
+        }
+
         this.divTarget = document.createElement('div');
         this.track.div.appendChild(this.divTarget);
         this.divTarget.style.margin = '10px';
