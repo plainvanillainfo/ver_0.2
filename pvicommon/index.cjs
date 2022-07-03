@@ -278,7 +278,7 @@ class TemplateServer extends Template {
 
     setItem(item) {
         console.log("TemplateServer::setItem: ", item.dbId, item.id);
-        this.item = item;
+        super.setItem(item);
         this.item.templatesWatching.push([this.session, this.track, ...this.dbPath]);
     }
 
@@ -356,7 +356,7 @@ class TemplateClient extends Template {
 
     setItem(item) {
         console.log("TemplateClient::setItem: ", item);
-        this.item = item;
+        super.setItem(item);
     }
 
     setItemId(itemId) {
