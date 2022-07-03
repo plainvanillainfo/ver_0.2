@@ -942,6 +942,7 @@ class TemplateListServer extends TemplateList {
                 listItems.push(listItemCur);
                 console.log("TemplateListServer::start path: ", [...this.dbPath, cur.id]);
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
+                console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
             });
         }
         let messageOut = {
