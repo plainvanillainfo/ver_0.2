@@ -941,12 +941,7 @@ class TemplateListServer extends TemplateList {
                 listItems.push(listItemCur);
                 console.log("TemplateListServer::start path: ", [...this.dbPath, cur.id]);
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
-
-                //this.childItemTemplates[cur.id] = new TemplateServer(this);
-                //this.childItemTemplates[cur.id].setItem(cur);
-
                 this.itemParent.templatesWatching.push([this.session, this.track, ...this.dbPath]);
-
                 console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
             });
         }
@@ -958,6 +953,46 @@ class TemplateListServer extends TemplateList {
         };
         this.parent.forwardToClient(messageOut);
     }
+
+    pushOutData() {
+        console.log("TemplateListServer::pushOutData - itemParent.dbId, id: ", this.session.id, this.itemParent.dbId, this.itemParent.id);
+        let listItems = [];
+        if (this.childItemList != null && this.childItemList.ListItems != null) {
+            this.childItemList.ListItems.forEach(cur => {
+                let listItemCur = {
+                    Id: cur.id,
+                    Ext: cur.ext,
+                    Attrs: cur.attrs,
+                    ChildItems: {}
+                };
+                listItems.push(listItemCur);
+                console.log("TemplateListServer::pushOutData path: ", [...this.dbPath, cur.id]);
+                cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
+                this.itemParent.templatesWatching.push([this.session, this.track, ...this.dbPath]);
+                console.log("TemplateListServer::pushOutData pathLen: ",cur.templatesWatching.length);
+            });
+        }
+        let messageOut = {
+            /*
+            Action: 'ContinueTemplateSub',
+            Template: {
+                Action: 'AcceptData',
+                Item: {
+                    Id: this.item.id,
+                    Ext: this.item.ext,
+                    Attrs: this.item.attrs,
+                    ChildItems: {}
+                }
+            }
+            */
+            Action: 'StartTemplateList',
+            TemplateList: {
+                ItemList: listItems 
+            }
+        };
+        this.parent.forwardToClient(messageOut);
+    }
+
 
 }
 
