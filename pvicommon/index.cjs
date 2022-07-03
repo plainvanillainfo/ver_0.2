@@ -906,10 +906,7 @@ class TemplateListServer extends TemplateList {
                                     this.model.putItem([], itemLocal);
                                 }
                             }
-                        } else {
                         }
-
-
                     }
                     break;
                 default:
@@ -942,6 +939,10 @@ class TemplateListServer extends TemplateList {
                 listItems.push(listItemCur);
                 console.log("TemplateListServer::start path: ", [...this.dbPath, cur.id]);
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
+
+                this.childItemTemplates[cur.id] = new TemplateServer(this);
+                this.childItemTemplates[message.Template.ItemId].setItem(cur);
+
                 console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
             });
         }
