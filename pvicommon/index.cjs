@@ -134,9 +134,8 @@ class Item {
                 console.log("Item::templatesWatchingPushAndPrune - splice session: ", templateWatchingSession.id);
                 this.templatesWatching.splice(indexCur, 1);
             } else {
-                //setTimeout((destNode) => { 
-                    destNode.pushOutData();
-                //}, 1);
+                console.log("Item::templatesWatchingPushAndPrune - destNode.dbPath: ", destNode.dbPath);
+                destNode.pushOutData();
             }
         }
     }
