@@ -940,8 +940,8 @@ class TemplateListServer extends TemplateList {
                 console.log("TemplateListServer::start path: ", [...this.dbPath, cur.id]);
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
 
-                this.childItemTemplates[cur.id] = new TemplateServer(this);
-                this.childItemTemplates[cur.id].setItem(cur);
+                //this.childItemTemplates[cur.id] = new TemplateServer(this);
+                //this.childItemTemplates[cur.id].setItem(cur);
 
                 console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
             });
