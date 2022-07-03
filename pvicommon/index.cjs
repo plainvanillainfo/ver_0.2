@@ -125,7 +125,7 @@ class Item {
     }
 
     templatesWatchingPushOrPrune() {
-        console.log("Item::templatesWatchingPushAndPrune");
+        console.log("Item::templatesWatchingPushOrPrune");
         for (let indexCur = this.templatesWatching.length - 1; indexCur >= 0; indexCur-- ) {
             let templateWatchingPath = [...this.templatesWatching[indexCur]];
             let templateWatchingSession = templateWatchingPath.shift();
@@ -134,7 +134,7 @@ class Item {
                 console.log("Item::templatesWatchingPushAndPrune - splice session: ", templateWatchingSession.id);
                 this.templatesWatching.splice(indexCur, 1);
             } else {
-                setTimeout(() => { 
+                setTimeout((destNode) => { 
                     destNode.pushOutData();
                 }, 1);
             }
