@@ -940,7 +940,7 @@ class TemplateListServer extends TemplateList {
                     ChildItems: {}
                 };
                 listItems.push(listItemCur);
-                cur.templatesWatching.push([this.session, this.track, ...this.dbPath, listItemCur.id]);
+                cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
             });
         }
         let messageOut = {
