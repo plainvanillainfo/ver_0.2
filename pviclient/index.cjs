@@ -63,7 +63,7 @@ class Client {
         this.initializeClasses(classesFileContent, viewerName);
         this.initializeUseCases(useCasesFileContent, viewerName);
         this.tracks[trackId].setUseCase(this.useCases[track.UseCaseSpec.Name]);
-        this.tracks[trackId].setItem(track.ItemSpec != null ? track.ItemSpec : {});
+        //this.tracks[trackId].setItem(track.ItemSpec != null ? track.ItemSpec : {});
     }
 
     checkUserAuthentication() {
