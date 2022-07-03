@@ -125,7 +125,7 @@ class Item {
     }
 
     templatesWatchingPushOrPrune() {
-        console.log("Item::templatesWatchingPushOrPrune");
+        console.log("Item::templatesWatchingPushOrPrune - this.templatesWatching.length: ", this.templatesWatching.length);
         for (let indexCur = this.templatesWatching.length - 1; indexCur >= 0; indexCur-- ) {
             let templateWatchingPath = [...this.templatesWatching[indexCur]];
             let templateWatchingSession = templateWatchingPath.shift();
