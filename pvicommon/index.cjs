@@ -899,7 +899,7 @@ class TemplateListServer extends TemplateList {
                     if (message.Template != null && message.Template.ItemData != null && message.Template.ItemDBPath != null) {
                         if (message.Template.ItemData.Id == null) {
                             if (this.useCase.spec.SubUseCase != null) {
-                                let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase];
+                                let useCaseSub = this.model.useCases[this.useCase.spec.SubUseCase];
                                 console.log("TemplateListServer::fromClient() - useCaseSub: ", useCaseSub);
                             }
                         }
