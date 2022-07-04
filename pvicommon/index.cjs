@@ -117,11 +117,11 @@ class Item {
         let retVal;
         console.log("Item::getChildItems:", name); //, this.childItems[name]);
         if (this.childItems[name] != null) {
-            retVal = this.childItems[name];
+            //retVal = this.childItems[name];
         } else {
-            this.model.getItem();
-            retVal = [];
+            this.model.getChild([], this, name);
         }
+        retVal = this.childItems[name];
         return retVal;
     }
 
