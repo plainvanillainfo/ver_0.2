@@ -360,19 +360,17 @@ class Model {
                     break;
             }
         }
-
         for (let childAttrInCur in itemDataIn.ChildItems) {
             console.log("Model::buildPutBatchNode: childAttrInCur: ", childAttrInCur);
-            //
+            /*
             // childAttrInCur has to be a concatenation, like:
             // vehicle - front left wheel assembly / tire - nuts
             // vehicle - front right wheel assembly / tire - nuts
             //
             // this is to disambiguate child lists that may have the same immediate name, but descend
             // from different ancestries
-            //
+            */
             let childAttrInDetail = itemDataIn.ChildItems[childAttrInCur];
-            //console.log("Model::buildPutBatchNode: childAttrInDetail: ", childAttrInDetail);
             childAttrInDetail.forEach(childAttrInSubItem =>{
                 console.log("Model::buildPutBatchNode: childAttrInSubItem.Id: ", childAttrInSubItem.Id);
                 console.log(childAttrInSubItem);
@@ -383,15 +381,9 @@ class Model {
                     };
                 }
                 let childListItem = itemBase.childItems[childAttrInCur].ListItems.find(cur => cur.id === childAttrInSubItem.Id);
-
-                //itemBase.childItems[childAttrInCur].ListItems.forEach(cur => {
-                //    console.log("Model::buildPutBatchNode: itemBase.childItems[childAttrInCur].ListItems - cur.id: ", cur.id);
-                //});
-
                 if (childListItem == null) {
                     let dbKey = this.database.nextItemkey.toString(16).padStart(16, '0')
                     this.database.nextItemkey++;
-
                     //
                     // Create child item
                     //
@@ -400,20 +392,16 @@ class Model {
                     itemBase.childItems[childAttrInCur].ListItems.push(childListItem);
                     itemBase.childItems[childAttrInCur].ListDBIds.push(dbKey);
                 } else {
-                    //console.log("Model::buildPutBatchNode: AAAA: ");
                     if (childAttrInSubItem.Ext != null) {
                         childListItem.ext = childAttrInSubItem.Ext;
                     }
                     if (childAttrInSubItem.Attrs != null) {
-                        //console.log("Model::buildPutBatchNode: BBBB: ");
                         for (let attrCur in childAttrInSubItem.Attrs) {
                             let attrDetail = childAttrInSubItem.Attrs[attrCur];
                             childListItem.attrs[attrCur] = attrDetail;
                         }
-                        //console.log("Model::buildPutBatchNode: CCCC: ", childListItem.attrs);
                     }
                 }
-
                 //
                 // Call recursively for child item
                 //
@@ -429,9 +417,8 @@ class Model {
                 });
             }
         }
-
-
     }
+
 }
 
 class WebServer {
