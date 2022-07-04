@@ -300,7 +300,7 @@ class Model {
                         if (err1) {
                             resolve("Model::getChild Many - error: " + err1);
                         } else {
-                            resolve(JSON.parse(value1));
+                            resolve("XXX"); //JSON.parse(value1));
                         }
                     });
                 }
