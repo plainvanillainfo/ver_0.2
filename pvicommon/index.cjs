@@ -933,6 +933,9 @@ class TemplateListServer extends TemplateList {
     start() {
         console.log("TemplateListServer::start");
         let listItems = [];
+
+        this.childItemList = itemParent.childItems[this.attributeName];
+
         if (this.childItemList != null && this.childItemList.ListItems != null) {
             this.childItemList.ListItems.forEach(cur => {
                 let listItemCur = {
@@ -961,7 +964,8 @@ class TemplateListServer extends TemplateList {
     setChildItemList(itemParent, attributeName, fnCallback) {
         console.log("TemplateElemServer::setChildItemList");
         super.setChildItemList(itemParent);
-        this.childItemList = itemParent.getChildItems(this.model, attributeName, fnCallback);
+        this.attributeName = attributeName;
+        /*this.childItemList =*/  itemParent.getChildItems(this.model, attributeName, fnCallback);
     }    
 
 
