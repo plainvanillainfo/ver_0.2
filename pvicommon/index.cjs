@@ -954,7 +954,7 @@ class TemplateListServer extends TemplateList {
 
     setChildItemList(itemParent, attributeName) {
         console.log("TemplateElemServer::setChildItemList");
-        super(itemParent);
+        super.setChildItemList(itemParent);
         this.childItemList = itemParent.getChildItems(this.model, attributeName);
     }    
 
