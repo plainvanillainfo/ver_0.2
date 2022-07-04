@@ -282,7 +282,7 @@ class Model {
         return retVal;
     }
 
-    getChild(path, item, childAttrName) {
+    getChild(path, item, childAttrName, fnCallback) {
         let itemBase = item;
         itemBase = this.itemSeed; 
         let key = itemBase.dbId + childAttrName;
@@ -303,6 +303,7 @@ class Model {
                             value1.forEach(cur => {
                                 console.log(JSON.parse(cur));
                             });
+                            fnCallback();
                             resolve();
                         }
                     });

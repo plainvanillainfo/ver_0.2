@@ -113,14 +113,16 @@ class Item {
         }
     }
 
-    getChildItems(model, name) {
+    getChildItems(model, name, fnCallback) {
         console.log("Item::getChildItems: ", name);
         if (this.childItems[name] != null) {
-            return this.childItems[name];
+            fnCallback();
+            //return this.childItems[name];
         } else {
-            model.getChild([], this, name);
-            console.log("Item::getChildItems - END: ", name);
-            return this.childItems[name];
+            model.getChild([], this, name, fnCallback);
+            fnCallback();
+            //console.log("Item::getChildItems - END: ", name);
+            //return this.childItems[name];
         }
     }
 
@@ -243,7 +245,7 @@ class TemplateServer extends Template {
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         let templateElemNew = new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
                         this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
-                        templateElemNew.start();
+                        //templateElemNew.start();
                     }
                     break;
                 case 'ContinueTemplateElem':
@@ -875,6 +877,7 @@ class TemplateListServer extends TemplateList {
         this.session = this.parent.session;
         this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
+        this.start = this.start.bind(this);
     }
 
     fromClient(message) {
@@ -953,10 +956,10 @@ class TemplateListServer extends TemplateList {
         this.parent.forwardToClient(messageOut);
     }
 
-    setChildItemList(itemParent, attributeName) {
+    setChildItemList(itemParent, attributeName, fnCallback) {
         console.log("TemplateElemServer::setChildItemList");
         super.setChildItemList(itemParent);
-        this.childItemList = itemParent.getChildItems(this.model, attributeName);
+        this.childItemList = itemParent.getChildItems(this.model, attributeName, fnCallback);
     }    
 
 
@@ -1169,11 +1172,12 @@ class TemplateElemServer extends TemplateElem {
         this.model = this.parent.model;
         this.itemParent = parent.item;
         this.forwardToClient = this.forwardToClient.bind(this);
+        this.start = this.start.bind(this);
         if (this.fJoin) {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name);
+                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.start);
             }
         }
     }
@@ -1201,8 +1205,7 @@ class TemplateElemServer extends TemplateElem {
             if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name);
-                this.templateList.start();
+                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.start());
             }
         }
     }
