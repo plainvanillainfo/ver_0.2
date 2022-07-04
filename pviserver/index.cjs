@@ -286,7 +286,7 @@ class Model {
         let itemBase = item;
         itemBase = this.itemSeed; 
         let key = itemBase.dbId + childAttrName;
-        let value = await this.database.dbHandle.get(key);
+        let value = this.database.dbHandle.get(key);
         itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
     }
 

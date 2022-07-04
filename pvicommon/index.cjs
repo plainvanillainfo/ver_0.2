@@ -114,7 +114,7 @@ class Item {
     }
 
     getChildItems(name) {
-        console.log("Item::getChildItems:", name); //, this.childItems[name]);
+        console.log("Item::getChildItems:", name);
         if (this.childItems[name] != null) {
             return this.childItems[name];
         } else {
