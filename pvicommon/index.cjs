@@ -1205,7 +1205,7 @@ class TemplateElemServer extends TemplateElem {
             if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.start());
+                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.start);
             }
         }
     }
