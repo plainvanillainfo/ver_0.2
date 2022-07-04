@@ -291,6 +291,9 @@ class Model {
                 if (err) {
                     resolve("Model::getChild - error: " + err);
                 } else {
+                    if (itemBase.childItems[childAttrName] == null) {
+                        itemBase.childItems[childAttrName] = {};
+                    }
                     itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
                     resolve();
                 }
