@@ -113,12 +113,12 @@ class Item {
         }
     }
 
-    getChildItems(name) {
+    getChildItems(model, name) {
         console.log("Item::getChildItems:", name);
         if (this.childItems[name] != null) {
             return this.childItems[name];
         } else {
-            this.model.getChild([], this, name);
+            model.getChild([], this, name);
             return this.childItems[name];
         }
     }
@@ -850,10 +850,9 @@ class TemplateList {
         this.useCase = useCase;
     }    
 
-    setChildItemList(itemParent, attributeName) {
+    setChildItemList(itemParent) {
         console.log("TemplateList::setChildItemList");
         this.itemParent = itemParent;
-        this.childItemList = itemParent.getChildItems(attributeName);
     }    
 
     accessNode(nodePath) {
@@ -952,6 +951,13 @@ class TemplateListServer extends TemplateList {
         };
         this.parent.forwardToClient(messageOut);
     }
+
+    setChildItemList(itemParent, attributeName) {
+        console.log("TemplateElemServer::setChildItemList");
+        super(itemParent);
+        this.childItemList = itemParent.getChildItems(this.model, attributeName);
+    }    
+
 
     pushOutData() {
         //console.log("TemplateListServer::pushOutData - itemParent.dbId, id: ", this.session.id, this.itemParent.dbId, this.itemParent.id);
