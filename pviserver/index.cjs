@@ -282,7 +282,7 @@ class Model {
         return retVal;
     }
 
-    async getChild(path, item, childAttrName) {
+    getChild(path, item, childAttrName) {
         let itemBase = item;
         itemBase = this.itemSeed; 
         let key = itemBase.dbId + childAttrName;
