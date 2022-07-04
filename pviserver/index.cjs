@@ -301,14 +301,14 @@ class Model {
                             resolve("Model::getChild Many - error: " + err1);
                         } else {
                             value1.forEach(cur => {
-                                childInfo = JSON.parse(cur);
-                                childListItem = new Item(itemBase, cur.DBId, cur.Id);
-                                if (cur.Ext != null) {
-                                    childListItem.ext = cur.Ext;
+                                let childInfo = JSON.parse(cur);
+                                childListItem = new Item(itemBase, childInfo.DBId, childInfo.Id);
+                                if (childInfo.Ext != null) {
+                                    childListItem.ext = childInfo.Ext;
                                 }
-                                if (cur.Attrs != null) {
-                                    for (let attrCur in cur.Attrs) {
-                                        let attrDetail = cur.Attrs[attrCur];
+                                if (childInfo.Attrs != null) {
+                                    for (let attrCur in childInfo.Attrs) {
+                                        let attrDetail = childInfo.Attrs[attrCur];
                                         childListItem.attrs[attrCur] = attrDetail;
                                     }
                                 }
