@@ -898,7 +898,10 @@ class TemplateListServer extends TemplateList {
                 case 'UpdateItem':
                     if (message.Template != null && message.Template.ItemData != null && message.Template.ItemDBPath != null) {
                         if (message.Template.ItemData.Id == null) {
-                            console.log("TemplateListServer::fromClient() - this.useCase: ", this.useCase);
+                            if (this.useCase.spec.SubUseCase != null) {
+                                let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase];
+                                console.log("TemplateListServer::fromClient() - useCaseSub: ", useCaseSub);
+                            }
                         }
                         if (message.Template.ItemData.Id != null) {
                             let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemData.Id);
