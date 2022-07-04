@@ -119,8 +119,8 @@ class Item {
             return this.childItems[name];
         } else {
             model.getChild([], this, name);
-            return this.childItems[name];
             console.log("Item::getChildItems - END: ", name);
+            return this.childItems[name];
         }
     }
 
