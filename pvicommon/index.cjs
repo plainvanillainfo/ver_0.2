@@ -897,6 +897,9 @@ class TemplateListServer extends TemplateList {
                     break;
                 case 'UpdateItem':
                     if (message.Template != null && message.Template.ItemData != null && message.Template.ItemDBPath != null) {
+                        if (message.Template.ItemData.Id == null) {
+                            console.log("TemplateListServer::fromClient() - this.useCase: ", this.useCase);
+                        }
                         if (message.Template.ItemData.Id != null) {
                             let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemData.Id);
                             if (itemCur != null) {
@@ -967,7 +970,6 @@ class TemplateListServer extends TemplateList {
         this.attributeName = attributeName;
         /*this.childItemList =*/  itemParent.getChildItems(this.model, attributeName, fnCallback);
     }    
-
 
     pushOutData() {
         //console.log("TemplateListServer::pushOutData - itemParent.dbId, id: ", this.session.id, this.itemParent.dbId, this.itemParent.id);
