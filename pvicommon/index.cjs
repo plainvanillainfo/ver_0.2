@@ -120,7 +120,6 @@ class Item {
             //return this.childItems[name];
         } else {
             model.getChild([], this, name, fnCallback);
-            fnCallback();
             //console.log("Item::getChildItems - END: ", name);
             //return this.childItems[name];
         }
@@ -962,7 +961,7 @@ class TemplateListServer extends TemplateList {
     }
 
     setChildItemList(itemParent, attributeName, fnCallback) {
-        console.log("TemplateElemServer::setChildItemList");
+        console.log("TemplateListServer::setChildItemList");
         super.setChildItemList(itemParent);
         this.itemParent = itemParent;
         this.attributeName = attributeName;
