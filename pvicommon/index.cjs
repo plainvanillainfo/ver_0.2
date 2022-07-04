@@ -404,7 +404,6 @@ class TemplateWeb extends TemplateClient {
     }
 
     setUseCaseForm() {
-
         if (this.divTarget != null) {
             this.track.div.removeChild(this.divTarget);
         }
@@ -428,12 +427,6 @@ class TemplateWeb extends TemplateClient {
         buttonCur.addEventListener('click', (event) => {
             event.preventDefault();
             this.hideForm();
-            /*
-            if (this.context.TemplateElem != null && this.context.TemplateElem.joinedViewerSpec != null) {
-                this.templateSub = null;
-                this.actionNext = 'Sr';
-            }
-            */
         });
         let fNeedKeyElem = false;
         let keyElemSpec = null;
@@ -676,7 +669,7 @@ class TemplateWeb extends TemplateClient {
             }
             */
         });
-        this.useCase.spec.Elems.forEach( (elemCur, menuItemIndex) => {
+        this.useCase.spec.Elems.forEach( (elemCur, elemIndex) => {
             divCur = document.createElement('div');
             this.form.appendChild(divCur);
             divCur.style.marginBottom = "10px";
@@ -1158,14 +1151,22 @@ class TemplateListWeb extends TemplateListClient {
                 }
             });
 
+            /*
             for (let attrCur in itemCur.Attrs) {
                 let attrDetail = itemCur.Attrs[attrCur];
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
                 tableItemRowCell.appendChild(document.createTextNode(attrDetail.Value));
             }
-        });
+            */
 
+            this.useCase.spec.Elems.forEach(elemCur => {
+                let attrDetail = itemCur.Attrs[elemCur.Name];
+                let tableItemRowCell = document.createElement('td');
+                tableItemRow.appendChild(tableItemRowCell);
+                tableItemRowCell.appendChild(document.createTextNode(attrDetail.Value));
+            });
+        });
     }
 
 }
