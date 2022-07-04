@@ -245,7 +245,9 @@ class TemplateServer extends Template {
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         let templateElemNew = new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
                         this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
-                        //templateElemNew.start();
+                        if (templateElemNew.fJoin == false) {
+                            templateElemNew.start();
+                        }
                     }
                     break;
                 case 'ContinueTemplateElem':
