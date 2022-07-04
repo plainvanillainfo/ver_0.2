@@ -286,9 +286,16 @@ class Model {
         let itemBase = item;
         itemBase = this.itemSeed; 
         let key = itemBase.dbId + childAttrName;
-        let value = this.database.dbHandle.get(key);
-        console.log("Model::getChild", key, value);
-        itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
+        return new Promise(resolve => {
+            this.database.dbHandle.get(key, (err, value) => {
+                if (err) {
+                    resolve("Model::getChild - error: " + err);
+                } else {
+                    itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
+                    resolve();
+                }
+            });
+        });
     }
 
     putItem(path, item) {
