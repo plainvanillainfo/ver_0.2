@@ -948,6 +948,7 @@ class TemplateListServer extends TemplateList {
         let messageOut = {
             Action: 'StartTemplateList',
             TemplateList: {
+                Action: 'AcceptDataList',
                 ItemList: listItems 
             }
         };
@@ -971,26 +972,14 @@ class TemplateListServer extends TemplateList {
             });
         }
         let messageOut = {
-            /*
-            Action: 'ContinueTemplateSub',
-            Template: {
-                Action: 'AcceptData',
-                Item: {
-                    Id: this.item.id,
-                    Ext: this.item.ext,
-                    Attrs: this.item.attrs,
-                    ChildItems: {}
-                }
-            }
-            */
             Action: 'ContinueTemplateList',
             TemplateList: {
+                Action: 'AcceptDataList',
                 ItemList: listItems 
             }
         };
         this.parent.forwardToClient(messageOut);
     }
-
 
 }
 
@@ -1010,13 +999,20 @@ class TemplateListClient extends TemplateList {
                         this.templateSub.fromServer(message.Template);
                     }
                     break;
+                case 'AcceptDataList':
+                    if (message.ItemList != null) {
+                        this.setListFromServer(message.ItemList);
+                    }
+                    break;
                 default:
                     break;
             }
+            /*
         } else {
             if (message.ItemList != null) {
                 this.setListFromServer(message.ItemList);
             }
+            */
         }
     }
 
