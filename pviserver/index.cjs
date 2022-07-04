@@ -225,7 +225,7 @@ class Model {
             //console.log("Model::initializeClasses(); ", classCur.Name);
             this.classes[classCur.Name] = new PVIClass(this, classCur.Attributes, false);
         });
-    }    
+    }
 
     initializeUseCases() {
         let useCasesDir = this.parent.appDir + '/' + this.parent.config.ModelUseCases.Dir;
@@ -241,7 +241,7 @@ class Model {
             //console.log("Model::initializeUseCases(); ", useCaseCur.Name);
             this.useCases[useCaseCur.Name] = new UseCase(this, useCaseCur);
         });
-    }    
+    }
 
     initializeUsers() {
         let usersDir = this.parent.appDir + '/' + this.parent.config.ModelUsers.Dir;
@@ -255,7 +255,7 @@ class Model {
                 this.users[userCur.UserId] = new User(this, userCur);
             });
         });
-    }    
+    }
 
     getItem(path) {
         let retVal;
@@ -280,6 +280,14 @@ class Model {
             }
         }
         return retVal;
+    }
+
+    async getChild(path, item, childAttrName) {
+        let itemBase = item;
+        itemBase = this.itemSeed; 
+        let key = itemBase.dbId + childAttrName;
+        let value = await this.database.dbHandle.get(key);
+        itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
     }
 
     putItem(path, item) {

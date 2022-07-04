@@ -114,15 +114,13 @@ class Item {
     }
 
     getChildItems(name) {
-        let retVal;
         console.log("Item::getChildItems:", name); //, this.childItems[name]);
         if (this.childItems[name] != null) {
-            //retVal = this.childItems[name];
+            return this.childItems[name];
         } else {
             this.model.getChild([], this, name);
+            return this.childItems[name];
         }
-        retVal = this.childItems[name];
-        return retVal;
     }
 
     templatesWatchingPushOrPrune() {
@@ -853,7 +851,6 @@ class TemplateList {
     }    
 
     setChildItemList(itemParent, attributeName) {
-        //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
         console.log("TemplateList::setChildItemList");
         this.itemParent = itemParent;
         this.childItemList = itemParent.getChildItems(attributeName);
@@ -1169,7 +1166,6 @@ class TemplateElemServer extends TemplateElem {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
-                //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
                 this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name);
             }
         }
@@ -1198,7 +1194,6 @@ class TemplateElemServer extends TemplateElem {
             if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                //this.templateList.setChildItemList(this.itemParent.getChildItems(this.useCaseElem.attribute.Name));
                 this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name);
                 this.templateList.start();
             }
