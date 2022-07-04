@@ -287,6 +287,7 @@ class Model {
         itemBase = this.itemSeed; 
         let key = itemBase.dbId + childAttrName;
         let value = this.database.dbHandle.get(key);
+        console.log("Model::getChild", key, value);
         itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
     }
 
