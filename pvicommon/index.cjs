@@ -119,6 +119,7 @@ class Item {
         if (this.childItems[name] != null) {
             retVal = this.childItems[name];
         } else {
+            this.model.getItem();
             retVal = [];
         }
         return retVal;
