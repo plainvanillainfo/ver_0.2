@@ -302,7 +302,7 @@ class Model {
                         } else {
                             value1.forEach(cur => {
                                 let childInfo = JSON.parse(cur);
-                                childListItem = new Item(itemBase, childInfo.DBId, childInfo.Id);
+                                let childListItem = new Item(itemBase, childInfo.DBId, childInfo.Id);
                                 if (childInfo.Ext != null) {
                                     childListItem.ext = childInfo.Ext;
                                 }
