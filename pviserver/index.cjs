@@ -295,7 +295,13 @@ class Model {
                         itemBase.childItems[childAttrName] = {};
                     }
                     itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
-                    resolve();
+                    this.database.dbHandle.getMany(itemBase.childItems[childAttrName].ListDBIds, (err1, value1) => {
+                        if (err1) {
+                            resolve("Model::getChild Many - error: " + err1);
+                        } else {
+                            resolve(JSON.parse(value1));
+                        }
+                    });
                 }
             });
         });
