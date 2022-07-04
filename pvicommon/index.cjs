@@ -114,12 +114,13 @@ class Item {
     }
 
     getChildItems(model, name) {
-        console.log("Item::getChildItems:", name);
+        console.log("Item::getChildItems: ", name);
         if (this.childItems[name] != null) {
             return this.childItems[name];
         } else {
             model.getChild([], this, name);
             return this.childItems[name];
+            console.log("Item::getChildItems - END: ", name);
         }
     }
 
