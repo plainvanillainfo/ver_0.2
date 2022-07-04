@@ -295,13 +295,24 @@ class Model {
                         itemBase.childItems[childAttrName] = {};
                     }
                     itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
-                    //console.log(itemBase.childItems[childAttrName].ListDBIds);
+                    itemBase.childItems[childAttrName].ListItems = [];
                     this.database.dbHandle.getMany(itemBase.childItems[childAttrName].ListDBIds, (err1, value1) => {
                         if (err1) {
                             resolve("Model::getChild Many - error: " + err1);
                         } else {
                             value1.forEach(cur => {
-                                console.log(JSON.parse(cur));
+                                childInfo = JSON.parse(cur);
+                                childListItem = new Item(itemBase, cur.DBId, cur.Id);
+                                if (cur.Ext != null) {
+                                    childListItem.ext = cur.Ext;
+                                }
+                                if (cur.Attrs != null) {
+                                    for (let attrCur in cur.Attrs) {
+                                        let attrDetail = cur.Attrs[attrCur];
+                                        childListItem.attrs[attrCur] = attrDetail;
+                                    }
+                                }
+                                itemBase.childItems[childAttrName].ListItems.push(childListItem);
                             });
                             fnCallback();
                             resolve();
