@@ -906,7 +906,7 @@ class TemplateListServer extends TemplateList {
                                     let itemIdNew = 0;
                                     this.childItemList.ListItems.forEach(listItemCur => {
                                         let parsedId = parseInt(listItemCur.id);
-                                        if (isNan(parsedId) == false) {
+                                        if (isNaN(parsedId) == false) {
                                             if (parsedId > itemIdNew) {
                                                 itemIdNew = parsedId;
                                             }
