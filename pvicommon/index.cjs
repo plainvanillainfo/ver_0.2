@@ -939,9 +939,9 @@ class TemplateListServer extends TemplateList {
                     ChildItems: {}
                 };
                 listItems.push(listItemCur);
-                console.log("TemplateListServer::start path: ", [...this.dbPath, cur.id]);
+                //console.log("TemplateListServer::start path: ", [...this.dbPath, cur.id]);
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
-                console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
+                //console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
             });
         }
         this.itemParent.templatesWatching.push([this.session, this.track, ...this.dbPath]);
@@ -956,7 +956,7 @@ class TemplateListServer extends TemplateList {
     }
 
     pushOutData() {
-        console.log("TemplateListServer::pushOutData - itemParent.dbId, id: ", this.session.id, this.itemParent.dbId, this.itemParent.id);
+        //console.log("TemplateListServer::pushOutData - itemParent.dbId, id: ", this.session.id, this.itemParent.dbId, this.itemParent.id);
         let listItems = [];
         if (this.childItemList != null && this.childItemList.ListItems != null) {
             this.childItemList.ListItems.forEach(cur => {
@@ -967,8 +967,8 @@ class TemplateListServer extends TemplateList {
                     ChildItems: {}
                 };
                 listItems.push(listItemCur);
-                console.log("TemplateListServer::pushOutData path: ", [...this.dbPath, cur.id]);
-                console.log("TemplateListServer::pushOutData pathLen: ",cur.templatesWatching.length);
+                //console.log("TemplateListServer::pushOutData path: ", [...this.dbPath, cur.id]);
+                //console.log("TemplateListServer::pushOutData pathLen: ",cur.templatesWatching.length);
             });
         }
         let messageOut = {
@@ -1007,12 +1007,6 @@ class TemplateListClient extends TemplateList {
                 default:
                     break;
             }
-            /*
-        } else {
-            if (message.ItemList != null) {
-                this.setListFromServer(message.ItemList);
-            }
-            */
         }
     }
 
