@@ -897,17 +897,35 @@ class TemplateListServer extends TemplateList {
                     break;
                 case 'UpdateItem':
                     if (message.Template != null && message.Template.ItemData != null && message.Template.ItemDBPath != null) {
+                        let itemId = null;
                         if (message.Template.ItemData.Id == null) {
                             if (this.useCase.spec.SubUseCase != null) {
                                 let useCaseSub = this.model.useCases[this.useCase.spec.SubUseCase];
-                                console.log("TemplateListServer::fromClient() - useCaseSub: ", useCaseSub);
+                                console.log("TemplateListServer::fromClient() - useCaseSub.spec: ", useCaseSub.spec);
+                                if (useCaseSub.spec.AutoKey != null && useCaseSub.spec.AutoKey == 'Number') {
+                                    let itemIdNew = 0;
+                                    this.childItemList.ListItems.forEach(listItemCur => {
+                                        let parsedId = parseInt(listItemCur.id);
+                                        if (isNan(parsedId) == false) {
+                                            if (parsedId > itemIdNew) {
+                                                itemIdNew = parsedId;
+                                            }
+                                        }
+                                    });
+                                    itemIdNew++;
+                                    itemId = itemIdNew.toString();
+                                    message.Template.ItemData.Id = itemId;
+                                }
                             }
+                        } else {
+                            itemId = message.Template.ItemData.Id;
                         }
-                        if (message.Template.ItemData.Id != null) {
-                            let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemData.Id);
-                            if (itemCur != null) {
+                        if (itemId != null) {
+                            //let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === itemId);
+                            //if (itemCur != null) {
+
                                 if (message.Template.ItemDBPath.length === 1) {
-                                    let itemLocal = {
+                                    let itemLocal = {                   // This is the seedItem
                                         ChildItems: {},
                                         Attrs: {}, 
                                         Ext: ''
@@ -915,7 +933,7 @@ class TemplateListServer extends TemplateList {
                                     itemLocal.ChildItems[message.Template.ItemDBPath[0]] = [message.Template.ItemData];
                                     this.model.putItem([], itemLocal);
                                 }
-                            }
+                            //}
                         }
                     }
                     break;
