@@ -245,7 +245,7 @@ class TemplateServer extends Template {
                         let templateElemNew = new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
                         this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
                         if (templateElemNew.fJoin == false) {
-                            templateElemNew.start();
+                            templateElemNew.trigger();
                         }
                     }
                     break;
@@ -909,7 +909,7 @@ class TemplateListServer extends TemplateList {
         this.session = this.parent.session;
         this.model = this.parent.model;
         this.forwardToClient = this.forwardToClient.bind(this);
-        this.start = this.start.bind(this);
+        this.trigger = this.trigger.bind(this);
     }
 
     fromClient(message) {
@@ -984,8 +984,8 @@ class TemplateListServer extends TemplateList {
         this.parent.forwardToClient(messageOut);
     }
 
-    start() {
-        console.log("TemplateListServer::start");
+    trigger() {
+        console.log("TemplateListServer::trigger");
         let listItems = [];
 
         this.childItemList = this.itemParent.childItems[this.attributeName];
@@ -999,9 +999,9 @@ class TemplateListServer extends TemplateList {
                     ChildItems: {}
                 };
                 listItems.push(listItemCur);
-                //console.log("TemplateListServer::start path: ", [...this.dbPath, cur.id]);
+                //console.log("TemplateListServer::trigger path: ", [...this.dbPath, cur.id]);
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
-                //console.log("TemplateListServer::start pathLen: ",cur.templatesWatching.length);
+                //console.log("TemplateListServer::trigger pathLen: ",cur.templatesWatching.length);
             });
         }
         this.itemParent.templatesWatching.push([this.session, this.track, ...this.dbPath]);
@@ -1099,8 +1099,8 @@ class TemplateListWeb extends TemplateListClient {
         this.track = this.parent.track;
     }
 
-    start() {
-        console.log("TemplateListWeb::start");
+    trigger() {
+        console.log("TemplateListWeb::trigger");
     }
 
     setListFromServer(listFromServer) {
@@ -1231,12 +1231,12 @@ class TemplateElemServer extends TemplateElem {
         this.model = this.parent.model;
         this.itemParent = parent.item;
         this.forwardToClient = this.forwardToClient.bind(this);
-        this.start = this.start.bind(this);
+        this.trigger = this.trigger.bind(this);
         if (this.fJoin) {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
                 this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.start);
+                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.trigger);
             }
         }
     }
@@ -1258,14 +1258,24 @@ class TemplateElemServer extends TemplateElem {
         }
     }
 
-    start() {
-        console.log("TemplateElemServer::start(): "); //, this.useCaseElem);
-        if (this.useCaseElem.attribute.Type === 'Child') {
-            if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
-                this.templateList = new TemplateListServer(this);
-                this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.start);
-            }
+    trigger() {
+        console.log("TemplateElemServer::trigger(): ");
+        switch (this.useCaseElem.attribute.Type) {
+            case 'Child':
+                if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
+                    this.templateList = new TemplateListServer(this);
+                    this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.trigger);
+                }
+                break;
+            case 'Embedded':
+                break;
+            case 'Reference':
+                break;
+            case 'Extension':
+                break;
+            default:
+                break;
         }
     }
 
@@ -1303,7 +1313,7 @@ class TemplateElemClient extends TemplateElem{
         if (message.Action != null) {
             switch (message.Action) {
                 case 'StartTemplateList':
-                    this.start(message.TemplateList.ItemList);
+                    this.trigger(message.TemplateList.ItemList);
                     break;
                 case 'ContinueTemplateList':
                     if (this.templateList != null && message.TemplateList != null) {
@@ -1336,15 +1346,25 @@ class TemplateElemWeb extends TemplateElemClient{
         this.track = this.parent.track;
     }
 
-    start(itemList) {
-        console.log("TemplateElemWeb::start(): ");
-        if (this.useCaseElem.attribute.Type === 'Child') {
-            if (this.templateList == null) {
-                this.templateList = new TemplateListWeb(this);
-                this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                this.templateList.setListFromServer(itemList);
-                this.templateList.start();
-            }
+    trigger(itemList) {
+        console.log("TemplateElemWeb::trigger(): ");
+        switch (this.useCaseElem.attribute.Type) {
+            case 'Child':
+                if (this.templateList == null) {
+                    this.templateList = new TemplateListWeb(this);
+                    this.templateList.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    this.templateList.setListFromServer(itemList);
+                    this.templateList.trigger();
+                }
+                break;
+            case 'Embedded':
+                break;
+            case 'Reference':
+                break;
+            case 'Extension':
+                break;
+            default:
+                break;
         }
     }
 
