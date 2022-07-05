@@ -1047,8 +1047,6 @@ class TemplateListServer extends TemplateList {
                     ChildItems: {}
                 };
                 listItems.push(listItemCur);
-                //console.log("TemplateListServer::pushOutData path: ", [...this.dbPath, cur.id]);
-                //console.log("TemplateListServer::pushOutData pathLen: ",cur.templatesWatching.length);
             });
         }
         let messageOut = {
