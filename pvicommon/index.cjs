@@ -431,19 +431,6 @@ class TemplateWeb extends TemplateClient {
         let fNeedKeyElem = false;
         let keyElemSpec = null;
         let keyElemValue;
-        /*
-        if (this.viewerSpec.Format === 'Form' && this.viewerSpec.Mask === 'Create') {
-            if (this.viewerSpec.KeyElem != null) {
-                keyElemSpec = this.elems[this.viewerSpec.KeyElem].elemSpec;
-                keyElemValue = keyElemSpec.Va;
-                if (keyElemSpec.Va == null || keyElemSpec.Va === '') {
-                    fNeedKeyElem = true;
-                }
-            } else {
-                fNeedKeyElem = true;
-            }
-        }
-        */
         let itemAttrs = [];
         let itemAttrCur;
         /*
@@ -682,7 +669,58 @@ class TemplateWeb extends TemplateClient {
             labelSpan.style.width = "25%";
             let inputCur;
             let inputLabel;
-            if (true) {
+            //if (true) {
+
+            if (itemAttrCur.viewerSpec != null && itemAttrCur.viewerSpec.Format != null) {
+                switch (itemAttrCur.viewerSpec.Format) {
+                    case 'Text':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("type", "input");
+                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (itemAttrCur.viewerSpec.Editable != null && itemAttrCur.viewerSpec.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
+                    case 'Textarea':
+                        inputCur = document.createElement('textarea');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("rows", "4");
+                        if (this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null) {
+                            inputCur.value = this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        }
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value
+                        });
+                        if (itemAttrCur.viewerSpec.Editable != null && itemAttrCur.viewerSpec.Editable.toLowerCase() === 'no') {
+                            inputCur.disabled = true;
+                        }
+                        break;
+                    case 'DrillDown':
+                        inputCur = document.createElement('button');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'btn btn-primary';
+                        inputCur.setAttribute("type", "button");
+                        inputCur.style.width = "22em";
+                        inputCur.appendChild(document.createTextNode(labelText));
+                        inputCur.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            //itemAttrCur.Elem.activate();
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            } else {
                 inputCur = document.createElement('input');
                 divCur.appendChild(inputCur);
                 inputCur.setAttribute("type", "input");
