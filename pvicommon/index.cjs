@@ -715,6 +715,18 @@ class TemplateWeb extends TemplateClient {
                         inputCur.addEventListener('click', (event) => {
                             event.preventDefault();
                             //itemAttrCur.Elem.activate();
+
+                            console.log("TemplateWeb - DrillDown: ");
+                            /*
+                            this.templateSub = new TemplatelistWeb(this);
+                            this.templateSub.setItemId(itemCur.Id)
+                            if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
+                                let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
+                                this.templateSub.setUseCase(useCaseSub);
+                                this.track.pushBreadcrumb(this.templateSub);
+                            }
+                            */
+
                         });
                         break;
                     default:
@@ -1165,18 +1177,15 @@ class TemplateListWeb extends TemplateListClient {
         tableHead.appendChild(this.tableHeadRow);
         this.tableBody = document.createElement('tbody');
         this.tableList.appendChild(this.tableBody);
-
         this.useCase.spec.Elems.forEach(elemCur => {
             let tableHeadRowHeader = document.createElement('th');
             this.tableHeadRow.appendChild(tableHeadRowHeader);
             tableHeadRowHeader.setAttribute("scope", "col");
             tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Viewers[0].Label));
         });
-
         this.listFromServer.forEach(itemCur => {
             let tableItemRow = document.createElement('tr');
             this.tableBody.appendChild(tableItemRow);
-
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
@@ -1188,7 +1197,6 @@ class TemplateListWeb extends TemplateListClient {
                     this.track.pushBreadcrumb(this.templateSub);
                 }
             });
-
             this.useCase.spec.Elems.forEach(elemCur => {
                 let attrDetail = itemCur.Attrs[elemCur.Name];
                 let tableItemRowCell = document.createElement('td');
