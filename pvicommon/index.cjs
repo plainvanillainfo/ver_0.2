@@ -1151,15 +1151,6 @@ class TemplateListWeb extends TemplateListClient {
                 }
             });
 
-            /*
-            for (let attrCur in itemCur.Attrs) {
-                let attrDetail = itemCur.Attrs[attrCur];
-                let tableItemRowCell = document.createElement('td');
-                tableItemRow.appendChild(tableItemRowCell);
-                tableItemRowCell.appendChild(document.createTextNode(attrDetail.Value));
-            }
-            */
-
             this.useCase.spec.Elems.forEach(elemCur => {
                 let attrDetail = itemCur.Attrs[elemCur.Name];
                 let tableItemRowCell = document.createElement('td');
