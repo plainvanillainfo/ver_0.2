@@ -669,10 +669,10 @@ class TemplateWeb extends TemplateClient {
             labelSpan.style.width = "25%";
             let inputCur;
             let inputLabel;
-            //if (true) {
+            let viewerSpec = elemCur.Viewers[0].ViewerSpec;
 
-            if (itemAttrCur.viewerSpec != null && itemAttrCur.viewerSpec.Format != null) {
-                switch (itemAttrCur.viewerSpec.Format) {
+            if (viewerSpec != null && viewerSpec.Format != null) {
+                switch (viewerSpec.Format) {
                     case 'Text':
                         inputCur = document.createElement('input');
                         divCur.appendChild(inputCur);
@@ -685,7 +685,7 @@ class TemplateWeb extends TemplateClient {
                             event.preventDefault();
                             this.formData[event.target.id] = event.target.value
                         });
-                        if (itemAttrCur.viewerSpec.Editable != null && itemAttrCur.viewerSpec.Editable.toLowerCase() === 'no') {
+                        if (viewerSpec.Editable != null && viewerSpec.Editable.toLowerCase() === 'no') {
                             inputCur.disabled = true;
                         }
                         break;
@@ -701,7 +701,7 @@ class TemplateWeb extends TemplateClient {
                             event.preventDefault();
                             this.formData[event.target.id] = event.target.value
                         });
-                        if (itemAttrCur.viewerSpec.Editable != null && itemAttrCur.viewerSpec.Editable.toLowerCase() === 'no') {
+                        if (viewerSpec.Editable != null && viewerSpec.Editable.toLowerCase() === 'no') {
                             inputCur.disabled = true;
                         }
                         break;
