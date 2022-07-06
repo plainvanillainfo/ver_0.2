@@ -944,6 +944,13 @@ class TemplateListServer extends TemplateList {
                         }
                     }
                     break;
+                case 'ContinueTemplate':
+                    if (message.Template != null && message.Template.ItemId != null) {
+                        if (this.childItemTemplates[message.Template.ItemId] != null) {
+                            this.childItemTemplates[message.Template.ItemId].fromClient(message.Template);
+                        }
+                    }
+                    break;
                 case 'UpdateItem':
                     if (message.Template != null && message.Template.ItemData != null && message.Template.ItemDBPath != null) {
                         let itemId = null;
