@@ -283,8 +283,9 @@ class Model {
     }
 
     getChild(path, item, childAttrName, fnCallback) {
+        console.log("Model::getChild");
         let itemBase = item;
-        itemBase = this.itemSeed; 
+        //itemBase = this.itemSeed; 
         let key = itemBase.dbId + childAttrName;
         return new Promise(resolve => {
             this.database.dbHandle.get(key, (err, value) => {
@@ -296,10 +297,12 @@ class Model {
                     }
                     itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
                     itemBase.childItems[childAttrName].ListItems = [];
+                    console.log("Model::getChild- getMany - itemBase.childItems[childAttrName].ListDBIds: ", itemBase.childItems[childAttrName].ListDBIds);
                     this.database.dbHandle.getMany(itemBase.childItems[childAttrName].ListDBIds, (err1, value1) => {
                         if (err1) {
                             resolve("Model::getChild Many - error: " + err1);
                         } else {
+                            console.log("Model::getChild- getMany - value1: ", value1);
                             value1.forEach(cur => {
                                 let childInfo = JSON.parse(cur);
                                 let childListItem = new Item(itemBase, childInfo.DBId, childInfo.Id);
