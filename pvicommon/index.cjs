@@ -1125,20 +1125,22 @@ class TemplateListWeb extends TemplateListClient {
             child = this.divTarget.lastElementChild;
         }
 
-        let divCur = document.createElement('div');
-        this.divTarget.appendChild(divCur);
-        divCur.className = 'mb-3';
-        let buttonCur = document.createElement('button');
-        divCur.appendChild(buttonCur);
-        buttonCur.className = 'btn btn-info';
-        buttonCur.setAttribute("type", "button");
-        buttonCur.id = 'backbutton';
-        buttonCur.style.width = "12em";
-        buttonCur.appendChild(document.createTextNode("< Go Back"));
-        buttonCur.addEventListener('click', (event) => {
-            event.preventDefault();
-            this.hideTable();
-        });
+        if (this.track.breadcrumbs.length > 1) {
+            let divCur = document.createElement('div');
+            this.divTarget.appendChild(divCur);
+            divCur.className = 'mb-3';
+            let buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-info';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'backbutton';
+            buttonCur.style.width = "12em";
+            buttonCur.appendChild(document.createTextNode("< Go Back"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.hideTable();
+            });
+        }
 
         let divTableWrapper = document.createElement('div');
         this.divTarget.appendChild(divTableWrapper);
