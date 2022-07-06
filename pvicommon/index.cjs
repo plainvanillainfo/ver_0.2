@@ -1586,7 +1586,13 @@ class TrackWeb extends TrackClient {
                 let aCrumb = document.createElement('a');
                 liCrumb.appendChild(aCrumb);
                 aCrumb.setAttribute('href', '#');
-                aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                //aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                if (crumbCur.useCase != null) {
+                    aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
+                }
+                if (crumbCur.useCaseElem != null) {
+                    aCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label + ' ' +  itemId));
+                }
             }
         });
     }
