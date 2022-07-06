@@ -1111,6 +1111,11 @@ class TemplateListWeb extends TemplateListClient {
         console.log("TemplateListWeb::trigger");
     }
 
+    hideList() {
+        this.track.popBreadcrumb();
+        this.track.div.removeChild(this.divTarget);
+    }
+
     setListFromServer(listFromServer) {
         this.listFromServer = listFromServer;
         let child = this.divTarget.lastElementChild; 
@@ -1119,30 +1124,39 @@ class TemplateListWeb extends TemplateListClient {
             child = this.divTarget.lastElementChild;
         }
 
+        let divCur = document.createElement('div');
+        this.divTarget.appendChild(divCur);
+        divCur.className = 'mb-3';
+        let buttonCur = document.createElement('button');
+        divCur.appendChild(buttonCur);
+        buttonCur.className = 'btn btn-info';
+        buttonCur.setAttribute("type", "button");
+        buttonCur.id = 'backbutton';
+        buttonCur.style.width = "12em";
+        buttonCur.appendChild(document.createTextNode("< Go Back"));
+        buttonCur.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.hideTable();
+        });
+
         let divTableWrapper = document.createElement('div');
         this.divTarget.appendChild(divTableWrapper);
         divTableWrapper.className = 'table-wrapper';
-
         let divTitle = document.createElement('div');
         divTableWrapper.appendChild(divTitle);
         divTitle.className = 'table-title';
-
         let divTitleRow = document.createElement('div');
         divTitle.appendChild(divTitleRow);
         divTitleRow.className = 'row';
-
         let divTitleRowTitle = document.createElement('div');
         divTitleRow.appendChild(divTitleRowTitle);
         divTitleRowTitle.className = 'col-sm-10';
-        
         let tableCaption = document.createElement('h3');
         divTitleRowTitle.appendChild(tableCaption);
         tableCaption.appendChild(document.createTextNode(this.useCase.spec.Viewers[0].Label));
-
         let divTitleRowAddButton = document.createElement('div');
         divTitleRow.appendChild(divTitleRowAddButton);
         divTitleRowAddButton.className = 'col-sm-2';
-        
         let buttonAdd = document.createElement('button');
         divTitleRowAddButton.appendChild(buttonAdd);
         buttonAdd.className = 'btn btn-info add-new';
@@ -1156,17 +1170,14 @@ class TemplateListWeb extends TemplateListClient {
                 this.track.pushBreadcrumb(this.templateSub);
             }
         });
-       
         let iconAdd = document.createElement('i');
         divTitleRowTitle.appendChild(iconAdd);
         iconAdd.className = 'fa fa-plus';
         buttonAdd.appendChild(iconAdd);
         buttonAdd.appendChild(document.createTextNode('Add New'));
-
         this.tableList = document.createElement('table');
         divTableWrapper.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
-
         let tableHead = document.createElement('thead');
         this.tableList.appendChild(tableHead);
         this.tableHeadRow = document.createElement('tr');
