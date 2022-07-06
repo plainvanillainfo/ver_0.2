@@ -1359,8 +1359,7 @@ class TemplateElemClient extends TemplateElem{
 class TemplateElemWeb extends TemplateElemClient{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
-        //this.divTarget = this.parent.divTarget;
-        this.divTarget = this.parent.parent.divTarget;
+        this.divTarget = this.parent.divTarget;
         this.track = this.parent.track;
     }
 
