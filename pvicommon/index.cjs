@@ -1359,7 +1359,8 @@ class TemplateElemClient extends TemplateElem{
 class TemplateElemWeb extends TemplateElemClient{
     constructor(parent, useCaseElem) {
         super(parent, useCaseElem);
-        this.divTarget = this.parent.divTarget;
+        //this.divTarget = this.parent.divTarget;
+        this.divTarget = this.parent.parent.divTarget;
         this.track = this.parent.track;
     }
 
@@ -1530,7 +1531,7 @@ class TrackWeb extends TrackClient {
 
     pushBreadcrumb(templatePushed) {
         this.breadcrumbs.push(templatePushed);
-        //this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
+        this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
         this.showCrumbs();
     }
 
