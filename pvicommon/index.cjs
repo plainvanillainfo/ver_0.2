@@ -1212,10 +1212,11 @@ class TemplateListWeb extends TemplateListClient {
                 }
             });
             this.useCase.spec.Elems.forEach(elemCur => {
-                let attrDetail = itemCur.Attrs[elemCur.Name];
                 let tableItemRowCell = document.createElement('td');
                 tableItemRow.appendChild(tableItemRowCell);
-                tableItemRowCell.appendChild(document.createTextNode(attrDetail.Value));
+                //let attrDetail = itemCur.Attrs[elemCur.Name];
+                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
+                tableItemRowCell.appendChild(document.createTextNode(valueCur));
             });
         });
     }
