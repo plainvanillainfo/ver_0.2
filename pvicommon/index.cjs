@@ -116,12 +116,11 @@ class Item {
     getChildItems(model, name, fnCallback) {
         console.log("Item::getChildItems: ", name);
         if (this.childItems[name] != null) {
+            console.log("Item::getChildItems - this.childItems[name] != null ");
             fnCallback();
-            //return this.childItems[name];
         } else {
+            console.log("Item::getChildItems - this.childItems[name] == null ");
             model.getChild([], this, name, fnCallback);
-            //console.log("Item::getChildItems - END: ", name);
-            //return this.childItems[name];
         }
     }
 
