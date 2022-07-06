@@ -289,7 +289,11 @@ class Model {
         return new Promise(resolve => {
             this.database.dbHandle.get(key, (err, value) => {
                 if (err) {
-                    resolve("Model::getChild - error: " + err);
+                    if (err.notFound != null) {
+                        fnCallback();
+                    } else {
+                        resolve("Model::getChild - error: " + err);
+                    }
                 } else {
                     console.log("Model::getChild - value: ", value);
                     if (itemBase.childItems[childAttrName] == null) {
@@ -300,7 +304,11 @@ class Model {
                     console.log("Model::getChild- getMany - itemBase.childItems[childAttrName].ListDBIds: ", itemBase.childItems[childAttrName].ListDBIds);
                     this.database.dbHandle.getMany(itemBase.childItems[childAttrName].ListDBIds, (err1, value1) => {
                         if (err1) {
-                            resolve("Model::getChild Many - error: " + err1);
+                            if (err.notFound != null) {
+                                fnCallback();
+                            } else {
+                                resolve("Model::getChild Many - error: " + err1);
+                            }
                         } else {
                             console.log("Model::getChild- getMany - value1: ", value1);
                             value1.forEach(cur => {
