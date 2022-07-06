@@ -728,11 +728,12 @@ class TemplateWeb extends TemplateClient {
 
                             let elemPicked = this.useCase.elems[elemCur.Name];
                             this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked);
-                            if (elemCur.Path.SubUseCase != null) {
-                                let useCaseSub = this.client.useCases[elemCur.Path.SubUseCase]
+                            this.elems[elemCur.Name].trigger([]);
+                            //if (elemCur.Path.SubUseCase != null) {
+                            //    let useCaseSub = this.client.useCases[elemCur.Path.SubUseCase]
                                 //this.elems[elemCur.Name].setUseCase(useCaseSub);
                                 this.track.pushBreadcrumb(this.elems[elemCur.Name]);
-                            }
+                            //}
                         });
                         break;
                     default:
