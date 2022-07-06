@@ -668,7 +668,6 @@ class TemplateWeb extends TemplateClient {
             let inputCur;
             let inputLabel;
             let viewerSpec = elemCur.Viewers[0].ViewerSpec;
-
             if (viewerSpec != null && viewerSpec.Format != null) {
                 switch (viewerSpec.Format) {
                     case 'Text':
@@ -712,26 +711,9 @@ class TemplateWeb extends TemplateClient {
                         inputCur.appendChild(document.createTextNode(labelText));
                         inputCur.addEventListener('click', (event) => {
                             event.preventDefault();
-                            //itemAttrCur.Elem.activate();
-
                             console.log("TemplateWeb - DrillDown: ");
-                            /*
-                            this.templateSub = new TemplatelistWeb(this);
-                            this.templateSub.setItemId(itemCur.Id)
-                            if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
-                                let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
-                                this.templateSub.setUseCase(useCaseSub);
-                                this.track.pushBreadcrumb(this.templateSub);
-                            }
-                            */
-
                             let elemPicked = this.useCase.elems[elemCur.Name];
                             this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked);
-
-                            //this.elems[elemCur.Name].trigger([]);
-
-                            //this.track.pushBreadcrumb(this.elems[elemCur.Name]);
-
                         });
                         break;
                     default:
