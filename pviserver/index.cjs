@@ -283,15 +283,15 @@ class Model {
     }
 
     getChild(path, item, childAttrName, fnCallback) {
-        console.log("Model::getChild");
         let itemBase = item;
-        //itemBase = this.itemSeed; 
         let key = itemBase.dbId + childAttrName;
+        console.log("Model::getChild - key: ", key);
         return new Promise(resolve => {
             this.database.dbHandle.get(key, (err, value) => {
                 if (err) {
                     resolve("Model::getChild - error: " + err);
                 } else {
+                    console.log("Model::getChild - value: ", value);
                     if (itemBase.childItems[childAttrName] == null) {
                         itemBase.childItems[childAttrName] = {};
                     }
