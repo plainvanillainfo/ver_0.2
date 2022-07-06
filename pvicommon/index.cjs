@@ -938,6 +938,9 @@ class TemplateListServer extends TemplateList {
                     if (message.Template != null && message.Template.ItemId != null) {
                         this.childItemTemplates[message.Template.ItemId] = new TemplateServer(this);
                         let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
+                        if (this.model.useCases[this.useCase.spec.SubUseCase] != null) {
+                            this.childItemTemplates[message.Template.ItemId].setUseCase(this.model.useCases[this.useCase.spec.SubUseCase]);
+                        }
                         if (itemCur != null) {
                             this.childItemTemplates[message.Template.ItemId].setItem(itemCur);
                             this.childItemTemplates[message.Template.ItemId].pushOutData();
@@ -1012,9 +1015,7 @@ class TemplateListServer extends TemplateList {
     trigger() {
         console.log("TemplateListServer::trigger");
         let listItems = [];
-
         this.childItemList = this.itemParent.childItems[this.attributeName];
-
         if (this.childItemList != null && this.childItemList.ListItems != null) {
             this.childItemList.ListItems.forEach(cur => {
                 let listItemCur = {
@@ -1024,9 +1025,7 @@ class TemplateListServer extends TemplateList {
                     ChildItems: {}
                 };
                 listItems.push(listItemCur);
-                //console.log("TemplateListServer::trigger path: ", [...this.dbPath, cur.id]);
                 cur.templatesWatching.push([this.session, this.track, ...this.dbPath, cur.id]);
-                //console.log("TemplateListServer::trigger pathLen: ",cur.templatesWatching.length);
             });
         }
         this.itemParent.templatesWatching.push([this.session, this.track, ...this.dbPath]);
@@ -1045,7 +1044,7 @@ class TemplateListServer extends TemplateList {
         super.setChildItemList(itemParent);
         this.itemParent = itemParent;
         this.attributeName = attributeName;
-        /*this.childItemList =*/  itemParent.getChildItems(this.model, attributeName, fnCallback);
+        itemParent.getChildItems(this.model, attributeName, fnCallback);
     }    
 
     pushOutData() {
