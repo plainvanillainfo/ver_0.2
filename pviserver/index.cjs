@@ -295,13 +295,13 @@ class Model {
                         resolve("Model::getChild - error: " + err);
                     }
                 } else {
-                    console.log("Model::getChild - value: ", value);
+                    //console.log("Model::getChild - value: ", value);
                     if (itemBase.childItems[childAttrName] == null) {
                         itemBase.childItems[childAttrName] = {};
                     }
                     itemBase.childItems[childAttrName].ListDBIds = JSON.parse(value);
                     itemBase.childItems[childAttrName].ListItems = [];
-                    console.log("Model::getChild- getMany - itemBase.childItems[childAttrName].ListDBIds: ", itemBase.childItems[childAttrName].ListDBIds);
+                    //console.log("Model::getChild- getMany - itemBase.childItems[childAttrName].ListDBIds: ", itemBase.childItems[childAttrName].ListDBIds);
                     this.database.dbHandle.getMany(itemBase.childItems[childAttrName].ListDBIds, (err1, value1) => {
                         if (err1) {
                             if (err.notFound != null) {
@@ -310,7 +310,7 @@ class Model {
                                 resolve("Model::getChild Many - error: " + err1);
                             }
                         } else {
-                            console.log("Model::getChild- getMany - value1: ", value1);
+                            //console.log("Model::getChild- getMany - value1: ", value1);
                             value1.forEach(cur => {
                                 let childInfo = JSON.parse(cur);
                                 let childListItem = new Item(itemBase, childInfo.DBId, childInfo.Id);
