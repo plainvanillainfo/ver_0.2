@@ -282,7 +282,7 @@ class Model {
         return retVal;
     }
 
-    getChild(path, item, childAttrName, fnCallback) {
+    getChild(item, childAttrName, fnCallback) {
         let itemBase = item;
         let key = itemBase.dbId + childAttrName;
         console.log("Model::getChild - key: ", key);

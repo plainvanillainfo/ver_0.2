@@ -120,7 +120,7 @@ class Item {
             fnCallback();
         } else {
             console.log("Item::getChildItems - this.childItems[name] == null ");
-            model.getChild([], this, name, fnCallback);
+            model.getChild(this, name, fnCallback);
         }
     }
 
