@@ -725,7 +725,9 @@ class TemplateWeb extends TemplateClient {
                                 this.track.pushBreadcrumb(this.templateSub);
                             }
                             */
-
+                            //let elemPicked = this.useCase.elems[elemCur.Name];
+                            //this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked);
+            
                         });
                         break;
                     default:
