@@ -1088,6 +1088,11 @@ class TemplateListClient extends TemplateList {
                         this.templateSub.fromServer(message.Template);
                     }
                     break;
+                case 'ContinueTemplate':
+                    if (this.templateSub != null && message.Template != null) {
+                        this.templateSub.fromServer(message.Template);
+                    }
+                    break;
                 case 'AcceptDataList':
                     if (message.ItemList != null) {
                         this.setListFromServer(message.ItemList);
