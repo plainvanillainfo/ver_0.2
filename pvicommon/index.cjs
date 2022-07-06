@@ -725,9 +725,14 @@ class TemplateWeb extends TemplateClient {
                                 this.track.pushBreadcrumb(this.templateSub);
                             }
                             */
-                            //let elemPicked = this.useCase.elems[elemCur.Name];
-                            //this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked);
-            
+
+                            let elemPicked = this.useCase.elems[elemCur.Name];
+                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked);
+                            if (elemCur.SubUseCase != null) {
+                                let useCaseSub = this.client.useCases[elemCur.SubUseCase]
+                                this.elems[elemCur.Name].setUseCase(useCaseSub);
+                                this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                            }
                         });
                         break;
                     default:
