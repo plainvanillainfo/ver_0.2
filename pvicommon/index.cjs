@@ -1530,7 +1530,7 @@ class TrackWeb extends TrackClient {
 
     pushBreadcrumb(templatePushed) {
         this.breadcrumbs.push(templatePushed);
-        this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
+        //this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
         this.showCrumbs();
     }
 
