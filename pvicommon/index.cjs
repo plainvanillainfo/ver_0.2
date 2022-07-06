@@ -1565,24 +1565,28 @@ class TrackWeb extends TrackClient {
             this.olBreadcrumbs.removeChild(child);
             child = this.olBreadcrumbs.lastElementChild;
         }
+
+        let itemId = '';
         this.breadcrumbs.forEach((crumbCur, indexCur) => {
             let liCrumb = document.createElement('li');
             this.olBreadcrumbs.appendChild(liCrumb);
-
+            if (crumbCur.itemId != null) {
+                itemId = crumbCur.itemId;
+            }
             if (indexCur === (this.breadcrumbs.length-1)) {
                 liCrumb.className = 'breadcrumb-item active';
                 if (crumbCur.useCase != null) {
-                    liCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label));
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
                 }
                 if (crumbCur.useCaseElem != null) {
-                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label));
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label + ' ' +  itemId));
                 }
             } else {
                 liCrumb.className = 'breadcrumb-item';
                 let aCrumb = document.createElement('a');
                 liCrumb.appendChild(aCrumb);
                 aCrumb.setAttribute('href', '#');
-                aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label));
+                aCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label + ' ' +  itemId));
             }
         });
     }
