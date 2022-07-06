@@ -714,6 +714,7 @@ class TemplateWeb extends TemplateClient {
                             console.log("TemplateWeb - DrillDown: ");
                             let elemPicked = this.useCase.elems[elemCur.Name];
                             this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked);
+                            this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                         });
                         break;
                     default:
@@ -1111,7 +1112,7 @@ class TemplateListWeb extends TemplateListClient {
         console.log("TemplateListWeb::trigger");
     }
 
-    hideList() {
+    hideTable() {
         this.track.popBreadcrumb();
         this.track.div.removeChild(this.divTarget);
     }
