@@ -713,7 +713,7 @@ class TemplateWeb extends TemplateClient {
                             event.preventDefault();
                             console.log("TemplateWeb - DrillDown: ");
                             let elemPicked = this.useCase.elems[elemCur.Name];
-                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, this.parent.divTarget);
+                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, this.parent.parent.divTarget);
                             this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                         });
                         break;
