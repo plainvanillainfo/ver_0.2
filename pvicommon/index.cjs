@@ -713,7 +713,7 @@ class TemplateWeb extends TemplateClient {
                             event.preventDefault();
                             console.log("TemplateWeb - DrillDown: ");
                             let elemPicked = this.useCase.elems[elemCur.Name];
-                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked);
+                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, this.parent.divTarget);
                             this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                         });
                         break;
@@ -842,7 +842,7 @@ class TemplateWeb extends TemplateClient {
                 event.preventDefault();
                 console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
                 let elemPicked = this.useCase.elems[menuItemCur.Name];
-                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked);
+                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, this.divTarget);
             });
         });
 
@@ -1357,9 +1357,10 @@ class TemplateElemClient extends TemplateElem{
 }
 
 class TemplateElemWeb extends TemplateElemClient{
-    constructor(parent, useCaseElem) {
+    constructor(parent, useCaseElem, divTargetBase) {
         super(parent, useCaseElem);
-        this.divTarget = this.parent.divTarget;
+        //this.divTarget = this.parent.divTarget;
+        this.divTarget = divTargetBase;
         this.track = this.parent.track;
     }
 
