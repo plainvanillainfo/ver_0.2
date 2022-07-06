@@ -1549,7 +1549,12 @@ class TrackWeb extends TrackClient {
 
             if (indexCur === (this.breadcrumbs.length-1)) {
                 liCrumb.className = 'breadcrumb-item active';
-                liCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label));
+                if (crumbCur.useCase != null) {
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCase.spec.Viewers[0].Label));
+                }
+                if (crumbCur.useCaseElem != null) {
+                    liCrumb.appendChild(document.createTextNode(crumbCur.useCaseElem.spec.Viewers[0].Label));
+                }
             } else {
                 liCrumb.className = 'breadcrumb-item';
                 let aCrumb = document.createElement('a');
