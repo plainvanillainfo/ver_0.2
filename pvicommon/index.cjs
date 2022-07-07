@@ -1386,6 +1386,7 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Component':
                 if (this.useCaseElem.attribute.Subtype === 'Embedded') {
+                    
                 }
                 break;
             case 'Reference':
