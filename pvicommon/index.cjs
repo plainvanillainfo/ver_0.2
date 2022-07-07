@@ -1287,7 +1287,9 @@ class TemplateElemServer extends TemplateElem {
                     this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.trigger);
                 }
                 break;
-            case 'Embedded':
+            case 'Component':
+                if (this.useCaseElem.attribute.Subtype === 'Embedded') {
+                }
                 break;
             case 'Reference':
                 break;
@@ -1382,7 +1384,9 @@ class TemplateElemWeb extends TemplateElemClient{
                     this.templateList.trigger();
                 }
                 break;
-            case 'Embedded':
+            case 'Component':
+                if (this.useCaseElem.attribute.Subtype === 'Embedded') {
+                }
                 break;
             case 'Reference':
                 break;
