@@ -1289,14 +1289,14 @@ class TemplateElemServer extends TemplateElem {
                 break;
             case 'Component':
                 if (this.useCaseElem.attribute.Subtype === 'Embedded') {
-                    this.templateEmbedded = new TemplateServer(this);
+                    //this.templateEmbedded = new TemplateServer(this);
                 }
                 break;
             case 'Reference':
-                this.templateReference = new TemplateServer(this);
+                //this.templateReference = new TemplateServer(this);
                 break;
             case 'Extension':
-                this.templateExtension = new TemplateServer(this);
+                //this.templateExtension = new TemplateServer(this);
                 break;
             default:
                 break;
@@ -1389,14 +1389,14 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Component':
                 if (this.useCaseElem.attribute.Subtype === 'Embedded') {
-                    this.templateReference = new TemplateWeb(this);
+                    //this.templateReference = new TemplateWeb(this);
                 }
                 break;
             case 'Reference':
-                this.templateReference = new TemplateWeb(this);
+                //this.templateReference = new TemplateWeb(this);
                 break;
             case 'Extension':
-                this.templateExtension = new TemplateWeb(this);
+                //this.templateExtension = new TemplateWeb(this);
                 break;
             default:
                 break;
