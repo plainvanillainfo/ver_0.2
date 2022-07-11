@@ -785,7 +785,7 @@ class TemplateWeb extends TemplateClient {
             let messageOut = {
                 Action: 'UpdateItem',
                 Template: {
-                    ItemDBPath: this.dbPath,
+                    //ItemDBPath: this.dbPath,
                     ItemData: {
                         Id: this.item != null ? this.item.id : null,
                         Attrs: attrs,
@@ -937,7 +937,7 @@ class TemplateListServer extends TemplateList {
                     }
                     break;
                 case 'UpdateItem':
-                    if (message.Template != null && message.Template.ItemData != null && message.Template.ItemDBPath != null) {
+                    if (message.Template != null && message.Template.ItemData != null) { // && message.Template.ItemDBPath != null) {
                         let itemId = null;
                         if (message.Template.ItemData.Id == null) {
                             if (this.useCase.spec.SubUseCase != null) {
@@ -962,15 +962,13 @@ class TemplateListServer extends TemplateList {
                             itemId = message.Template.ItemData.Id;
                         }
                         if (itemId != null) {
-                            if (message.Template.ItemDBPath.length === 1) {
-                                let itemLocal = {                   // This is the seedItem
-                                    ChildItems: {},
-                                    Attrs: {},
-                                    Ext: ''
-                                };
-                                itemLocal.ChildItems[message.Template.ItemDBPath[0]] = [message.Template.ItemData];
-                                this.model.putItem([], itemLocal);
-                            }
+                            let itemLocal = {
+                                ChildItems: {},
+                                Attrs: {},
+                                Ext: ''
+                            };
+                            itemLocal.ChildItems[this.parent.useCaseElem.spec.Path.Attribute] = [message.Template.ItemData];
+                            this.model.putItem(this.itemParent, itemLocal);
                         }
                     }
                     break;
@@ -1020,7 +1018,7 @@ class TemplateListServer extends TemplateList {
     setChildItemList(itemParent, attributeName, fnCallback) {
         console.log("TemplateListServer::setChildItemList");
         super.setChildItemList(itemParent);
-        this.itemParent = itemParent;
+        //this.itemParent = itemParent;
         this.attributeName = attributeName;
         itemParent.getChildItems(this.model, attributeName, fnCallback);
     }    

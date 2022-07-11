@@ -152,7 +152,7 @@ class Session {
                     }
                     break;
                 case 'UpdateItem':
-                    this.model.putItem([], message.Item);
+                    this.model.putItem(this.model.itemSeed, message.Item);
                     break;
                 default:
                     break;        
@@ -334,11 +334,11 @@ class Model {
         });
     }
 
-    putItem(path, item) {
+    putItem(itemBase, itemDataIn) {
         let ops = [];
         let itemsUpdated = [];
-        if (item.ChildItems != null && item.Attrs != null) {
-            this.buildPutBatchItem(ops, itemsUpdated, this.itemSeed, item);
+        if (itemDataIn.ChildItems != null && itemDataIn.Attrs != null) {
+            this.buildPutBatchItem(ops, itemsUpdated, itemBase, itemDataIn);
         }
         console.log("Model::putItem - ops: ", ops);
         this.database.dbHandle.batch(ops, (err) => {
