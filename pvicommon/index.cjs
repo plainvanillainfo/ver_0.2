@@ -1024,7 +1024,7 @@ class TemplateListServer extends TemplateList {
     }    
 
     pushOutData() {
-        //console.log("TemplateListServer::pushOutData - itemParent.dbId, id: ", this.session.id, this.itemParent.dbId, this.itemParent.id);
+        console.log("TemplateListServer::pushOutData - itemParent.dbId, id: ", this.session.id, this.itemParent.dbId, this.itemParent.id);
         let listItems = [];
         if (this.childItemList != null && this.childItemList.ListItems != null) {
             this.childItemList.ListItems.forEach(cur => {
