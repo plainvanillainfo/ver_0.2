@@ -962,19 +962,15 @@ class TemplateListServer extends TemplateList {
                             itemId = message.Template.ItemData.Id;
                         }
                         if (itemId != null) {
-                            //let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === itemId);
-                            //if (itemCur != null) {
-
-                                if (message.Template.ItemDBPath.length === 1) {
-                                    let itemLocal = {                   // This is the seedItem
-                                        ChildItems: {},
-                                        Attrs: {}, 
-                                        Ext: ''
-                                    };
-                                    itemLocal.ChildItems[message.Template.ItemDBPath[0]] = [message.Template.ItemData];
-                                    this.model.putItem([], itemLocal);
-                                }
-                            //}
+                            if (message.Template.ItemDBPath.length === 1) {
+                                let itemLocal = {                   // This is the seedItem
+                                    ChildItems: {},
+                                    Attrs: {},
+                                    Ext: ''
+                                };
+                                itemLocal.ChildItems[message.Template.ItemDBPath[0]] = [message.Template.ItemData];
+                                this.model.putItem([], itemLocal);
+                            }
                         }
                     }
                     break;
