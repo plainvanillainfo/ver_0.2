@@ -811,6 +811,8 @@ class TemplateWeb extends TemplateClient {
                 console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
                 let elemPicked = this.useCase.elems[menuItemCur.Name];
                 this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false, this.divTarget);
+                this.elems[menuItemCur.Name].initiateTrigger();
+
             });
         });
 
