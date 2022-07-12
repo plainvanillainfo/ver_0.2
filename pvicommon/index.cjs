@@ -670,6 +670,7 @@ class TemplateWeb extends TemplateClient {
                             console.log("TemplateWeb - DrillDown: ");
                             let elemPicked = this.useCase.elems[elemCur.Name];
                             this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true);
+                            this.elems[elemCur.Name].initiateTrigger();
                             this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                         });
                         break;
@@ -1284,6 +1285,7 @@ class TemplateElemClient extends TemplateElem{
         this.client = this.parent.client;
         this.itemParent = parent.item;
         this.forwardToServer = this.forwardToServer.bind(this);
+        /*
         let messageOut = {
             Action: 'StartTemplateElem',
             TemplateElem: {
@@ -1292,6 +1294,7 @@ class TemplateElemClient extends TemplateElem{
 
         };
         this.parent.forwardToServer(messageOut);
+        */
     }
 
     fromServer(message) {
@@ -1318,6 +1321,16 @@ class TemplateElemClient extends TemplateElem{
             TemplateElem: {
                 UseCaseElemName: this.useCaseElem.spec.Name,
                 ...messageIn
+            }
+        };
+        this.parent.forwardToServer(messageOut);
+    }
+
+    initiateTrigger() {
+        let messageOut = {
+            Action: 'StartTemplateElem',
+            TemplateElem: {
+                UseCaseElemName: this.useCaseElem.spec.Name
             }
         };
         this.parent.forwardToServer(messageOut);
