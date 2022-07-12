@@ -852,6 +852,7 @@ class TemplateWeb extends TemplateClient {
     }
 
     setVisibility(trueOrFalse) {
+        console.log("TemplateWeb::setVisibility", trueOrFalse);
         if (trueOrFalse === true) {
             if (this.nav != null) {
                 this.nav.style.visibility = 'visible';
