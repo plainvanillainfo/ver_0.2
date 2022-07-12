@@ -1208,6 +1208,7 @@ class TemplateElemServer extends TemplateElem {
         this.itemParent = parent.item;
         this.forwardToClient = this.forwardToClient.bind(this);
         this.trigger = this.trigger.bind(this);
+        /*
         if (this.fJoin) {
             if (useCaseElem.attribute.Type === 'Child') {
                 this.templateList = new TemplateListServer(this);
@@ -1215,6 +1216,7 @@ class TemplateElemServer extends TemplateElem {
                 this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.trigger);
             }
         }
+        */
     }
 
     fromClient(message) {
@@ -1356,6 +1358,11 @@ class TemplateElemWeb extends TemplateElemClient{
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
                     this.templateReference = new TemplateWeb(this);
                     this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+
+                    //
+                    // Here:
+                    //
+
                 }
                 break;
             case 'Extension':
