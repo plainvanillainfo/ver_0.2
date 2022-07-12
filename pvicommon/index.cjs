@@ -669,10 +669,15 @@ class TemplateWeb extends TemplateClient {
                             event.preventDefault();
                             console.log("TemplateWeb - DrillDown: ");
                             let elemPicked = this.useCase.elems[elemCur.Name];
-                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true);
+                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, document.createElement('div'));
                             this.elems[elemCur.Name].initiateTrigger();
                             this.track.pushBreadcrumb(this.elems[elemCur.Name]);
                         });
+                        break;
+                    case 'List':
+                        let elemPicked = this.useCase.elems[elemCur.Name];
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, divCur);
+                        this.elems[elemCur.Name].initiateTrigger();
                         break;
                     default:
                         break;
@@ -805,7 +810,7 @@ class TemplateWeb extends TemplateClient {
                 event.preventDefault();
                 console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
                 let elemPicked = this.useCase.elems[menuItemCur.Name];
-                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false);
+                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false, this.divTarget);
             });
         });
 
@@ -1254,8 +1259,10 @@ class TemplateElemServer extends TemplateElem {
                 break;
             case 'Reference':
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                    /*
                     this.templateReference = new TemplateServer(this);
                     this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    */
                 }
             break;
             case 'Extension':
@@ -1339,14 +1346,15 @@ class TemplateElemClient extends TemplateElem{
 }
 
 class TemplateElemWeb extends TemplateElemClient{
-    constructor(parent, useCaseElem, isDrillDown) {
+    constructor(parent, useCaseElem, isDrillDown, divTarget) {
         super(parent, useCaseElem);
         this.isDrillDown = isDrillDown;
+        this.divTarget = divTarget;
         if (this.isDrillDown) {
-            this.divTarget = document.createElement('div');
+            //this.divTarget = document.createElement('div');
             this.track.div.appendChild(this.divTarget);
         } else {
-            this.divTarget = this.parent.divTarget;
+            //this.divTarget = this.parent.divTarget;
         }
         this.track = this.parent.track;
     }
@@ -1369,13 +1377,14 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Reference':
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
-                    this.templateReference = new TemplateWeb(this);
-                    this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
 
                     //
                     // Here: Need a TemplateList for the dropdown and a TemplateWeb for the refered item
                     //
-
+                    /*
+                    this.templateReference = new TemplateWeb(this);
+                    this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    */
                 }
                 break;
             case 'Extension':
