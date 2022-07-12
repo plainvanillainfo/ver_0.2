@@ -770,7 +770,7 @@ class TemplateWeb extends TemplateClient {
     }
 
     refreshData() {
-        if (this.form != null) {
+        if (this.form == null) {
             this.setUseCaseForm();
         }
     }
