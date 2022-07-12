@@ -1373,7 +1373,7 @@ class TemplateElemWeb extends TemplateElemClient{
                     this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
 
                     //
-                    // Here:
+                    // Here: Need a TemplateList for the dropdown and a TemplateWeb for the refered item
                     //
 
                 }
