@@ -433,53 +433,6 @@ class TemplateWeb extends TemplateClient {
         let keyElemValue;
         let itemAttrs = [];
         let itemAttrCur;
-        /*
-        for (let attrCur in this.elems) {
-            let elemCur = this.elems[attrCur];
-            if (elemCur.join === false) {
-                itemAttrCur = {
-                    Value: elemCur.elemSpec.Va != null ? elemCur.elemSpec.Va : null,
-                    viewerSpec: {
-                        name: attrCur,
-                        Format:  elemCur.elemSpec.Vs != null && elemCur.elemSpec.Vs.Format != null ? elemCur.elemSpec.Vs.Format : '', 
-                        Editable: elemCur.elemSpec.Vs != null && elemCur.elemSpec.Vs.Editable != null ? elemCur.elemSpec.Vs.Editable : 'Yes',
-                        ValueSet: elemCur.elemSpec.Vs != null && elemCur.elemSpec.Vs.ValueSet != null ? elemCur.elemSpec.Vs.ValueSet : null,
-                        Legend: elemCur.elemSpec.Vs != null && elemCur.elemSpec.Vs.Legend != null ? elemCur.elemSpec.Vs.Legend : null,
-                        Label: elemCur.elemSpec.Lb,
-                        Mask: elemCur.elemSpec.Vs != null && elemCur.elemSpec.Vs.Mask != null ? elemCur.elemSpec.Vs.Mask : null,
-                        IsKey: elemCur.elemSpec.Vs != null && elemCur.elemSpec.Vs.IsKey != null ? elemCur.elemSpec.Vs.IsKey : 'No'
-                    },
-                    Elem: elemCur
-                };
-                if (fNeedKeyElem === false || itemAttrCur.viewerSpec.IsKey === 'Yes') {
-                    itemAttrs.push(itemAttrCur);
-                }
-            } else {
-                if (elemCur.elemSpec.Va != null && elemCur.elemSpec.Va.Ls != null && elemCur.elemSpec.Va.Ls.length > 0) {
-                    this.joinItemAttrs(itemAttrs, elemCur.elemSpec.Va.Ls[0].Ts, fNeedKeyElem);
-                    
-                    if (this.subTree == null) {
-                        this.subTree = {
-                            Te: {
-                                Nm: 'ChildInvestmentAccounts',
-                                UC: 'ChildInvestmentAccounts',
-                                Ax: 'Co',
-                                Tl: {
-                                    Ax: 'Sv',
-                                    Ls: []
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (elemCur.templateList == null) {
-                        elemCur.activate(this.TemplateChildPicked != null ? this.TemplateChildPicked : null);
-                    }
-                    
-                }
-            }
-        }
-        */
         itemAttrs.forEach(itemAttrCur => {
         /*
             let templateElemCur = {Nm: itemAttrCur.viewerSpec.name, Lb: itemAttrCur.viewerSpec.Label};
@@ -666,6 +619,7 @@ class TemplateWeb extends TemplateClient {
             labelSpan.appendChild(labelCur);
             divCur.appendChild(labelSpan);
             labelSpan.style.display = "inline-block";
+            labelSpan.style.verticalAlign = "top";
             labelSpan.style.width = "25%";
             let inputCur;
             let inputLabel;
