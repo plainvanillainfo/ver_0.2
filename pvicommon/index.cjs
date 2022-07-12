@@ -989,7 +989,6 @@ class TemplateListServer extends TemplateList {
     setChildItemList(itemParent, attributeName, fnCallback) {
         console.log("TemplateListServer::setChildItemList");
         super.setChildItemList(itemParent);
-        //this.itemParent = itemParent;
         this.attributeName = attributeName;
         itemParent.getChildItems(this.model, attributeName, fnCallback);
     }    
@@ -1261,9 +1260,10 @@ class TemplateElemServer extends TemplateElem {
                 break;
             case 'Reference':
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                    this.templateListReference = new TemplateListServer(this);
+                    this.templateListReference.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
                     /*
-                    this.templateReference = new TemplateServer(this);
-                    this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    this.templateListReference.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.trigger);
                     */
                 }
             break;
@@ -1353,10 +1353,7 @@ class TemplateElemWeb extends TemplateElemClient{
         this.isDrillDown = isDrillDown;
         this.divTarget = divTarget;
         if (this.isDrillDown) {
-            //this.divTarget = document.createElement('div');
             this.track.div.appendChild(this.divTarget);
-        } else {
-            //this.divTarget = this.parent.divTarget;
         }
         this.track = this.parent.track;
     }
@@ -1379,14 +1376,6 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Reference':
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
-
-                    //
-                    // Here: Need a TemplateList for the dropdown and a TemplateWeb for the refered item
-                    //
-                    /*
-                    this.templateReference = new TemplateWeb(this);
-                    this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                    */
                 }
                 break;
             case 'Extension':
