@@ -1250,8 +1250,9 @@ class TemplateElemServer extends TemplateElem {
                 }
                 break;
             case 'Reference':
-                //this.templateReference = new TemplateServer(this);
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                    this.templateReference = new TemplateServer(this);
+                    this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
                 }
             break;
             case 'Extension':
@@ -1352,8 +1353,9 @@ class TemplateElemWeb extends TemplateElemClient{
                 }
                 break;
             case 'Reference':
-                //this.templateReference = new TemplateWeb(this);
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                    this.templateReference = new TemplateWeb(this);
+                    this.templateReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
                 }
                 break;
             case 'Extension':
