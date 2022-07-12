@@ -1262,9 +1262,18 @@ class TemplateElemServer extends TemplateElem {
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
                     this.templateListReference = new TemplateListServer(this);
                     this.templateListReference.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                    /*
-                    this.templateListReference.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.trigger);
-                    */
+                    let subPath = this.useCaseElem.spec.Path.SubPath;
+                    let itemBase = null;
+                    let attributeNext = null;
+                    if (subPath.length > 1) {
+                        if (subPath[0] === '/') {
+                            itemBase = this.model.itemSeed;
+                        }
+                        attributeNext = subPath[1];
+                    }
+                    if (itemBase != null) {
+                        this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
+                    }
                 }
             break;
             case 'Extension':
