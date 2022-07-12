@@ -900,7 +900,7 @@ class TemplateListServer extends TemplateList {
                     }
                     break;
                 case 'UpdateItem':
-                    if (message.Template != null && message.Template.ItemData != null) { // && message.Template.ItemDBPath != null) {
+                    if (message.Template != null && message.Template.ItemData != null) {
                         let itemId = null;
                         if (message.Template.ItemData.Id == null) {
                             if (this.useCase.spec.SubUseCase != null) {
@@ -1251,7 +1251,9 @@ class TemplateElemServer extends TemplateElem {
                 break;
             case 'Reference':
                 //this.templateReference = new TemplateServer(this);
-                break;
+                if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                }
+            break;
             case 'Extension':
                 //this.templateExtension = new TemplateServer(this);
                 break;
@@ -1351,6 +1353,8 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Reference':
                 //this.templateReference = new TemplateWeb(this);
+                if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                }
                 break;
             case 'Extension':
                 //this.templateExtension = new TemplateWeb(this);
