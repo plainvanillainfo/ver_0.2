@@ -1403,8 +1403,8 @@ class TemplateElemWeb extends TemplateElemClient{
                         this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
                     }
                     */
-                    this.templateList.setListFromServer(itemList);
-                    this.templateList.trigger();
+                    this.templateListReference.setListFromServer(itemList);
+                    this.templateListReference.trigger();
                 
                 
                 }
