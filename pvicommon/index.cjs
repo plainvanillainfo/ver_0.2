@@ -1259,7 +1259,7 @@ class TemplateElemServer extends TemplateElem {
                 }
                 break;
             case 'Reference':
-                if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
                     this.templateListReference = new TemplateListServer(this);
                     this.templateListReference.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
                     let subPath = this.useCaseElem.spec.Path.SubPath;
@@ -1384,8 +1384,29 @@ class TemplateElemWeb extends TemplateElemClient{
                 }
                 break;
             case 'Reference':
-                if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
                     alert(JSON.stringify(itemList));
+                
+                    this.templateListReference = new TemplateListWeb(this);
+                    this.templateListReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    /*
+                    let subPath = this.useCaseElem.spec.Path.SubPath;
+                    let itemBase = null;
+                    let attributeNext = null;
+                    if (subPath.length > 1) {
+                        if (subPath[0] === '/') {
+                            itemBase = this.model.itemSeed;
+                        }
+                        attributeNext = subPath[1];
+                    }
+                    if (itemBase != null) {
+                        this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
+                    }
+                    */
+                    this.templateList.setListFromServer(itemList);
+                    this.templateList.trigger();
+                
+                
                 }
                 break;
             case 'Extension':
