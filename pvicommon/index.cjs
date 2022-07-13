@@ -676,7 +676,7 @@ class TemplateWeb extends TemplateClient {
                         break;
                     case 'List':
                         let elemPicked = this.useCase.elems[elemCur.Name];
-                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, divCur);
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, divCur);
                         this.elems[elemCur.Name].initiateTrigger();
                         break;
                     default:
@@ -1389,24 +1389,8 @@ class TemplateElemWeb extends TemplateElemClient{
                 
                     this.templateListReference = new TemplateListWeb(this);
                     this.templateListReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                    /*
-                    let subPath = this.useCaseElem.spec.Path.SubPath;
-                    let itemBase = null;
-                    let attributeNext = null;
-                    if (subPath.length > 1) {
-                        if (subPath[0] === '/') {
-                            itemBase = this.model.itemSeed;
-                        }
-                        attributeNext = subPath[1];
-                    }
-                    if (itemBase != null) {
-                        this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
-                    }
-                    */
                     this.templateListReference.setListFromServer(itemList);
                     this.templateListReference.trigger();
-                
-                
                 }
                 break;
             case 'Extension':
