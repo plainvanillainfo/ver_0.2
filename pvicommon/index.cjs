@@ -675,8 +675,10 @@ class TemplateWeb extends TemplateClient {
                         });
                         break;
                     case 'List':
+                        inputCur = document.createElement('div');
+                        divCur.appendChild(inputCur);
                         let elemPicked = this.useCase.elems[elemCur.Name];
-                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, divCur);
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].initiateTrigger();
                         break;
                     default:
@@ -1385,7 +1387,7 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Reference':
                 if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
-                    alert(JSON.stringify(itemList));
+                    //alert(JSON.stringify(itemList));
                 
                     this.templateListReference = new TemplateListWeb(this);
                     this.templateListReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
