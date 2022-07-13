@@ -1079,116 +1079,8 @@ class TemplateListWeb extends TemplateListClient {
         console.log("TemplateListWeb::trigger");
     }
 
-    /*
-    hideTable() {
-        this.track.popBreadcrumb();
-        this.track.div.removeChild(this.divTarget);
-    }
-    */
-
     setListFromServer(listFromServer) {
         this.listFromServer = listFromServer;
-
-        /*
-
-        let child = this.divTarget.lastElementChild; 
-        while (child) {
-            this.divTarget.removeChild(child);
-            child = this.divTarget.lastElementChild;
-        }
-
-        if (this.track.breadcrumbs.length > 1) {
-            let divCur = document.createElement('div');
-            this.divTarget.appendChild(divCur);
-            divCur.className = 'mb-3';
-            let buttonCur = document.createElement('button');
-            divCur.appendChild(buttonCur);
-            buttonCur.className = 'btn btn-info';
-            buttonCur.setAttribute("type", "button");
-            buttonCur.id = 'backbutton';
-            buttonCur.style.width = "12em";
-            buttonCur.appendChild(document.createTextNode("< Go Back"));
-            buttonCur.addEventListener('click', (event) => {
-                event.preventDefault();
-                this.hideTable();
-            });
-        }
-
-        let divTableWrapper = document.createElement('div');
-        this.divTarget.appendChild(divTableWrapper);
-        divTableWrapper.className = 'table-wrapper';
-        let divTitle = document.createElement('div');
-        divTableWrapper.appendChild(divTitle);
-        divTitle.className = 'table-title';
-        let divTitleRow = document.createElement('div');
-        divTitle.appendChild(divTitleRow);
-        divTitleRow.className = 'row';
-        let divTitleRowTitle = document.createElement('div');
-        divTitleRow.appendChild(divTitleRowTitle);
-        divTitleRowTitle.className = 'col-sm-10';
-        let tableCaption = document.createElement('h3');
-        divTitleRowTitle.appendChild(tableCaption);
-        tableCaption.appendChild(document.createTextNode(this.useCase.spec.Viewers[0].Label));
-        let divTitleRowAddButton = document.createElement('div');
-        divTitleRow.appendChild(divTitleRowAddButton);
-        divTitleRowAddButton.className = 'col-sm-2';
-        let buttonAdd = document.createElement('button');
-        divTitleRowAddButton.appendChild(buttonAdd);
-        buttonAdd.className = 'btn btn-info add-new';
-        buttonAdd.addEventListener('click', (event) => {
-            event.preventDefault();
-            console.log("TemplateListWeb - Add New");
-            this.templateSub = new TemplateWeb(this);
-            if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
-                let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
-                this.templateSub.setUseCase(useCaseSub);
-                this.track.pushBreadcrumb(this.templateSub);
-            }
-        });
-        let iconAdd = document.createElement('i');
-        divTitleRowTitle.appendChild(iconAdd);
-        iconAdd.className = 'fa fa-plus';
-        buttonAdd.appendChild(iconAdd);
-        buttonAdd.appendChild(document.createTextNode('Add New'));
-        this.tableList = document.createElement('table');
-        divTableWrapper.appendChild(this.tableList);
-        this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
-        let tableHead = document.createElement('thead');
-        this.tableList.appendChild(tableHead);
-        this.tableHeadRow = document.createElement('tr');
-        tableHead.appendChild(this.tableHeadRow);
-        this.tableBody = document.createElement('tbody');
-        this.tableList.appendChild(this.tableBody);
-        this.useCase.spec.Elems.forEach(elemCur => {
-            let tableHeadRowHeader = document.createElement('th');
-            this.tableHeadRow.appendChild(tableHeadRowHeader);
-            tableHeadRowHeader.setAttribute("scope", "col");
-            tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Viewers[0].Label));
-        });
-        this.listFromServer.forEach(itemCur => {
-            let tableItemRow = document.createElement('tr');
-            this.tableBody.appendChild(tableItemRow);
-            tableItemRow.addEventListener('click', (event) => {
-                event.preventDefault();
-                console.log("TemplateListWeb - item picked: ", itemCur.Id);
-                this.templateSub = new TemplateWeb(this);
-                this.templateSub.setItemId(itemCur.Id)
-                if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
-                    let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
-                    this.templateSub.setUseCase(useCaseSub);
-                    this.track.pushBreadcrumb(this.templateSub);
-                }
-            });
-            this.useCase.spec.Elems.forEach(elemCur => {
-                let tableItemRowCell = document.createElement('td');
-                tableItemRow.appendChild(tableItemRowCell);
-                //let attrDetail = itemCur.Attrs[elemCur.Name];
-                let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
-                tableItemRowCell.appendChild(document.createTextNode(valueCur));
-            });
-        });
-        */
-
         switch (this.useCase.spec.Viewers[0].ViewerSpec.Format) {
             case 'List':
                 this.setListFromServerList();
@@ -1199,7 +1091,6 @@ class TemplateListWeb extends TemplateListClient {
             default:
                 break;
         }
-
     }
 
     setListFromServerList() {
@@ -1278,52 +1169,6 @@ class TemplateListWeb extends TemplateListClient {
             });
         });
     }
-
-/*
-
-                            inputCur = document.createElement('button');
-                            divCur.appendChild(inputCur);
-                            inputCur.className = 'btn btn-secondary dropdown-toggle';
-                            inputCur.setAttribute("type", "button");
-                            inputCur.setAttribute("data-bs-toggle", "dropdown");
-                            inputCur.appendChild(document.createTextNode("Select ..."));
-    
-                            inputLabel = document.createElement('ul');
-                            divCur.appendChild(inputLabel);
-                            inputLabel.className = 'dropdown-menu';
-    
-                            inputLabel1 = document.createElement('li');
-                            inputLabel.appendChild(inputLabel1);
-                            inputLabel1.className = 'dropdown-item';
-                            inputLabel1.appendChild(document.createTextNode("NATIONAL FINANCIAL SERVICES"));
-    
-                            inputLabel1 = document.createElement('li');
-                            inputLabel.appendChild(inputLabel1);
-                            inputLabel1.className = 'dropdown-item';
-                            inputLabel1.appendChild(document.createTextNode("PERSHING LLC"));
-    
-                            inputLabel1 = document.createElement('li');
-                            inputLabel.appendChild(inputLabel1);
-                            inputLabel1.className = 'dropdown-item';
-                            inputLabel1.appendChild(document.createTextNode("IRA SERVICES TRUST CO FBO"));
-    
-                            inputLabel1 = document.createElement('li');
-                            inputLabel.appendChild(inputLabel1);
-                            inputLabel1.className = 'dropdown-item';
-                            inputLabel1.appendChild(document.createTextNode("MAINSTAR TRUST"));
-    
-                            inputLabel1 = document.createElement('li');
-                            inputLabel.appendChild(inputLabel1);
-                            inputLabel1.className = 'dropdown-item';
-                            inputLabel1.appendChild(document.createTextNode("COMMUNITY NATIONAL BANK"));
-    
-                            inputLabel1 = document.createElement('li');
-                            inputLabel.appendChild(inputLabel1);
-                            inputLabel1.className = 'dropdown-item';
-                            inputLabel1.appendChild(document.createTextNode("STRATA TRUST COMPANY"));
-
-*/
-
 
     setListFromServerPickList() {
         let divListWrapper = document.createElement('div');
