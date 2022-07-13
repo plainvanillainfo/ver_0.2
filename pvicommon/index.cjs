@@ -874,7 +874,6 @@ class TemplateList {
         return retVal;
     }
 
-
 }
 
 class TemplateListServer extends TemplateList {
@@ -1231,15 +1230,6 @@ class TemplateElemServer extends TemplateElem {
         this.itemParent = parent.item;
         this.forwardToClient = this.forwardToClient.bind(this);
         this.trigger = this.trigger.bind(this);
-        /*
-        if (this.fJoin) {
-            if (useCaseElem.attribute.Type === 'Child') {
-                this.templateList = new TemplateListServer(this);
-                this.templateList.setUseCase(this.model.useCases[useCaseElem.spec.SubUseCase]);
-                this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.trigger);
-            }
-        }
-        */
     }
 
     fromClient(message) {
@@ -1319,16 +1309,6 @@ class TemplateElemClient extends TemplateElem{
         this.client = this.parent.client;
         this.itemParent = parent.item;
         this.forwardToServer = this.forwardToServer.bind(this);
-        /*
-        let messageOut = {
-            Action: 'StartTemplateElem',
-            TemplateElem: {
-                UseCaseElemName: this.useCaseElem.spec.Name
-            }
-
-        };
-        this.parent.forwardToServer(messageOut);
-        */
     }
 
     fromServer(message) {
@@ -1409,7 +1389,6 @@ class TemplateElemWeb extends TemplateElemClient{
                             buttonCur.appendChild(document.createTextNode("< Go Back"));
                             buttonCur.addEventListener('click', (event) => {
                                 event.preventDefault();
-                                //this.hideTable();
                                 this.track.popBreadcrumb();
                                 this.track.div.removeChild(this.divTarget);
                             });
