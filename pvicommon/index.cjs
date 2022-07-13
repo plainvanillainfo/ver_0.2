@@ -1385,7 +1385,7 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Reference':
                 if (this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
-                    alert(itemList);
+                    alert(JSON.stringify(itemList));
                 }
                 break;
             case 'Extension':
