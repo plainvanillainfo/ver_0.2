@@ -1280,26 +1280,6 @@ class TemplateListWeb extends TemplateListClient {
     }
 
 /*
-                    case 'Dropdown':
-                        inputCur = document.createElement('select');
-                        divCur.appendChild(inputCur);
-                        if (itemAttrCur.viewerSpec.ValueSet != null) {
-                            itemAttrCur.viewerSpec.ValueSet.forEach(itemCur => {
-                                let option = document.createElement('option');
-                                inputCur.appendChild(option);
-                                option.addEventListener('click', (event) => {
-                                    event.preventDefault();
-                                    console.log("click on option", itemCur);
-                                    this.formData[event.target.id] = event.target.value;
-                                });
-                                let spanAttr = document.createElement('span');
-                                option.appendChild(spanAttr);
-                                spanAttr.appendChild(document.createTextNode(itemCur));
-                            });
-                        }
-                        break;
-*/
-/*
 
                             inputCur = document.createElement('button');
                             divCur.appendChild(inputCur);
@@ -1350,15 +1330,20 @@ class TemplateListWeb extends TemplateListClient {
         this.divTarget.appendChild(divListWrapper);
         this.selectList = document.createElement('select');
         divListWrapper.appendChild(this.selectList);
+        let option = document.createElement('option');
+        this.selectList.appendChild(option);
+        let spanAttr = document.createElement('span');
+        option.appendChild(spanAttr);
+        spanAttr.appendChild(document.createTextNode('Select ...'));
         this.listFromServer.forEach(itemCur => {
-            let option = document.createElement('option');
+            option = document.createElement('option');
             this.selectList.appendChild(option);
             option.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("click on option", itemCur);
                 //this.formData[event.target.id] = event.target.value;
             });
-            let spanAttr = document.createElement('span');
+            spanAttr = document.createElement('span');
             option.appendChild(spanAttr);
             this.useCase.spec.Elems.forEach(elemCur => {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
