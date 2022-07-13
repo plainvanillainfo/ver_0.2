@@ -677,6 +677,7 @@ class TemplateWeb extends TemplateClient {
                     case 'List':
                         inputCur = document.createElement('div');
                         divCur.appendChild(inputCur);
+                        inputCur.style.width = '70%';
                         let elemPicked = this.useCase.elems[elemCur.Name];
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].initiateTrigger();
