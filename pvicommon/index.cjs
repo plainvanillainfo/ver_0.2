@@ -1129,8 +1129,6 @@ class TemplateListWeb extends TemplateListClient {
         iconAdd.className = 'fa fa-plus';
         buttonAdd.appendChild(iconAdd);
         buttonAdd.appendChild(document.createTextNode('Add New'));
-
-
         this.tableList = document.createElement('table');
         divTableWrapper.appendChild(this.tableList);
         this.tableList.className = 'table table-hover table-striped caption-top table-responsive';
@@ -1280,6 +1278,21 @@ class TemplateElemServer extends TemplateElem {
                     if (itemBase != null) {
                         this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
                     }
+
+                    /*
+                    if (message.Template != null && message.Template.ItemId != null) {
+                        this.childItemTemplates[message.Template.ItemId] = new TemplateServer(this);
+                        let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
+                        if (this.model.useCases[this.useCase.spec.SubUseCase] != null) {
+                            this.childItemTemplates[message.Template.ItemId].setUseCase(this.model.useCases[this.useCase.spec.SubUseCase]);
+                        }
+                        if (itemCur != null) {
+                            this.childItemTemplates[message.Template.ItemId].setItem(itemCur);
+                            this.childItemTemplates[message.Template.ItemId].pushOutData();
+                        }
+                    }
+                    */
+
                 }
             break;
             case 'Extension':
@@ -1409,6 +1422,17 @@ class TemplateElemWeb extends TemplateElemClient{
                     this.templateListReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
                     this.templateListReference.setListFromServer(itemList);
                     this.templateListReference.trigger();
+
+/*
+                    this.templateSub = new TemplateWeb(this);
+                    this.templateSub.setItemId(itemCur.Id)
+                    if (this.useCase.spec.SubUseCase != null) {
+                        let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
+                        this.templateSub.setUseCase(useCaseSub);
+                        this.track.pushBreadcrumb(this.templateSub);
+                    }
+*/     
+
                 }
                 break;
             case 'Extension':
