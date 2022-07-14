@@ -1423,15 +1423,13 @@ class TemplateElemWeb extends TemplateElemClient{
                     this.templateListReference.setListFromServer(itemList);
                     this.templateListReference.trigger();
 
-/*
-                    this.templateSub = new TemplateWeb(this);
-                    this.templateSub.setItemId(itemCur.Id)
+                    this.templateItemPicked = new TemplateWeb(this);
+                    let itemPicked = null;
+                    this.templateItemPicked.setItemId(itemPicked.Id)
                     if (this.useCase.spec.SubUseCase != null) {
                         let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
-                        this.templateSub.setUseCase(useCaseSub);
-                        this.track.pushBreadcrumb(this.templateSub);
+                        this.templateItemPicked.setUseCase(useCaseSub);
                     }
-*/     
 
                 }
                 break;
