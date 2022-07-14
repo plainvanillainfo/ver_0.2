@@ -1426,11 +1426,8 @@ class TemplateElemWeb extends TemplateElemClient{
                     this.templateItemPicked = new TemplateWeb(this);
                     let itemPicked = {Id: null};
                     this.templateItemPicked.setItemId(itemPicked.Id)
-                    if (this.useCase.spec.SubUseCase != null) {
-                        let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
-                        this.templateItemPicked.setUseCase(useCaseSub);
-                    }
-
+                    let useCaseSub = this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]
+                    this.templateItemPicked.setUseCase(useCaseSub);
                 }
                 break;
             case 'Extension':
