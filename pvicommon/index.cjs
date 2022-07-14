@@ -1418,16 +1418,19 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Reference':
                 if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                    let useCaseSub = this.client.useCases[this.useCaseElem.spec.Path.SubUseCase];
                     this.templateListReference = new TemplateListWeb(this);
-                    this.templateListReference.setUseCase(this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    this.templateListReference.setUseCase(useCaseSub]);
                     this.templateListReference.setListFromServer(itemList);
                     this.templateListReference.trigger();
 
                     this.templateItemPicked = new TemplateWeb(this);
                     let itemPicked = {Id: null};
                     this.templateItemPicked.setItemId(itemPicked.Id)
-                    let useCaseSub = this.client.useCases[this.useCaseElem.spec.Path.SubUseCase]
-                    this.templateItemPicked.setUseCase(useCaseSub);
+                    if (useCaseSub.SubUseCase != null) {
+                        let useCaseSubTemplate = this.client.useCases[useCaseSub.SubUseCase]
+                        this.templateItemPicked.setUseCase(useCaseSubTemplate);
+                    }
                 }
                 break;
             case 'Extension':
