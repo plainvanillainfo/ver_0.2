@@ -1427,8 +1427,8 @@ class TemplateElemWeb extends TemplateElemClient{
                     this.templateItemPicked = new TemplateWeb(this);
                     let itemPicked = {Id: null};
                     this.templateItemPicked.setItemId(itemPicked.Id)
-                    if (useCaseSub.SubUseCase != null) {
-                        let useCaseSubTemplate = this.client.useCases[useCaseSub.SubUseCase]
+                    if (useCaseSub.spec.SubUseCase != null) {
+                        let useCaseSubTemplate = this.client.useCases[useCaseSub.spec.SubUseCase]
                         this.templateItemPicked.setUseCase(useCaseSubTemplate);
                     }
                 }
