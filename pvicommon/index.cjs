@@ -1420,7 +1420,7 @@ class TemplateElemWeb extends TemplateElemClient{
                 if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
                     let useCaseSub = this.client.useCases[this.useCaseElem.spec.Path.SubUseCase];
                     this.templateListReference = new TemplateListWeb(this);
-                    this.templateListReference.setUseCase(useCaseSub]);
+                    this.templateListReference.setUseCase(useCaseSub);
                     this.templateListReference.setListFromServer(itemList);
                     this.templateListReference.trigger();
 
