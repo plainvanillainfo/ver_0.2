@@ -1118,8 +1118,8 @@ class TemplateListWeb extends TemplateListClient {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
             this.templateSub = new TemplateWeb(this);
-            if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
-                let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
+            if (this.useCase.spec.SubUseCase != null) {
+                let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
                 this.templateSub.setUseCase(useCaseSub);
                 this.track.pushBreadcrumb(this.templateSub);
             }
@@ -1154,8 +1154,8 @@ class TemplateListWeb extends TemplateListClient {
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
                 this.templateSub = new TemplateWeb(this);
                 this.templateSub.setItemId(itemCur.Id)
-                if (this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase != null) {
-                    let useCaseSub = this.client.useCases[this.useCase.spec.Viewers[0].ViewerSpec.SubUseCase]
+                if (this.useCase.spec.SubUseCase != null) {
+                    let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
                     this.templateSub.setUseCase(useCaseSub);
                     this.track.pushBreadcrumb(this.templateSub);
                 }
