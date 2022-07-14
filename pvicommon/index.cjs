@@ -732,42 +732,6 @@ class TemplateWeb extends TemplateClient {
         });
     }
 
-    refreshData() {
-        if (this.form == null) {
-            this.setUseCaseForm();
-        }
-    }
-
-    hideForm() {
-        this.track.popBreadcrumb();
-        this.track.div.removeChild(this.divTarget);
-    }
-
-    saveFormData() {
-        let attrs = {};
-        let fUpdated = false;
-        for (let formAttrCur in this.formData) {
-            let formAttrDetail = this.formData[formAttrCur];
-            attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
-            
-            fUpdated = true;
-        }
-        if (fUpdated) {
-            let messageOut = {
-                Action: 'UpdateItem',
-                Template: {
-                    //ItemDBPath: this.dbPath,
-                    ItemData: {
-                        Id: this.item != null ? this.item.id : null,
-                        Attrs: attrs,
-                        ChildItems: {}
-                    }
-                }
-            };
-            this.parent.forwardToServer(messageOut);
-        }
-    }
-
     setUseCaseMenu() {
         this.nav = document.createElement('nav');
         this.track.div.appendChild(this.nav);
@@ -822,6 +786,42 @@ class TemplateWeb extends TemplateClient {
         this.divTarget = document.createElement('div');
         this.track.div.appendChild(this.divTarget);
         this.divTarget.style.margin = '10px';
+    }
+
+    refreshData() {
+        if (this.form == null) {
+            this.setUseCaseForm();
+        }
+    }
+
+    hideForm() {
+        this.track.popBreadcrumb();
+        this.track.div.removeChild(this.divTarget);
+    }
+
+    saveFormData() {
+        let attrs = {};
+        let fUpdated = false;
+        for (let formAttrCur in this.formData) {
+            let formAttrDetail = this.formData[formAttrCur];
+            attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
+            
+            fUpdated = true;
+        }
+        if (fUpdated) {
+            let messageOut = {
+                Action: 'UpdateItem',
+                Template: {
+                    //ItemDBPath: this.dbPath,
+                    ItemData: {
+                        Id: this.item != null ? this.item.id : null,
+                        Attrs: attrs,
+                        ChildItems: {}
+                    }
+                }
+            };
+            this.parent.forwardToServer(messageOut);
+        }
     }
 
     setVisibility(trueOrFalse) {
