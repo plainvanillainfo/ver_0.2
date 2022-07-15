@@ -369,12 +369,11 @@ class TemplateClient extends Template {
 }
 
 class TemplateWeb extends TemplateClient {
-    constructor(parent) {
+    constructor(parent, divTarget) {
         super(parent);
         this.track = this.parent.track;
         this.nav = null;
-        this.divTarget = null;
-
+        this.divTarget = divTarget; // null;
     }
 
     setUseCase(useCase) {
@@ -405,12 +404,18 @@ class TemplateWeb extends TemplateClient {
 
     setUseCaseForm() {
         console.log("TemplateWeb::setUseCaseForm");
+        /*
         if (this.divTarget != null) {
             this.track.div.removeChild(this.divTarget);
         }
+        */
+
+        /*
         this.divTarget = document.createElement('div');
         this.track.div.appendChild(this.divTarget);
         this.divTarget.style.margin = '10px';
+        */
+
         this.form = document.createElement('form');
         this.divTarget.appendChild(this.form);
         this.formData = {};
@@ -733,17 +738,21 @@ class TemplateWeb extends TemplateClient {
     }
 
     setUseCaseMenu() {
-
-        this.divTarget = document.createElement('div');
-        this.track.div.appendChild(this.divTarget);
-        this.divTarget.style.margin = '10px';
-
         this.nav = document.createElement('nav');
-        this.track.div.appendChild(this.nav);
+        //this.track.div.appendChild(this.nav);
+        this.divTarget.appendChild(this.nav);
         this.nav.className = 'navbar navbar-expand-md navbar-dark bg-primary';
         this.divNav = document.createElement('div');
         this.nav.appendChild(this.divNav);
         this.divNav.className = 'container-fluid';
+
+        /*
+        this.divTarget = document.createElement('div');
+        this.track.div.appendChild(this.divTarget);
+        this.divTarget.style.margin = '10px';
+        */
+        this.divTargetSub = document.createElement('div')
+        this.divTargetSub.style.margin = '10px';
 
         this.buttonCollapse = document.createElement('button');
         this.divNav.appendChild(this.buttonCollapse);
@@ -782,7 +791,7 @@ class TemplateWeb extends TemplateClient {
                 event.preventDefault();
                 console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
                 let elemPicked = this.useCase.elems[menuItemCur.Name];
-                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false, this.divTarget);
+                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false, this.divTargetSub);
                 this.elems[menuItemCur.Name].initiateTrigger();
 
             });
@@ -1121,7 +1130,11 @@ class TemplateListWeb extends TemplateListClient {
         buttonAdd.addEventListener('click', (event) => {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
-            this.templateSub = new TemplateWeb(this);
+
+            this.divTargetSub = document.createElement('div')
+            this.divTargetSub.style.margin = '10px';
+
+            this.templateSub = new TemplateWeb(this, this.divTargetSub);
             if (this.useCase.spec.SubUseCase != null) {
                 let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
                 this.templateSub.setUseCase(useCaseSub);
@@ -1154,7 +1167,11 @@ class TemplateListWeb extends TemplateListClient {
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
-                this.templateSub = new TemplateWeb(this);
+
+                this.divTargetSub = document.createElement('div')
+                this.divTargetSub.style.margin = '10px';
+
+                this.templateSub = new TemplateWeb(this, this.divTargetSub);
                 this.templateSub.setItemId(itemCur.Id)
                 if (this.useCase.spec.SubUseCase != null) {
                     let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
@@ -1428,7 +1445,10 @@ class TemplateElemWeb extends TemplateElemClient{
                     this.templateListReference.setListFromServer(itemList);
                     this.templateListReference.trigger();
 
-                    this.templateItemPicked = new TemplateWeb(this);
+                    this.divTargetSub = document.createElement('div')
+                    this.divTargetSub.style.margin = '10px';
+
+                    this.templateItemPicked = new TemplateWeb(this, this.divTargetSub);
                     let itemPicked = {Id: null};
                     this.templateItemPicked.setItemId(itemPicked.Id)
                     if (useCaseSub.spec.SubUseCase != null) {
@@ -1578,7 +1598,13 @@ class TrackWeb extends TrackClient {
         this.track = this;
         this.div = div;
         this.breadcrumbs = [];
-        this.template = new TemplateWeb(this);
+
+
+        this.divTarget = document.createElement('div');
+        this.div.appendChild(this.divTarget);
+        //this.divTarget.style.margin = '10px';
+
+        this.template = new TemplateWeb(this, this.divTarget);
         this.breadcrumbs.push(this.template);
 
         this.divBreadcrumbs = document.createElement('nav');
