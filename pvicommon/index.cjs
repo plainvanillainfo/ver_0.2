@@ -426,13 +426,11 @@ class TemplateWeb extends TemplateClient {
         buttonCur.appendChild(document.createTextNode("< Go Back"));
         buttonCur.addEventListener('click', (event) => {
             event.preventDefault();
-            this.hideForm();
+            this.track.popBreadcrumb();
+            this.track.div.removeChild(this.divTarget);
+            //this.hideForm();
         });
-        let fNeedKeyElem = false;
-        let keyElemSpec = null;
-        let keyElemValue;
         let itemAttrs = [];
-        let itemAttrCur;
         itemAttrs.forEach(itemAttrCur => {
         /*
             let templateElemCur = {Nm: itemAttrCur.viewerSpec.name, Lb: itemAttrCur.viewerSpec.Label};
@@ -716,7 +714,9 @@ class TemplateWeb extends TemplateClient {
         buttonCur.appendChild(document.createTextNode("Cancel"));
         buttonCur.addEventListener('click', (event) => {
             event.preventDefault();
-            this.hideForm();
+            this.track.popBreadcrumb();
+            this.track.div.removeChild(this.divTarget);
+            //this.hideForm();
         });
         buttonCur = document.createElement('button');
         divCur.appendChild(buttonCur);
@@ -733,6 +733,11 @@ class TemplateWeb extends TemplateClient {
     }
 
     setUseCaseMenu() {
+
+        this.divTarget = document.createElement('div');
+        this.track.div.appendChild(this.divTarget);
+        this.divTarget.style.margin = '10px';
+
         this.nav = document.createElement('nav');
         this.track.div.appendChild(this.nav);
         this.nav.className = 'navbar navbar-expand-md navbar-dark bg-primary';
@@ -783,9 +788,6 @@ class TemplateWeb extends TemplateClient {
             });
         });
 
-        this.divTarget = document.createElement('div');
-        this.track.div.appendChild(this.divTarget);
-        this.divTarget.style.margin = '10px';
     }
 
     refreshData() {
@@ -794,10 +796,12 @@ class TemplateWeb extends TemplateClient {
         }
     }
 
+    /*
     hideForm() {
         this.track.popBreadcrumb();
         this.track.div.removeChild(this.divTarget);
     }
+    */
 
     saveFormData() {
         let attrs = {};
