@@ -752,6 +752,7 @@ class TemplateWeb extends TemplateClient {
         this.divTarget.style.margin = '10px';
         */
         this.divTargetSub = document.createElement('div')
+        this.divTarget.appendChild(this.divTargetSub);
         this.divTargetSub.style.margin = '10px';
 
         this.buttonCollapse = document.createElement('button');
