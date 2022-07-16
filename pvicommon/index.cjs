@@ -1139,7 +1139,7 @@ class TemplateListWeb extends TemplateListClient {
 
             this.divTargetSub = document.createElement('div')
             this.divTargetSub.style.margin = '10px';
-            this.track.divTarget.appendChild(this.divTargetSub);
+            this.track.divTargetSub.appendChild(this.divTargetSub);
 
             this.templateSub = new TemplateWeb(this, this.divTargetSub);
             if (this.useCase.spec.SubUseCase != null) {
@@ -1177,7 +1177,7 @@ class TemplateListWeb extends TemplateListClient {
 
                 this.divTargetSub = document.createElement('div')
                 this.divTargetSub.style.margin = '10px';
-                this.track.divTarget.appendChild(this.divTargetSub);
+                this.track.divTargetSub.appendChild(this.divTargetSub);
 
                 this.templateSub = new TemplateWeb(this, this.divTargetSub);
                 this.templateSub.setItemId(itemCur.Id)
@@ -1631,9 +1631,11 @@ class TrackWeb extends TrackClient {
 
         this.divTarget = document.createElement('div');
         this.div.appendChild(this.divTarget);
-        //this.divTarget.style.margin = '10px';
 
-        this.template = new TemplateWeb(this, this.divTarget);
+        this.divTargetSub = document.createElement('div');
+        this.divTarget.appendChild(this.divTargetSub);
+
+        this.template = new TemplateWeb(this, this.divTargetSub);
         this.breadcrumbs.push(this.template);
 
         this.olBreadcrumbs = document.createElement('ol');
