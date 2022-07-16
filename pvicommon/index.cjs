@@ -1220,6 +1220,7 @@ class TemplateListWeb extends TemplateListClient {
         });
     }
 
+    /*
     setVisibility(trueOrFalse) {
         console.log("TemplateListWeb::setVisibility", trueOrFalse);
         if (trueOrFalse === true) {
@@ -1230,6 +1231,7 @@ class TemplateListWeb extends TemplateListClient {
             this.divTarget.style.display = 'none';
         }
     }
+    */
 
 }
 
@@ -1482,6 +1484,7 @@ class TemplateElemWeb extends TemplateElemClient{
         }
     }
 
+    /*
     setVisibility(trueOrFalse) {
         console.log("TemplateElemWeb::setVisibility", trueOrFalse);
         if (trueOrFalse === true) {
@@ -1492,7 +1495,7 @@ class TemplateElemWeb extends TemplateElemClient{
             this.divTarget.style.display = 'none';
         }
     }
-
+    */
 }
 
 class User {
