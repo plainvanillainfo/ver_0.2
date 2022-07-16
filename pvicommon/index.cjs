@@ -425,6 +425,8 @@ class TemplateWeb extends TemplateClient {
             this.track.div.removeChild(this.divTarget);
         });
         */
+        
+        let divCur;
 
         let itemAttrs = [];
         itemAttrs.forEach(itemAttrCur => {
