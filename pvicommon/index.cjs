@@ -404,18 +404,6 @@ class TemplateWeb extends TemplateClient {
 
     setUseCaseForm() {
         console.log("TemplateWeb::setUseCaseForm");
-        /*
-        if (this.divTarget != null) {
-            this.track.div.removeChild(this.divTarget);
-        }
-        */
-
-        /*
-        this.divTarget = document.createElement('div');
-        this.track.div.appendChild(this.divTarget);
-        this.divTarget.style.margin = '10px';
-        */
-
         this.form = document.createElement('form');
         this.divTarget.appendChild(this.form);
         this.formData = {};
@@ -433,7 +421,6 @@ class TemplateWeb extends TemplateClient {
             event.preventDefault();
             this.track.popBreadcrumb();
             this.track.div.removeChild(this.divTarget);
-            //this.hideForm();
         });
         let itemAttrs = [];
         itemAttrs.forEach(itemAttrCur => {
@@ -806,13 +793,6 @@ class TemplateWeb extends TemplateClient {
             this.setUseCaseForm();
         }
     }
-
-    /*
-    hideForm() {
-        this.track.popBreadcrumb();
-        this.track.div.removeChild(this.divTarget);
-    }
-    */
 
     saveFormData() {
         let attrs = {};
