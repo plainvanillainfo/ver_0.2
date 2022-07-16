@@ -1474,10 +1474,7 @@ class TemplateElemWeb extends TemplateElemClient{
                         this.templateItemEmbedded = new TemplateWeb(this, this.divTarget);
                         let itemEmbedded = { Id: null };
                         this.templateItemEmbedded.setItemId(itemEmbedded.Id)
-                        if (useCaseSub.spec.SubUseCase != null) {
-                            let useCaseSubEmbedded = this.client.useCases[useCaseSub.spec.SubUseCase]
-                            this.templateItemEmbedded.setUseCase(useCaseSubEmbedded);
-                        }
+                        this.templateItemEmbedded.setUseCase(useCaseSub);
                     }
                 }
                 break;
