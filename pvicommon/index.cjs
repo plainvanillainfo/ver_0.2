@@ -1470,6 +1470,7 @@ class TemplateElemWeb extends TemplateElemClient{
             case 'Component':
                 if (this.useCaseElem.attribute.Subtype === 'Embedded') {
                     if (this.templateItemEmbedded == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                    let useCaseSub = this.client.useCases[this.useCaseElem.spec.Path.SubUseCase];
                         this.templateItemEmbedded = new TemplateWeb(this, this.divTarget);
                         let itemEmbedded = { Id: null };
                         this.templateItemEmbedded.setItemId(itemEmbedded.Id)
