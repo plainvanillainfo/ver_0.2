@@ -599,6 +599,7 @@ class TemplateWeb extends TemplateClient {
             labelSpan.style.verticalAlign = "top";
             labelSpan.style.width = "25%";
             let inputCur;
+            let elemPicked;
             let viewerSpec = elemCur.Viewers[0].ViewerSpec;
             if (viewerSpec != null && viewerSpec.Format != null) {
                 switch (viewerSpec.Format) {
@@ -655,7 +656,16 @@ class TemplateWeb extends TemplateClient {
                         divCur.appendChild(inputCur);
                         inputCur.style.display = "inline-block";
                         inputCur.style.width = '70%';
-                        let elemPicked = this.useCase.elems[elemCur.Name];
+                        elemPicked = this.useCase.elems[elemCur.Name];
+                        this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
+                        this.elems[elemCur.Name].initiateTrigger();
+                        break;
+                    case 'InPlace':
+                        inputCur = document.createElement('div');
+                        divCur.appendChild(inputCur);
+                        inputCur.style.display = "inline-block";
+                        inputCur.style.width = '70%';
+                        elemPicked = this.useCase.elems[elemCur.Name];
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].initiateTrigger();
                         break;
