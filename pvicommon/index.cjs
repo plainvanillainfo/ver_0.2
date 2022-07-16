@@ -667,7 +667,7 @@ class TemplateWeb extends TemplateClient {
                         inputCur.style.width = '70%';
                         elemPicked = this.useCase.elems[elemCur.Name];
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
-                        this.elems[elemCur.Name].initiateTrigger();
+                        this.elems[elemCur.Name].trigger();
                         break;
                     default:
                         break;
