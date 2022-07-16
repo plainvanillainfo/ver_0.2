@@ -1220,6 +1220,17 @@ class TemplateListWeb extends TemplateListClient {
         });
     }
 
+    setVisibility(trueOrFalse) {
+        console.log("TemplateListWeb::setVisibility", trueOrFalse);
+        if (trueOrFalse === true) {
+            this.divTarget.style.visibility = 'visible';
+            this.divTarget.style.display = 'block';
+        } else {
+            this.divTarget.style.visibility = 'hidden';
+            this.divTarget.style.display = 'none';
+        }
+    }
+
 }
 
 class TemplateElem {
