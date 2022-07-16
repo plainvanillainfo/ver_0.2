@@ -738,6 +738,7 @@ class TemplateWeb extends TemplateClient {
     }
 
     setUseCaseMenu() {
+        console.log("TemplateWeb::setUseCaseMenu");
         this.nav = document.createElement('nav');
         //this.track.div.appendChild(this.nav);
         this.divTarget.appendChild(this.nav);
@@ -1177,6 +1178,7 @@ class TemplateListWeb extends TemplateListClient {
                 this.templateSub = new TemplateWeb(this, this.divTargetSub);
                 this.templateSub.setItemId(itemCur.Id)
                 if (this.useCase.spec.SubUseCase != null) {
+                    console.log("TemplateListWeb - item picked: - this.useCase.spec.SubUseCase != null ");
                     let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
                     this.templateSub.setUseCase(useCaseSub);
                     this.track.pushBreadcrumb(this.templateSub);
