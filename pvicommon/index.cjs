@@ -1450,6 +1450,7 @@ class TemplateElemWeb extends TemplateElemClient{
 
                     this.divTargetSub = document.createElement('div')
                     this.divTargetSub.style.margin = '10px';
+                    this.divTarget.appendChild(this.divTargetSub);
 
                     this.templateItemPicked = new TemplateWeb(this, this.divTargetSub);
                     let itemPicked = {Id: null};
