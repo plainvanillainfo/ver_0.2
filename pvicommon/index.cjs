@@ -407,6 +407,8 @@ class TemplateWeb extends TemplateClient {
         this.form = document.createElement('form');
         this.divTarget.appendChild(this.form);
         this.formData = {};
+
+        /*
         let divCur = document.createElement('div');
         this.form.appendChild(divCur);
         divCur.className = 'mb-3';
@@ -422,6 +424,8 @@ class TemplateWeb extends TemplateClient {
             this.track.popBreadcrumb();
             this.track.div.removeChild(this.divTarget);
         });
+        */
+
         let itemAttrs = [];
         itemAttrs.forEach(itemAttrCur => {
         /*
@@ -1124,6 +1128,24 @@ class TemplateListWeb extends TemplateListClient {
             this.track.divTargetSub.appendChild(this.divTargetSub);
 
             this.templateSub = new TemplateWeb(this, this.divTargetSub);
+
+            let divCur = document.createElement('div');
+            this.divTargetSub.appendChild(divCur);
+            divCur.className = 'mb-3';
+            let buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-info';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'backbutton';
+            buttonCur.style.width = "12em";
+            buttonCur.appendChild(document.createTextNode("< Go Back"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.track.popBreadcrumb();
+                this.track.div.removeChild(this.divTargetSub);
+            });
+
+
             if (this.useCase.spec.SubUseCase != null) {
                 let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
                 this.templateSub.setUseCase(useCaseSub);
@@ -1162,6 +1184,26 @@ class TemplateListWeb extends TemplateListClient {
                 this.track.divTargetSub.appendChild(this.divTargetSub);
 
                 this.templateSub = new TemplateWeb(this, this.divTargetSub);
+
+
+                let divCur = document.createElement('div');
+                this.divTargetSub.appendChild(divCur);
+                divCur.className = 'mb-3';
+                let buttonCur = document.createElement('button');
+                divCur.appendChild(buttonCur);
+                buttonCur.className = 'btn btn-info';
+                buttonCur.setAttribute("type", "button");
+                buttonCur.id = 'backbutton';
+                buttonCur.style.width = "12em";
+                buttonCur.appendChild(document.createTextNode("< Go Back"));
+                buttonCur.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    this.track.popBreadcrumb();
+                    this.track.div.removeChild(this.divTargetSub);
+                });
+
+
+
                 this.templateSub.setItemId(itemCur.Id)
                 if (this.useCase.spec.SubUseCase != null) {
                     console.log("TemplateListWeb - item picked: - this.useCase.spec.SubUseCase != null ");
@@ -1415,6 +1457,7 @@ class TemplateElemWeb extends TemplateElemClient{
                             child = this.divTarget.lastElementChild;
                         }
                         if (this.track.breadcrumbs.length > 1) {
+
                             let divCur = document.createElement('div');
                             this.divTarget.appendChild(divCur);
                             divCur.className = 'mb-3';
@@ -1430,6 +1473,7 @@ class TemplateElemWeb extends TemplateElemClient{
                                 this.track.popBreadcrumb();
                                 this.track.div.removeChild(this.divTarget);
                             });
+
                         }
                     }
                     this.templateList.setListFromServer(itemList);
