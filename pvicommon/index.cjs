@@ -407,25 +407,6 @@ class TemplateWeb extends TemplateClient {
         this.form = document.createElement('form');
         this.divTarget.appendChild(this.form);
         this.formData = {};
-
-        /*
-        let divCur = document.createElement('div');
-        this.form.appendChild(divCur);
-        divCur.className = 'mb-3';
-        let buttonCur = document.createElement('button');
-        divCur.appendChild(buttonCur);
-        buttonCur.className = 'btn btn-info';
-        buttonCur.setAttribute("type", "button");
-        buttonCur.id = 'backbutton';
-        buttonCur.style.width = "12em";
-        buttonCur.appendChild(document.createTextNode("< Go Back"));
-        buttonCur.addEventListener('click', (event) => {
-            event.preventDefault();
-            this.track.popBreadcrumb();
-            this.track.div.removeChild(this.divTarget);
-        });
-        */
-        
         let divCur;
         let buttonCur;
         let itemAttrs = [];
