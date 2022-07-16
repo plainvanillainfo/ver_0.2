@@ -1629,12 +1629,14 @@ class TrackWeb extends TrackClient {
     }
 
     pushBreadcrumb(templatePushed) {
+        console.log("TrackWeb::pushBreadcrumb");
         this.breadcrumbs.push(templatePushed);
         this.breadcrumbs[this.breadcrumbs.length-2].setVisibility(false);
         this.showCrumbs();
     }
 
     popBreadcrumb() {
+        console.log("TrackWeb::popBreadcrumb");
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(false);
         this.breadcrumbs.pop();
         this.breadcrumbs[this.breadcrumbs.length-1].setVisibility(true);
