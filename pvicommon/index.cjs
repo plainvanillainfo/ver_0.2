@@ -1127,8 +1127,6 @@ class TemplateListWeb extends TemplateListClient {
             this.divTargetSub.style.margin = '10px';
             this.track.divTargetSub.appendChild(this.divTargetSub);
 
-            this.templateSub = new TemplateWeb(this, this.divTargetSub);
-
             let divCur = document.createElement('div');
             this.divTargetSub.appendChild(divCur);
             divCur.className = 'mb-3';
@@ -1145,7 +1143,7 @@ class TemplateListWeb extends TemplateListClient {
                 this.track.div.removeChild(this.divTargetSub);
             });
 
-
+            this.templateSub = new TemplateWeb(this, this.divTargetSub);
             if (this.useCase.spec.SubUseCase != null) {
                 let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
                 this.templateSub.setUseCase(useCaseSub);
@@ -1183,9 +1181,6 @@ class TemplateListWeb extends TemplateListClient {
                 this.divTargetSub.style.margin = '10px';
                 this.track.divTargetSub.appendChild(this.divTargetSub);
 
-                this.templateSub = new TemplateWeb(this, this.divTargetSub);
-
-
                 let divCur = document.createElement('div');
                 this.divTargetSub.appendChild(divCur);
                 divCur.className = 'mb-3';
@@ -1202,8 +1197,7 @@ class TemplateListWeb extends TemplateListClient {
                     this.track.div.removeChild(this.divTargetSub);
                 });
 
-
-
+                this.templateSub = new TemplateWeb(this, this.divTargetSub);
                 this.templateSub.setItemId(itemCur.Id)
                 if (this.useCase.spec.SubUseCase != null) {
                     console.log("TemplateListWeb - item picked: - this.useCase.spec.SubUseCase != null ");
