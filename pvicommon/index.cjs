@@ -846,15 +846,15 @@ class TemplateWeb extends TemplateClient {
                 this.nav.style.visibility = 'visible';
                 this.nav.style.display = 'flex';
             }
-            this.divTarget.style.visibility = 'visible';
-            this.divTarget.style.display = 'block';
+            //this.divTarget.style.visibility = 'visible';
+            //this.divTarget.style.display = 'block';
         } else {
             if (this.nav != null) {
                 this.nav.style.visibility = 'hidden';
                 this.nav.style.display = 'none';
             }
-            this.divTarget.style.visibility = 'hidden';
-            this.divTarget.style.display = 'none';
+            //this.divTarget.style.visibility = 'hidden';
+            //this.divTarget.style.display = 'none';
         }
     }
 
