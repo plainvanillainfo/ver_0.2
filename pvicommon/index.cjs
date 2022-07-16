@@ -1459,7 +1459,15 @@ class TemplateElemWeb extends TemplateElemClient{
                 break;
             case 'Component':
                 if (this.useCaseElem.attribute.Subtype === 'Embedded') {
-                    //this.templateReference = new TemplateWeb(this);
+                    if (this.templateItemEmbedded == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                        this.templateItemEmbedded = new TemplateWeb(this, this.divTarget);
+                        let itemEmbedded = { Id: null };
+                        this.templateItemEmbedded.setItemId(itemEmbedded.Id)
+                        if (useCaseSub.spec.SubUseCase != null) {
+                            let useCaseSubEmbedded = this.client.useCases[useCaseSub.spec.SubUseCase]
+                            this.templateItemEmbedded.setUseCase(useCaseSubEmbedded);
+                        }
+                    }
                 }
                 break;
             case 'Reference':
