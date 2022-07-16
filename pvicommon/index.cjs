@@ -427,7 +427,7 @@ class TemplateWeb extends TemplateClient {
         */
         
         let divCur;
-
+        let buttonCur;
         let itemAttrs = [];
         itemAttrs.forEach(itemAttrCur => {
         /*
