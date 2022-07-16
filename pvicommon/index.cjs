@@ -1470,6 +1470,7 @@ class TemplateElemWeb extends TemplateElemClient{
     }
 
     setVisibility(trueOrFalse) {
+        console.log("TemplateElemWeb::setVisibility", trueOrFalse);
         if (trueOrFalse === true) {
             this.divTarget.style.visibility = 'visible';
             this.divTarget.style.display = 'block';
