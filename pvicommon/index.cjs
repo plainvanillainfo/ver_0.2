@@ -1603,17 +1603,17 @@ class TrackWeb extends TrackClient {
         this.div = div;
         this.breadcrumbs = [];
 
+        this.divBreadcrumbs = document.createElement('nav');
+        this.div.appendChild(this.divBreadcrumbs);
+        this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
+        //this.divBreadcrumbs.style.setProperty('--bs-breadcrumb-divider', '>');
+
         this.divTarget = document.createElement('div');
         this.div.appendChild(this.divTarget);
         //this.divTarget.style.margin = '10px';
 
         this.template = new TemplateWeb(this, this.divTarget);
         this.breadcrumbs.push(this.template);
-
-        this.divBreadcrumbs = document.createElement('nav');
-        this.div.appendChild(this.divBreadcrumbs);
-        this.divBreadcrumbs.setAttribute('aria-label', 'breadcrumb');
-        //this.divBreadcrumbs.style.setProperty('--bs-breadcrumb-divider', '>');
 
         this.olBreadcrumbs = document.createElement('ol');
         this.divBreadcrumbs.appendChild(this.olBreadcrumbs);
