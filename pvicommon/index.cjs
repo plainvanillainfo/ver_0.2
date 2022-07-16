@@ -1134,7 +1134,7 @@ class TemplateListWeb extends TemplateListClient {
 
             this.divTargetSub = document.createElement('div')
             this.divTargetSub.style.margin = '10px';
-            this.divTarget.appendChild(this.divTargetSub);
+            this.track.divTarget.appendChild(this.divTargetSub);
 
             this.templateSub = new TemplateWeb(this, this.divTargetSub);
             if (this.useCase.spec.SubUseCase != null) {
@@ -1172,7 +1172,7 @@ class TemplateListWeb extends TemplateListClient {
 
                 this.divTargetSub = document.createElement('div')
                 this.divTargetSub.style.margin = '10px';
-                this.divTarget.appendChild(this.divTargetSub);
+                this.track.divTarget.appendChild(this.divTargetSub);
 
                 this.templateSub = new TemplateWeb(this, this.divTargetSub);
                 this.templateSub.setItemId(itemCur.Id)
