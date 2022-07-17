@@ -599,6 +599,7 @@ class TemplateWeb extends TemplateClient {
             labelSpan.style.verticalAlign = "top";
             labelSpan.style.width = "25%";
             let inputCur;
+            let inputLabel;
             let elemPicked;
             let viewerSpec = elemCur.Viewers[0].ViewerSpec;
             if (viewerSpec != null && viewerSpec.Format != null) {
@@ -669,6 +670,35 @@ class TemplateWeb extends TemplateClient {
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].trigger();
                         break;
+                    case 'Radio':
+
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "radio");
+                        inputCur.style.width = '70%';
+                        /*
+                        if (itemAttrCur.Value != null && itemAttrCur.Value !== "") {
+                            inputCur.checked = true
+                        } else {
+                            inputCur.checked = false;
+                        }
+                        */
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            //this.formData[event.target.id] = event.target.checked;
+                        });
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        //if (itemAttrCur.viewerSpec.Legend != null) {
+                            inputLabel.appendChild(document.createTextNode(labelText));
+                        //}
+
+                    break;
                     default:
                         break;
                 }
