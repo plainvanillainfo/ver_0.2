@@ -728,24 +728,38 @@ class TemplateWeb extends TemplateClient {
                         inputCur = document.createElement('input');
                         divDate.appendChild(inputCur);
                         inputCur.setAttribute("type", "date");
-
                         let dateTemp = this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
                         if (dateTemp > '') {
                             let valueCur = new Date(dateTemp);
                             inputCur.value = valueCur.toISOString().substr(0, 10);
                         }
-
                         inputCur.style.width = '70%';
                         inputCur.addEventListener('blur', (event) => {
                             event.preventDefault();
                             this.formData[event.target.id] = event.target.value;
                         });
-                        
                         let itemImgCal = document.createElement('i');
                         divDate.appendChild(itemImgCal);
                         itemImgCal.className = 'bi bi-calendar';
                         itemImgCal.style.marginLeft = "10px";
-                    
+                        break;
+                    case 'Dropdown':
+                        inputCur = document.createElement('select');
+                        divCur.appendChild(inputCur);
+                        if (viewerSpec.ValueSet != null) {
+                            viewerSpec.ValueSet.forEach(itemCur => {
+                                let option = document.createElement('option');
+                                inputCur.appendChild(option);
+                                option.addEventListener('click', (event) => {
+                                    event.preventDefault();
+                                    console.log("click on option", itemCur);
+                                    this.formData[event.target.id] = event.target.value;
+                                });
+                                let spanAttr = document.createElement('span');
+                                option.appendChild(spanAttr);
+                                spanAttr.appendChild(document.createTextNode(itemCur));
+                            });
+                        }
                         break;
                     default:
                         break;
