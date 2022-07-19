@@ -691,8 +691,8 @@ class TemplateWeb extends TemplateClient {
                         divCur.appendChild(inputLabel);
                         inputLabel.className = 'form-check-label';
                         inputLabel.setAttribute("for", "flexCheckDisabled");
-                        if (itemAttrCur.viewerSpec.Legend != null) {
-                            inputLabel.appendChild(document.createTextNode(itemAttrCur.viewerSpec.Legend));
+                        if (viewerSpec.Legend != null) {
+                            inputLabel.appendChild(document.createTextNode(viewerSpec.Legend));
                         }
                         break;
 
