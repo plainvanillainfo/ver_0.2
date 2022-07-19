@@ -1399,12 +1399,24 @@ class TemplateElemServer extends TemplateElem {
     fromClient(message) {
         console.log("TemplateElemServer::fromClient(): ", message);
         if (message.Action != null) {
-            switch (message.Action) {
-                case 'ContinueTemplateList':
-                    if (this.useCaseElem.attribute.Type === 'Child') {
-                        if (this.templateList != null && message.TemplateList != null) {
-                            this.templateList.fromClient(message.TemplateList);
-                        }
+            switch (this.useCaseElem.attribute.Type) {
+                case 'Child':
+                    switch (message.Action) {
+                        case 'ContinueTemplateList':
+                            if (this.templateList != null && message.TemplateList != null) {
+                                this.templateList.fromClient(message.TemplateList);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'Reference':
+                    switch (message.Action) {
+                        case 'StartTemplate':
+                            break;
+                        default:
+                            break;
                     }
                     break;
                 default:
@@ -1414,7 +1426,7 @@ class TemplateElemServer extends TemplateElem {
     }
 
     trigger() {
-        console.log("TemplateElemServer::trigger(): ");
+        console.log("TemplateElemServer::trigger():  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         switch (this.useCaseElem.attribute.Type) {
             case 'Child':
                 if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
