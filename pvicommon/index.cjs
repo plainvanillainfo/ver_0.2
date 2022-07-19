@@ -1395,7 +1395,7 @@ class TemplateElemServer extends TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateElemServer::fromClient(): ", message, this.useCaseElem.attribute.Type);
+        console.log("TemplateElemServer::fromClient(): ", message);
         if (message.Action != null) {
             switch (this.useCaseElem.attribute.Type) {
                 case 'Child':
@@ -1413,7 +1413,7 @@ class TemplateElemServer extends TemplateElem {
                     switch (message.Action) {
                         case 'StartTemplate':
                             console.log("TemplateElemServer::fromClient() - AAAAAA ");
-                            if (this.templateListReference == null && this.templateItemPicked != null) {
+                            if (this.templateListReference != null && this.templateItemPicked != null) {
                                 console.log("TemplateElemServer::fromClient() - BBBBBB ");
                                 if (message.Template != null && message.Template.ItemId != null) {
                                     console.log("TemplateElemServer::fromClient() - CCCCCC ");
