@@ -670,7 +670,6 @@ class TemplateWeb extends TemplateClient {
                         this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, false, inputCur);
                         this.elems[elemCur.Name].trigger();
                         break;
-
                     case 'Checkbox':
                         inputCur = document.createElement('input');
                         divCur.appendChild(inputCur);
@@ -695,7 +694,6 @@ class TemplateWeb extends TemplateClient {
                             inputLabel.appendChild(document.createTextNode(viewerSpec.Legend));
                         }
                         break;
-
                     case 'Radio':
                         inputCur = document.createElement('input');
                         divCur.appendChild(inputCur);
@@ -721,7 +719,34 @@ class TemplateWeb extends TemplateClient {
                             inputLabel.appendChild(document.createTextNode(labelText));
                         //}
 
-                    break;
+                        break;
+                    case 'Date':
+                        let divDate = document.createElement('div');
+                        divCur.appendChild(divDate);
+                        divDate.className = 'input-group date';
+                        divDate.style.display = 'inline';
+                        inputCur = document.createElement('input');
+                        divDate.appendChild(inputCur);
+                        inputCur.setAttribute("type", "date");
+
+                        let dateTemp = this.item != null && this.item.attrs != null && this.item.attrs[elemCur.Name] != null && this.item.attrs[elemCur.Name].Value != null ? this.item.attrs[elemCur.Name].Value : '';
+                        if (dateTemp > '') {
+                            let valueCur = new Date(dateTemp);
+                            inputCur.value = valueCur.toISOString().substr(0, 10);
+                        }
+
+                        inputCur.style.width = '70%';
+                        inputCur.addEventListener('blur', (event) => {
+                            event.preventDefault();
+                            this.formData[event.target.id] = event.target.value;
+                        });
+                        
+                        let itemImgCal = document.createElement('i');
+                        divDate.appendChild(itemImgCal);
+                        itemImgCal.className = 'bi bi-calendar';
+                        itemImgCal.style.marginLeft = "10px";
+                    
+                        break;
                     default:
                         break;
                 }
