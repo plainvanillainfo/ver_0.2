@@ -243,9 +243,7 @@ class TemplateServer extends Template {
                     if (message.TemplateElem != null && message.TemplateElem.UseCaseElemName != null) {
                         let templateElemNew = new TemplateElemServer(this, this.useCase.elems[message.TemplateElem.UseCaseElemName]);
                         this.elems[message.TemplateElem.UseCaseElemName] = templateElemNew;
-                        //if (templateElemNew.fJoin == false) {
-                            templateElemNew.trigger();
-                        //}
+                        templateElemNew.trigger();
                     }
                     break;
                 case 'ContinueTemplateElem':
@@ -1414,6 +1412,15 @@ class TemplateElemServer extends TemplateElem {
                 case 'Reference':
                     switch (message.Action) {
                         case 'StartTemplate':
+                            if (this.templateListReference == null && this.templateItemPicked != null) {
+                                if (message.Template != null && message.Template.ItemId != null) {
+                                    let itemCur = this.templateListReference.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
+                                    if (itemCur != null) {
+                                        templateItemPicked.setItem(itemCur);
+                                        templateItemPicked.pushOutData();
+                                    }
+                                }
+                            }
                             break;
                         default:
                             break;
@@ -1442,8 +1449,9 @@ class TemplateElemServer extends TemplateElem {
                 break;
             case 'Reference':
                 if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                    let useCaseSub = this.model.useCases[this.useCaseElem.spec.Path.SubUseCase];
                     this.templateListReference = new TemplateListServer(this);
-                    this.templateListReference.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                    this.templateListReference.setUseCase(useCaseSub);
                     let subPath = this.useCaseElem.spec.Path.SubPath;
                     let itemBase = null;
                     let attributeNext = null;
@@ -1456,21 +1464,16 @@ class TemplateElemServer extends TemplateElem {
                     if (itemBase != null) {
                         this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
                     }
-
-                    /*
-                    if (message.Template != null && message.Template.ItemId != null) {
-                        this.childItemTemplates[message.Template.ItemId] = new TemplateServer(this);
-                        let itemCur = this.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
-                        if (this.model.useCases[this.useCase.spec.SubUseCase] != null) {
-                            this.childItemTemplates[message.Template.ItemId].setUseCase(this.model.useCases[this.useCase.spec.SubUseCase]);
-                        }
-                        if (itemCur != null) {
-                            this.childItemTemplates[message.Template.ItemId].setItem(itemCur);
-                            this.childItemTemplates[message.Template.ItemId].pushOutData();
-                        }
+                    this.templateItemPicked = new TemplateServer(this);
+                    if (useCaseSub.spec.SubUseCase != null) {
+                        let useCaseSubTemplate = this.model.useCases[useCaseSub.spec.SubUseCase]
+                        this.templateItemPicked.setUseCase(useCaseSubTemplate);
                     }
-                    */
-
+                    let itemCur = null;
+                    if (itemCur != null) {
+                        templateItemPicked.setItem(itemCur);
+                        templateItemPicked.pushOutData();
+                    }
                 }
             break;
             case 'Extension':
