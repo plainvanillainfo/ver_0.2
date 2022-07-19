@@ -1395,7 +1395,7 @@ class TemplateElemServer extends TemplateElem {
     }
 
     fromClient(message) {
-        console.log("TemplateElemServer::fromClient(): ", message);
+        console.log("TemplateElemServer::fromClient(): ", message, this.useCaseElem.attribute.Type);
         if (message.Action != null) {
             switch (this.useCaseElem.attribute.Type) {
                 case 'Child':
@@ -1412,10 +1412,14 @@ class TemplateElemServer extends TemplateElem {
                 case 'Reference':
                     switch (message.Action) {
                         case 'StartTemplate':
+                            console.log("TemplateElemServer::fromClient() - AAAAAA ");
                             if (this.templateListReference == null && this.templateItemPicked != null) {
+                                console.log("TemplateElemServer::fromClient() - BBBBBB ");
                                 if (message.Template != null && message.Template.ItemId != null) {
+                                    console.log("TemplateElemServer::fromClient() - CCCCCC ");
                                     let itemCur = this.templateListReference.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
                                     if (itemCur != null) {
+                                        console.log("TemplateElemServer::fromClient() - DDDDDD ");
                                         templateItemPicked.setItem(itemCur);
                                         templateItemPicked.pushOutData();
                                     }
