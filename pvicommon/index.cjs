@@ -1512,6 +1512,7 @@ class TemplateElemClient extends TemplateElem{
     fromServer(message) {
         console.log("TemplateElemClient::fromServer(): ", message);
         if (message.Action != null) {
+        /*
             switch (message.Action) {
                 case 'StartTemplateList':
                     this.trigger(message.TemplateList.ItemList);
@@ -1519,6 +1520,42 @@ class TemplateElemClient extends TemplateElem{
                 case 'ContinueTemplateList':
                     if (this.templateList != null && message.TemplateList != null) {
                         this.templateList.fromServer(message.TemplateList);
+                    }
+                    break;
+                case 'ContinueTemplateSub':
+                    if (this.templateSub != null && message.Template != null) {
+                        this.templateSub.fromServer(message.Template);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            */
+
+            switch (this.useCaseElem.attribute.Type) {
+                case 'Child':
+                    switch (message.Action) {
+                        case 'StartTemplateList':
+                            this.trigger(message.TemplateList.ItemList);
+                            break;
+                        case 'ContinueTemplateList':
+                            if (this.templateList != null && message.TemplateList != null) {
+                                this.templateList.fromServer(message.TemplateList);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 'Reference':
+                    switch (message.Action) {
+                        case 'ContinueTemplateSub':
+                            if (this.templateItemPicked != null && message.Template != null) {
+                                this.templateItemPicked.fromServer(message.Template);
+                            }
+                            break;
+                        default:
+                            break;
                     }
                     break;
                 default:
