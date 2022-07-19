@@ -410,6 +410,7 @@ class TemplateWeb extends TemplateClient {
         let divCur;
         let buttonCur;
         let itemAttrs = [];
+        let fFormEditable = viewerSpec.Editable == null || viewerSpec.Editable === 'Yes' ? true : false;
         itemAttrs.forEach(itemAttrCur => {
         /*
             let templateElemCur = {Nm: itemAttrCur.viewerSpec.name, Lb: itemAttrCur.viewerSpec.Label};
@@ -779,38 +780,45 @@ class TemplateWeb extends TemplateClient {
             }
             if (inputCur != null) {
                 inputCur.id = elemCur.Name;
+                if (!fFormEditable) {
+                    inputCur.disabled = true;
+                }
             }
         });
-        divCur = document.createElement('div');
-        this.form.appendChild(divCur);
-        divCur.className = 'mb-3';
-        buttonCur = document.createElement('button');
-        divCur.appendChild(buttonCur);
-        buttonCur.className = 'btn btn-danger';
-        buttonCur.setAttribute("type", "button");
-        buttonCur.id = 'cancelbutton';
-        buttonCur.style.width = "12em";
-        buttonCur.style.marginLeft = '25%';
-        buttonCur.style.marginRight = '30px';
-        buttonCur.appendChild(document.createTextNode("Cancel"));
-        buttonCur.addEventListener('click', (event) => {
-            event.preventDefault();
-            this.track.popBreadcrumb();
-            this.track.div.removeChild(this.divTarget);
-            //this.hideForm();
-        });
-        buttonCur = document.createElement('button');
-        divCur.appendChild(buttonCur);
-        buttonCur.className = 'btn btn-success'; 
-        buttonCur.setAttribute("type", "button");
-        buttonCur.id = 'savebutton';
-        buttonCur.style.width = "12em";
-        buttonCur.appendChild(document.createTextNode("Save"));
-        buttonCur.addEventListener('click', (event) => {
-            event.preventDefault();
-            this.saveFormData();
-            //this.hideForm();
-        });
+
+        if (fFormEditable) {
+            divCur = document.createElement('div');
+            this.form.appendChild(divCur);
+            divCur.className = 'mb-3';
+            buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-danger';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'cancelbutton';
+            buttonCur.style.width = "12em";
+            buttonCur.style.marginLeft = '25%';
+            buttonCur.style.marginRight = '30px';
+            buttonCur.appendChild(document.createTextNode("Cancel"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.track.popBreadcrumb();
+                this.track.div.removeChild(this.divTarget);
+                //this.hideForm();
+            });
+            buttonCur = document.createElement('button');
+            divCur.appendChild(buttonCur);
+            buttonCur.className = 'btn btn-success';
+            buttonCur.setAttribute("type", "button");
+            buttonCur.id = 'savebutton';
+            buttonCur.style.width = "12em";
+            buttonCur.appendChild(document.createTextNode("Save"));
+            buttonCur.addEventListener('click', (event) => {
+                event.preventDefault();
+                this.saveFormData();
+                //this.hideForm();
+            });
+        }
+
     }
 
     setUseCaseMenu() {
