@@ -1417,7 +1417,7 @@ class TemplateElemServer extends TemplateElem {
                                 console.log("TemplateElemServer::fromClient() - BBBBBB ");
                                 if (message.Template != null && message.Template.ItemId != null) {
                                     console.log("TemplateElemServer::fromClient() - CCCCCC ");
-                                    let itemCur = this.templateListReference.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
+                                    let itemCur = this.templateListReference.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
                                     if (itemCur != null) {
                                         console.log("TemplateElemServer::fromClient() - DDDDDD ");
                                         templateItemPicked.setItem(itemCur);
