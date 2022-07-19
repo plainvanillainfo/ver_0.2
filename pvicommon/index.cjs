@@ -410,7 +410,7 @@ class TemplateWeb extends TemplateClient {
         let divCur;
         let buttonCur;
         let itemAttrs = [];
-        let fFormEditable = viewerSpec.Editable == null || viewerSpec.Editable === 'Yes' ? true : false;
+        let fFormEditable = this.useCase.spec.Viewers[0].ViewerSpec.Editable == null || this.useCase.spec.Viewers[0].ViewerSpec.Editable === 'Yes' ? true : false;
         itemAttrs.forEach(itemAttrCur => {
         /*
             let templateElemCur = {Nm: itemAttrCur.viewerSpec.name, Lb: itemAttrCur.viewerSpec.Label};
