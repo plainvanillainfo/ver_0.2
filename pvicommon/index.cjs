@@ -1420,8 +1420,8 @@ class TemplateElemServer extends TemplateElem {
                                     let itemCur = this.templateListReference.childItemList.ListItems.find(listItemCur => listItemCur.id === message.Template.ItemId);
                                     if (itemCur != null) {
                                         console.log("TemplateElemServer::fromClient() - DDDDDD ");
-                                        templateItemPicked.setItem(itemCur);
-                                        templateItemPicked.pushOutData();
+                                        this.templateItemPicked.setItem(itemCur);
+                                        this.templateItemPicked.pushOutData();
                                     }
                                 }
                             }
