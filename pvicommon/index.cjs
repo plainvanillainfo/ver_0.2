@@ -364,6 +364,16 @@ class TemplateClient extends Template {
 
     setItemId(itemId) {
         this.itemId = itemId;
+        if (this.itemId != null && this.useCase != null) {
+            let messageOut = {
+                Action: 'StartTemplate',
+                Template: {
+                    UseCaseName: this.useCase.spec.Name,
+                    ItemId: this.itemId
+                }
+            };
+            this.parent.forwardToServer(messageOut);
+        }
     }
 
 }
@@ -1215,11 +1225,9 @@ class TemplateListWeb extends TemplateListClient {
         buttonAdd.addEventListener('click', (event) => {
             event.preventDefault();
             console.log("TemplateListWeb - Add New");
-
             this.divTargetSub = document.createElement('div')
             this.divTargetSub.style.margin = '10px';
             this.track.divTargetSub.appendChild(this.divTargetSub);
-
             let divCur = document.createElement('div');
             this.divTargetSub.appendChild(divCur);
             divCur.className = 'mb-3';
@@ -1235,7 +1243,6 @@ class TemplateListWeb extends TemplateListClient {
                 this.track.popBreadcrumb();
                 this.track.div.removeChild(this.divTargetSub);
             });
-
             this.templateSub = new TemplateWeb(this, this.divTargetSub);
             if (this.useCase.spec.SubUseCase != null) {
                 let useCaseSub = this.client.useCases[this.useCase.spec.SubUseCase]
@@ -1272,11 +1279,9 @@ class TemplateListWeb extends TemplateListClient {
             tableItemRow.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("TemplateListWeb - item picked: ", itemCur.Id);
-
                 this.divTargetSub = document.createElement('div')
                 this.divTargetSub.style.margin = '10px';
                 this.track.divTargetSub.appendChild(this.divTargetSub);
-
                 let divCur = document.createElement('div');
                 this.divTargetSub.appendChild(divCur);
                 divCur.className = 'mb-3';
@@ -1292,7 +1297,6 @@ class TemplateListWeb extends TemplateListClient {
                     this.track.popBreadcrumb();
                     this.track.div.removeChild(this.divTargetSub);
                 });
-
                 this.templateSub = new TemplateWeb(this, this.divTargetSub);
                 this.templateSub.setItemId(itemCur.Id)
                 if (this.useCase.spec.SubUseCase != null) {
@@ -1327,14 +1331,17 @@ class TemplateListWeb extends TemplateListClient {
             option.addEventListener('click', (event) => {
                 event.preventDefault();
                 console.log("click on option", itemCur);
-                //this.formData[event.target.id] = event.target.value;
+                if (this.parent.templateItemPicked != null) {
+                    this.parent.templateItemPicked.setItemId(itemCur.Id)
+                }
             });
             spanAttr = document.createElement('span');
             option.appendChild(spanAttr);
             this.useCase.spec.Elems.forEach(elemCur => {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
-                spanAttr.appendChild(document.createTextNode(valueCur + ' '));
+                spanAttr.appendChild(document.createTextNode(valueCur + ' | '));
             });
+            spanAttr.removeChild(spanAttr.lastElementChild);
         });
     }
 
@@ -1547,7 +1554,6 @@ class TemplateElemWeb extends TemplateElemClient{
                             child = this.divTarget.lastElementChild;
                         }
                         if (this.track.breadcrumbs.length > 1) {
-
                             let divCur = document.createElement('div');
                             this.divTarget.appendChild(divCur);
                             divCur.className = 'mb-3';
@@ -1563,7 +1569,6 @@ class TemplateElemWeb extends TemplateElemClient{
                                 this.track.popBreadcrumb();
                                 this.track.div.removeChild(this.divTarget);
                             });
-
                         }
                     }
                     this.templateList.setListFromServer(itemList);
