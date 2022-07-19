@@ -1214,6 +1214,9 @@ class TemplateListWeb extends TemplateListClient {
             let tableHeadRowHeader = document.createElement('th');
             this.tableHeadRow.appendChild(tableHeadRowHeader);
             tableHeadRowHeader.setAttribute("scope", "col");
+            if (elemCur.Viewers[0] == null) {
+                let x = 9;
+            }
             tableHeadRowHeader.appendChild(document.createTextNode(elemCur.Viewers[0].Label));
         });
         this.listFromServer.forEach(itemCur => {
