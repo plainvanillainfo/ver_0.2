@@ -1341,7 +1341,9 @@ class TemplateListWeb extends TemplateListClient {
                 let valueCur = itemCur.Attrs[elemCur.Name] != null ? itemCur.Attrs[elemCur.Name].Value : ''
                 spanAttr.appendChild(document.createTextNode(valueCur + ' | '));
             });
-            spanAttr.removeChild(spanAttr.lastElementChild);
+            if (spanAttr.lastElementChild != null) {
+                spanAttr.removeChild(spanAttr.lastElementChild);
+            }
         });
     }
 
