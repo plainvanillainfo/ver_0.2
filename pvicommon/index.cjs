@@ -1549,6 +1549,9 @@ class TemplateElemClient extends TemplateElem{
                     break;
                 case 'Reference':
                     switch (message.Action) {
+                        case 'StartTemplateList':
+                            this.trigger(message.TemplateList.ItemList);
+                            break;
                         case 'ContinueTemplateSub':
                             if (this.templateItemPicked != null && message.Template != null) {
                                 this.templateItemPicked.fromServer(message.Template);
