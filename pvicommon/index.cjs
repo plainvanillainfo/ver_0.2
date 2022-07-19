@@ -811,7 +811,6 @@ class TemplateWeb extends TemplateClient {
                 event.preventDefault();
                 this.track.popBreadcrumb();
                 this.track.div.removeChild(this.divTarget);
-                //this.hideForm();
             });
             buttonCur = document.createElement('button');
             divCur.appendChild(buttonCur);
@@ -894,6 +893,10 @@ class TemplateWeb extends TemplateClient {
     }
 
     refreshData() {
+        if (this.form != null) {
+            this.divTarget.removeChild(this.form);
+            this.form = null;
+        }
         if (this.form == null) {
             this.setUseCaseForm();
         }
