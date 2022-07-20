@@ -903,8 +903,8 @@ class TemplateWeb extends TemplateClient {
             attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
             fUpdated = true;
         }
-        this.track.popBreadcrumb();
-        this.track.div.removeChild(this.divTarget);
+        //this.track.popBreadcrumb();
+        //this.track.div.removeChild(this.divTarget);
         if (fUpdated) {
             let messageOut = {
                 Action: 'UpdateItem',
