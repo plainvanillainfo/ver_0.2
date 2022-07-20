@@ -837,12 +837,6 @@ class TemplateWeb extends TemplateClient {
         this.divNav = document.createElement('div');
         this.nav.appendChild(this.divNav);
         this.divNav.className = 'container-fluid';
-
-        /*
-        this.divTarget = document.createElement('div');
-        this.track.div.appendChild(this.divTarget);
-        this.divTarget.style.margin = '10px';
-        */
         this.divTargetSub = document.createElement('div')
         this.divTarget.appendChild(this.divTargetSub);
         this.divTargetSub.style.margin = '10px';
@@ -1600,6 +1594,12 @@ class TemplateElemWeb extends TemplateElemClient{
         this.divTarget = divTarget;
         if (this.isDrillDown) {
             this.track.div.appendChild(this.divTarget);
+        } else {
+            let child = this.divTarget.lastElementChild;
+            while (child) {
+                this.divTarget.removeChild(child);
+                child = this.divTarget.lastElementChild;
+            }
         }
         this.track = this.parent.track;
     }
