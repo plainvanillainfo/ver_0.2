@@ -1021,14 +1021,16 @@ class TemplateListServer extends TemplateList {
                                 console.log("TemplateListServer::fromClient() - useCaseSub.spec: ", useCaseSub.spec);
                                 if (useCaseSub.spec.AutoKey != null && useCaseSub.spec.AutoKey == 'Number') {
                                     let itemIdNew = 0;
-                                    this.childItemList.ListItems.forEach(listItemCur => {
-                                        let parsedId = parseInt(listItemCur.id);
-                                        if (isNaN(parsedId) == false) {
-                                            if (parsedId > itemIdNew) {
-                                                itemIdNew = parsedId;
+                                    if (this.childItemList != null && this.childItemList.ListItems != null) {
+                                        this.childItemList.ListItems.forEach(listItemCur => {
+                                            let parsedId = parseInt(listItemCur.id);
+                                            if (isNaN(parsedId) == false) {
+                                                if (parsedId > itemIdNew) {
+                                                    itemIdNew = parsedId;
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
+                                    }
                                     itemIdNew++;
                                     itemId = itemIdNew.toString();
                                     message.Template.ItemData.Id = itemId;
