@@ -822,7 +822,6 @@ class TemplateWeb extends TemplateClient {
             buttonCur.addEventListener('click', (event) => {
                 event.preventDefault();
                 this.saveFormData();
-                //this.hideForm();
             });
         }
 
@@ -902,14 +901,14 @@ class TemplateWeb extends TemplateClient {
         for (let formAttrCur in this.formData) {
             let formAttrDetail = this.formData[formAttrCur];
             attrs[formAttrCur] = {Type: 'P', Value: formAttrDetail};
-            
             fUpdated = true;
         }
+        this.track.popBreadcrumb();
+        this.track.div.removeChild(this.divTarget);
         if (fUpdated) {
             let messageOut = {
                 Action: 'UpdateItem',
                 Template: {
-                    //ItemDBPath: this.dbPath,
                     ItemData: {
                         Id: this.item != null ? this.item.id : null,
                         Attrs: attrs,
