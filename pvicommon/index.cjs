@@ -915,9 +915,10 @@ class TemplateWeb extends TemplateClient {
                 }
             };
             this.parent.forwardToServer(messageOut);
+        } else {
+            this.track.popBreadcrumb();
+            this.track.div.removeChild(this.divTarget);
         }
-        this.track.popBreadcrumb();
-        this.track.div.removeChild(this.divTarget);
     }
 
     setVisibility(trueOrFalse) {
