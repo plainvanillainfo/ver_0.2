@@ -110,10 +110,8 @@ class Session {
         this.user = null;
         this.isClosed = false;
         this.model = this.parent.model;
-        //this.schemaSent = false;
         this.classes = {};
         this.useCases = {};
-        //this.nodesWatched = {};
         this.trackMain = new TrackServer(this, '1');
         this.tracks = {'1': this.trackMain};
         this.receiveMessage = this.receiveMessage.bind(this);
