@@ -883,6 +883,11 @@ class TemplateWeb extends TemplateClient {
                         event.preventDefault();
                         console.log("TemplateWeb::setUseCaseMenu - click on menu item", itemLICur);
                         alert(JSON.stringify(itemLICur.GroupElems));
+
+                        //
+                        // HERE: Present a recursive Form
+                        //
+
                     });
                 }
                 itemLICur.GroupElems.push({Name: menuItemCur.Name});
