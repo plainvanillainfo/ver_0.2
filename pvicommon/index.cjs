@@ -1365,16 +1365,9 @@ class TemplateElem {
         this.track = this.parent.track;
         this.useCaseElem = useCaseElem;
         this.dbPath = [...this.parent.dbPath];
-        if (this.useCaseElem.attribute != null) {
-            this.dbPath.push(this.useCaseElem.attribute.Name);
-        }
-        /*
-        if (this.useCaseElem.spec.Join != null && this.useCaseElem.spec.Join === 'Yes') {
-            this.fJoin = true;
-        } else {
-            this.fJoin = false;
-        }
-        */
+        //if (this.useCaseElem.attribute != null) {
+        this.dbPath.push(this.useCaseElem.attribute.Name);
+        //}
     }
 
     accessNode(nodePath) {
@@ -1442,7 +1435,7 @@ class TemplateElemServer extends TemplateElem {
 
     trigger() {
         console.log("TemplateElemServer::trigger():  XXXXXX");
-        if (this.useCaseElem.attribute != null) {
+        //if (this.useCaseElem.attribute != null) {
             switch (this.useCaseElem.attribute.Type) {
                 case 'Child':
                     if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
@@ -1491,7 +1484,7 @@ class TemplateElemServer extends TemplateElem {
                 default:
                     break;
             }
-        }
+        //}
     }
 
     forwardToClient(messageIn) {
