@@ -864,25 +864,44 @@ class TemplateWeb extends TemplateClient {
         this.ulMenu.className = 'navbar-nav me-auto mb-2 mb-md-0';
         this.ulMenu.ItemLIs = [];
         this.useCase.spec.Elems.forEach( (menuItemCur, menuItemIndex) => {
-            let itemLICur = document.createElement('li');
-            this.ulMenu.appendChild(itemLICur);
-            itemLICur.className = 'nav-item';
-            this.ulMenu.ItemLIs.push(itemLICur);
-            itemLICur.A = document.createElement('a');
-            itemLICur.appendChild(itemLICur.A);
-            itemLICur.A.className = 'nav-link';
-            itemLICur.A.setAttribute("href", "#");
-            itemLICur.A.appendChild(document.createTextNode(menuItemCur.Viewers[0].Label));
-            itemLICur.A.addEventListener('click', (event) => {
-                event.preventDefault();
-                console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
-                let elemPicked = this.useCase.elems[menuItemCur.Name];
-                this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false, this.divTargetSub);
-                this.elems[menuItemCur.Name].initiateTrigger();
-
-            });
+            if (menuItemCur.Viewers[0].ViewerSpec.MenuGroup != null) {
+                let menuParent = this.ulMenu.ItemLIs.find(cur => cur.Label === menuItemCur.Viewers[0].ViewerSpec.MenuGroup[0]);
+                if (menuParent == null) {
+                    let itemLICur = document.createElement('li');
+                    this.ulMenu.appendChild(itemLICur);
+                    itemLICur.Label = menuItemCur.Viewers[0].ViewerSpec.MenuGroup[0];
+                    itemLICur.className = 'nav-item';
+                    this.ulMenu.ItemLIs.push(itemLICur);
+                    itemLICur.A = document.createElement('a');
+                    itemLICur.appendChild(itemLICur.A);
+                    itemLICur.A.className = 'nav-link';
+                    itemLICur.A.setAttribute("href", "#");
+                    itemLICur.A.appendChild(document.createTextNode(itemLICur.Label));
+                    itemLICur.A.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
+                    });
+                }
+            } else {
+                let itemLICur = document.createElement('li');
+                this.ulMenu.appendChild(itemLICur);
+                itemLICur.Label = menuItemCur.Viewers[0].Label;
+                itemLICur.className = 'nav-item';
+                this.ulMenu.ItemLIs.push(itemLICur);
+                itemLICur.A = document.createElement('a');
+                itemLICur.appendChild(itemLICur.A);
+                itemLICur.A.className = 'nav-link';
+                itemLICur.A.setAttribute("href", "#");
+                itemLICur.A.appendChild(document.createTextNode(itemLICur.Label));
+                itemLICur.A.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    console.log("TemplateWeb::setUseCaseMenu - click on menu item", menuItemCur);
+                    let elemPicked = this.useCase.elems[menuItemCur.Name];
+                    this.elems[menuItemCur.Name] = new TemplateElemWeb(this, elemPicked, false, this.divTargetSub);
+                    this.elems[menuItemCur.Name].initiateTrigger();
+                });
+            }
         });
-
     }
 
     refreshData() {
