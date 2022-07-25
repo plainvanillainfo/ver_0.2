@@ -884,7 +884,7 @@ class TemplateWeb extends TemplateClient {
                         console.log("TemplateWeb::setUseCaseMenu - click on menu item", itemLICur);
                     });
                 }
-                itemLICur.GroupElems.push({Label: menuItemCur.Viewers[0].Label});
+                itemLICur.GroupElems.push({Name: menuItemCur.Name});
             } else {
                 itemLICur = document.createElement('li');
                 this.ulMenu.appendChild(itemLICur);
