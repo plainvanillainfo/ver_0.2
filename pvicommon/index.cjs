@@ -882,6 +882,7 @@ class TemplateWeb extends TemplateClient {
                     itemLICur.A.addEventListener('click', (event) => {
                         event.preventDefault();
                         console.log("TemplateWeb::setUseCaseMenu - click on menu item", itemLICur);
+                        alert(itemLICur.GroupElems);
                     });
                 }
                 itemLICur.GroupElems.push({Name: menuItemCur.Name});
