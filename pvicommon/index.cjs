@@ -1441,54 +1441,56 @@ class TemplateElemServer extends TemplateElem {
     }
 
     trigger() {
-        console.log("TemplateElemServer::trigger():  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        switch (this.useCaseElem.attribute.Type) {
-            case 'Child':
-                if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
-                    this.templateList = new TemplateListServer(this);
-                    this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
-                    this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.trigger);
-                }
-                break;
-            case 'Component':
-                if (this.useCaseElem.attribute.Subtype === 'Embedded') {
-                    //this.templateEmbedded = new TemplateServer(this);
-                }
-                break;
-            case 'Reference':
-                if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
-                    let useCaseSub = this.model.useCases[this.useCaseElem.spec.Path.SubUseCase];
-                    this.templateListReference = new TemplateListServer(this);
-                    this.templateListReference.setUseCase(useCaseSub);
-                    let subPath = this.useCaseElem.spec.Path.SubPath;
-                    let itemBase = null;
-                    let attributeNext = null;
-                    if (subPath.length > 1) {
-                        if (subPath[0] === '/') {
-                            itemBase = this.model.itemSeed;
+        console.log("TemplateElemServer::trigger():  XXXXXX");
+        if (this.useCaseElem.attribute != null) {
+            switch (this.useCaseElem.attribute.Type) {
+                case 'Child':
+                    if (this.templateList == null && this.useCaseElem.spec.Path.SubUseCase != null) {
+                        this.templateList = new TemplateListServer(this);
+                        this.templateList.setUseCase(this.model.useCases[this.useCaseElem.spec.Path.SubUseCase]);
+                        this.templateList.setChildItemList(this.itemParent, this.useCaseElem.attribute.Name, this.templateList.trigger);
+                    }
+                    break;
+                case 'Component':
+                    if (this.useCaseElem.attribute.Subtype === 'Embedded') {
+                        //this.templateEmbedded = new TemplateServer(this);
+                    }
+                    break;
+                case 'Reference':
+                    if (this.templateListReference == null && this.useCaseElem.spec.Path.SubUseCase != null && this.useCaseElem.spec.Path.SubPath != null) {
+                        let useCaseSub = this.model.useCases[this.useCaseElem.spec.Path.SubUseCase];
+                        this.templateListReference = new TemplateListServer(this);
+                        this.templateListReference.setUseCase(useCaseSub);
+                        let subPath = this.useCaseElem.spec.Path.SubPath;
+                        let itemBase = null;
+                        let attributeNext = null;
+                        if (subPath.length > 1) {
+                            if (subPath[0] === '/') {
+                                itemBase = this.model.itemSeed;
+                            }
+                            attributeNext = subPath[1];
                         }
-                        attributeNext = subPath[1];
+                        if (itemBase != null) {
+                            this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
+                        }
+                        this.templateItemPicked = new TemplateServer(this);
+                        if (useCaseSub.spec.SubUseCase != null) {
+                            let useCaseSubTemplate = this.model.useCases[useCaseSub.spec.SubUseCase]
+                            this.templateItemPicked.setUseCase(useCaseSubTemplate);
+                        }
+                        let itemCur = null;
+                        if (itemCur != null) {
+                            templateItemPicked.setItem(itemCur);
+                            templateItemPicked.pushOutData();
+                        }
                     }
-                    if (itemBase != null) {
-                        this.templateListReference.setChildItemList(itemBase, attributeNext, this.templateListReference.trigger);
-                    }
-                    this.templateItemPicked = new TemplateServer(this);
-                    if (useCaseSub.spec.SubUseCase != null) {
-                        let useCaseSubTemplate = this.model.useCases[useCaseSub.spec.SubUseCase]
-                        this.templateItemPicked.setUseCase(useCaseSubTemplate);
-                    }
-                    let itemCur = null;
-                    if (itemCur != null) {
-                        templateItemPicked.setItem(itemCur);
-                        templateItemPicked.pushOutData();
-                    }
-                }
-            break;
-            case 'Extension':
-                //this.templateExtension = new TemplateServer(this);
-                break;
-            default:
-                break;
+                    break;
+                case 'Extension':
+                    //this.templateExtension = new TemplateServer(this);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -1516,26 +1518,6 @@ class TemplateElemClient extends TemplateElem{
     fromServer(message) {
         console.log("TemplateElemClient::fromServer(): ", message);
         if (message.Action != null) {
-        /*
-            switch (message.Action) {
-                case 'StartTemplateList':
-                    this.trigger(message.TemplateList.ItemList);
-                    break;
-                case 'ContinueTemplateList':
-                    if (this.templateList != null && message.TemplateList != null) {
-                        this.templateList.fromServer(message.TemplateList);
-                    }
-                    break;
-                case 'ContinueTemplateSub':
-                    if (this.templateSub != null && message.Template != null) {
-                        this.templateSub.fromServer(message.Template);
-                    }
-                    break;
-                default:
-                    break;
-            }
-            */
-
             switch (this.useCaseElem.attribute.Type) {
                 case 'Child':
                     switch (message.Action) {
