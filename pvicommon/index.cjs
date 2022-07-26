@@ -830,7 +830,6 @@ class TemplateWeb extends TemplateClient {
     setUseCaseMenu() {
         console.log("TemplateWeb::setUseCaseMenu");
         this.nav = document.createElement('nav');
-        //this.track.div.appendChild(this.nav);
         this.divTarget.appendChild(this.nav);
         this.nav.className = 'navbar navbar-expand-md navbar-dark bg-primary';
         this.divNav = document.createElement('div');
@@ -887,6 +886,7 @@ class TemplateWeb extends TemplateClient {
                         //
                         // HERE: Present a recursive Form
                         //
+                        this.elems[itemLICur.Label] = new CompositeElenWeb(this);
 
                     });
                 }
@@ -1700,6 +1700,12 @@ class TemplateElemWeb extends TemplateElemClient{
         }
     }
 
+}
+
+class CompositeElenWeb {
+    constructor(parent) {
+        this.parent = parent;
+    }
 }
 
 class User {
