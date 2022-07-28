@@ -988,7 +988,7 @@ class TemplateWeb extends TemplateClient {
 
     showPmtForm(parentForm) {
         this.pmtForm = document.createElement('form');
-        this.track.divTargetSub.insertBefore(this.pmtForm, parentForm);
+        this.track.divTarget.insertBefore(this.pmtForm, this.track.divTargetSub);
         parentForm.style.visibility = 'hidden';
         parentForm.style.display = 'none';
 
