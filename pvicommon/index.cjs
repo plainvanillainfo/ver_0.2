@@ -988,7 +988,7 @@ class TemplateWeb extends TemplateClient {
 
     showPmtForm(parentForm) {
         this.pmtForm = document.createElement('form');
-        this.context.Track.templateStack[this.stackFramePos].FrameDiv.insertBefore(this.pmtForm, parentForm);
+        this.track.divTargetSub.insertBefore(this.pmtForm, parentForm);
         parentForm.style.visibility = 'hidden';
         parentForm.style.display = 'none';
 
@@ -1083,7 +1083,7 @@ class TemplateWeb extends TemplateClient {
                             } else {
                                 this.custodied = false;
                             }
-                            this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                            this.track.divTargetSub.removeChild(this.pmtForm);
                             this.showPmtForm(parentForm);
                         });
                         if (this.custodied === false) {
@@ -1160,7 +1160,7 @@ class TemplateWeb extends TemplateClient {
                                 } else {
                                     this.payToCustodian = false;
                                 }
-                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.track.divTargetSub.removeChild(this.pmtForm);
                                 this.showPmtForm(parentForm);
                             });
                             if (this.payToCustodian === false) {
@@ -1303,7 +1303,7 @@ class TemplateWeb extends TemplateClient {
                             inputCur.addEventListener('click', (event) => {
                                 //event.preventDefault();
                                 this.paymentMethod = 'ACH';
-                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.track.divTargetSub.removeChild(this.pmtForm);
                                 this.showPmtForm(parentForm);
                             });
                             if (this.paymentMethod == 'ACH') {
@@ -1331,7 +1331,7 @@ class TemplateWeb extends TemplateClient {
                             inputCur.addEventListener('click', (event) => {
                                 //event.preventDefault();
                                 this.paymentMethod = 'Wire';
-                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.track.divTargetSub.removeChild(this.pmtForm);
                                 this.showPmtForm(parentForm);
                             });
                             if (this.paymentMethod == 'Wire') {
@@ -1359,7 +1359,7 @@ class TemplateWeb extends TemplateClient {
                             inputCur.addEventListener('click', (event) => {
                                 //event.preventDefault();
                                 this.paymentMethod = 'Check';
-                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.track.divTargetSub.removeChild(this.pmtForm);
                                 this.showPmtForm(parentForm);
                             });
                             if (this.paymentMethod == 'Check') {
@@ -1388,7 +1388,7 @@ class TemplateWeb extends TemplateClient {
                             inputCur.addEventListener('click', (event) => {
                                 //event.preventDefault();
                                 this.paymentMethod = 'ACH (Custodian)';
-                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.track.divTargetSub.removeChild(this.pmtForm);
                                 this.showPmtForm(parentForm);
                             });
                             if (this.paymentMethod === 'ACH (Custodian)') {
@@ -1433,7 +1433,7 @@ class TemplateWeb extends TemplateClient {
                             inputCur.addEventListener('click', (event) => {
                                 //event.preventDefault();
                                 this.paymentMethod = 'Wire (Custodian)';
-                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.track.divTargetSub.removeChild(this.pmtForm);
                                 this.showPmtForm(parentForm);
                             });
                             if (this.paymentMethod === 'Wire (Custodian)') {
@@ -1478,7 +1478,7 @@ class TemplateWeb extends TemplateClient {
                             inputCur.addEventListener('click', (event) => {
                                 //event.preventDefault();
                                 this.paymentMethod = 'Check (Custodian)';
-                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.track.divTargetSub.removeChild(this.pmtForm);
                                 this.showPmtForm(parentForm);
                             });
                             if (this.paymentMethod === 'Check (Custodian)') {
