@@ -655,10 +655,14 @@ class TemplateWeb extends TemplateClient {
                         inputCur.addEventListener('click', (event) => {
                             event.preventDefault();
                             console.log("TemplateWeb - DrillDown: ");
-                            let elemPicked = this.useCase.elems[elemCur.Name];
-                            this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, document.createElement('div'));
-                            this.elems[elemCur.Name].initiateTrigger();
-                            this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                            if (elemCur.Name !== 'PaymentInstructionsDetails') {
+                                let elemPicked = this.useCase.elems[elemCur.Name];
+                                this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, document.createElement('div'));
+                                this.elems[elemCur.Name].initiateTrigger();
+                                this.track.pushBreadcrumb(this.elems[elemCur.Name]);
+                            } else {
+                                this.showPmtForm(this.form);
+                            }
                         });
                         break;
                     case 'PickList':
@@ -973,6 +977,644 @@ class TemplateWeb extends TemplateClient {
             }
         }
     }
+
+
+    hidePmtForm(parentForm) {
+        parentForm.style.visibility = 'visible';
+        parentForm.style.display = 'block';
+        this.pmtForm.style.visibility = 'hidden';
+        this.pmtForm.style.display = 'none';
+    }
+
+    showPmtForm(parentForm) {
+        this.pmtForm = document.createElement('form');
+        this.context.Track.templateStack[this.stackFramePos].FrameDiv.insertBefore(this.pmtForm, parentForm);
+        parentForm.style.visibility = 'hidden';
+        parentForm.style.display = 'none';
+
+        let divCur = document.createElement('div');
+        this.pmtForm.appendChild(divCur);
+        divCur.className = 'mb-3';
+
+        let buttonCur = document.createElement('button');
+        divCur.appendChild(buttonCur);
+        buttonCur.className = 'btn btn-info';
+        buttonCur.setAttribute("type", "button");
+        buttonCur.id = 'backbuttonpmt';
+        buttonCur.style.width = "12em";
+        buttonCur.appendChild(document.createTextNode("< Go Back"));
+       
+        buttonCur.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.hidePmtForm(parentForm);
+        });
+        
+        let item = {}; //{Attrs: {}};
+        this.pmtElements = [
+            {Nm: "Custodied?"},
+            {Nm: "Custodian"},
+            {Nm: "Pay to Custodian?"},
+            {Nm: "ACH"},
+            {Nm: "Routing Number"},
+            {Nm: "Account Number"},
+            {Nm: "Savings Account?"},
+            {Nm: "Payee Account (if applicable)"},
+            {Nm: "Wire"},
+            {Nm: "Wire Routing Number"},
+            {Nm: "Wire Account Number"},
+            {Nm: "Wire Payee Account"},
+            {Nm: "Check"},
+            {Nm: "Same as mailing address?"},
+            {Nm: "Payee Address Line 1"},
+            {Nm: "Payee Address Line 2"},
+            {Nm: "Payee City"},
+            {Nm: "Payee State"},
+            {Nm: "Payee Zip"},
+            {Nm: "Payee Country"},
+            {Nm: "ACH (Custodian)"},
+            {Nm: "Wire (Custodian)"},
+            {Nm: "Check (Custodian)"},
+            {Nm: "FBO Payee Account (if applicable)"},
+        ];
+        
+        if (this.paymentMethod == null) {
+            this.paymentMethod = '';
+        }
+        if (this.custodied == null) {
+            this.custodied = false;
+        }
+        if (this.payToCustodian == null) {
+            this.payToCustodian = false;
+        }
+        
+        this.pmtElements.forEach(templateElemCur => {
+            if (item[templateElemCur.Nm] == null) {
+                item[templateElemCur.Nm] = {Value: ''};
+            }
+            if (item[templateElemCur.Nm] != null) {
+                let attrDetail = item[templateElemCur.Nm];
+                divCur = document.createElement('div');
+                this.pmtForm.appendChild(divCur);
+                divCur.style.marginBottom = "10px";
+                
+                let labelText = templateElemCur.Nm;
+
+                let labelCur = document.createTextNode(labelText + ": ");
+                let labelSpan = document.createElement('span');
+                labelSpan.appendChild(labelCur);
+                divCur.appendChild(labelSpan);
+                labelSpan.style.display = "inline-block";
+                labelSpan.style.width = "25%";
+
+                let inputCur;
+                let inputLabel;
+                let inputLabel1;
+                let pCur;
+                switch (templateElemCur.Nm) {
+                    case 'Custodied?':
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.className = 'form-check-input';
+                        inputCur.setAttribute("type", "checkbox");
+                        inputCur.style.marginRight = "1em";
+                        inputCur.addEventListener('click', (event) => {
+                            if (this.custodied == false) {
+                                this.custodied = true;
+                            } else {
+                                this.custodied = false;
+                            }
+                            this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                            this.showPmtForm(parentForm);
+                        });
+                        if (this.custodied === false) {
+                            inputCur.checked = false;
+                        } else {
+                            inputCur.checked = true;
+                        }
+
+                        inputLabel = document.createElement('label');
+                        divCur.appendChild(inputLabel);
+                        inputLabel.className = 'form-check-label';
+                        inputLabel.setAttribute("for", "flexCheckDisabled");
+                        inputLabel.appendChild(document.createTextNode("Check if Custodied"));
+                        break;
+                    case 'Custodian':
+                        if (this.custodied === true) {
+                            inputCur = document.createElement('button');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'btn btn-secondary dropdown-toggle';
+                            inputCur.setAttribute("type", "button");
+                            inputCur.setAttribute("data-bs-toggle", "dropdown");
+                            inputCur.appendChild(document.createTextNode("Select ..."));
+    
+                            inputLabel = document.createElement('ul');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'dropdown-menu';
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("NATIONAL FINANCIAL SERVICES"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("PERSHING LLC"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("IRA SERVICES TRUST CO FBO"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("MAINSTAR TRUST"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("COMMUNITY NATIONAL BANK"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("STRATA TRUST COMPANY"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Pay to Custodian?':
+                        if (this.custodied == true) {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "checkbox");
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('click', (event) => {
+                                if (this.payToCustodian === false) {
+                                    this.payToCustodian = true;
+                                    this.paymentMethod = null;
+                                    this.paymentMethod === 'ACH (Custodian)';
+                                } else {
+                                    this.payToCustodian = false;
+                                }
+                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.showPmtForm(parentForm);
+                            });
+                            if (this.payToCustodian === false) {
+                                inputCur.checked = false;
+                            } else {
+                                inputCur.checked = true;
+                            }
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Check if Pay to Custodian"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Routing Number':
+                        if (this.paymentMethod === 'ACH') {
+                            inputCur = document.createElement('button');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'btn btn-secondary dropdown-toggle';
+                            inputCur.setAttribute("type", "button");
+                            inputCur.setAttribute("data-bs-toggle", "dropdown");
+                            inputCur.appendChild(document.createTextNode("Select ..."));
+    
+                            inputLabel = document.createElement('ul');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'dropdown-menu';
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("011000138 Bank of America"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("021000021 JP Morgan Chase"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("021000089 Citibank"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("021200025 Wells Fargo Bank"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+
+                    case 'Savings Account?':
+                        if (this.paymentMethod === 'ACH') {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "checkbox");
+                            inputCur.style.marginRight = "1em";
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Check if Savings Account"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+
+                    case 'Wire Routing Number':
+                        if (this.paymentMethod === 'Wire') {
+                            inputCur = document.createElement('button');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'btn btn-secondary dropdown-toggle';
+                            inputCur.setAttribute("type", "button");
+                            inputCur.setAttribute("data-bs-toggle", "dropdown");
+                            inputCur.appendChild(document.createTextNode("Select ..."));
+    
+                            inputLabel = document.createElement('ul');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'dropdown-menu';
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("011000138 Bank of America"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("021000021 JP Morgan Chase"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("021000089 Citibank"));
+    
+                            inputLabel1 = document.createElement('li');
+                            inputLabel.appendChild(inputLabel1);
+                            inputLabel1.className = 'dropdown-item';
+                            inputLabel1.appendChild(document.createTextNode("021200025 Wells Fargo Bank"));
+
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Same as mailing address?':
+                        if (this.paymentMethod === 'Check') {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "checkbox");
+                            inputCur.style.marginRight = "1em";
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Check if same as mailing address"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'ACH':
+                        if (this.payToCustodian === false) {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "radio");
+                            inputCur.setAttribute("name", "radioPmtType");
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('click', (event) => {
+                                //event.preventDefault();
+                                this.paymentMethod = 'ACH';
+                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.showPmtForm(parentForm);
+                            });
+                            if (this.paymentMethod == 'ACH') {
+                                inputCur.checked = true;
+                            }
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Click if ACH"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Wire':
+                        if (this.payToCustodian === false) {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "radio");
+                            inputCur.setAttribute("name", "radioPmtType");
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('click', (event) => {
+                                //event.preventDefault();
+                                this.paymentMethod = 'Wire';
+                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.showPmtForm(parentForm);
+                            });
+                            if (this.paymentMethod == 'Wire') {
+                                inputCur.checked = true;
+                            }
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Click if Wire"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Check':
+                        if (this.payToCustodian === false) {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "radio");
+                            inputCur.setAttribute("name", "radioPmtType");
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('click', (event) => {
+                                //event.preventDefault();
+                                this.paymentMethod = 'Check';
+                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.showPmtForm(parentForm);
+                            });
+                            if (this.paymentMethod == 'Check') {
+                                inputCur.checked = true;
+                            }
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Click if Payment type is Check"));
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+
+                    case 'ACH (Custodian)':
+                        if (this.payToCustodian === true) {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "radio");
+                            inputCur.setAttribute("name", "radioPmtType");
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('click', (event) => {
+                                //event.preventDefault();
+                                this.paymentMethod = 'ACH (Custodian)';
+                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.showPmtForm(parentForm);
+                            });
+                            if (this.paymentMethod === 'ACH (Custodian)') {
+                                inputCur.checked = true;
+                            }
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Default ACH"));
+                            if (this.paymentMethod === 'ACH (Custodian)') {
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode(""));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Routing: 101104504"));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Account: 110272"));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Bank Name: Bankers Bank of Kansas"));
+                            }
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Wire (Custodian)':
+                        if (this.payToCustodian === true) {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "radio");
+                            inputCur.setAttribute("name", "radioPmtType");
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('click', (event) => {
+                                //event.preventDefault();
+                                this.paymentMethod = 'Wire (Custodian)';
+                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.showPmtForm(parentForm);
+                            });
+                            if (this.paymentMethod === 'Wire (Custodian)') {
+                                inputCur.checked = true;
+                            }
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Wire"));
+                            if (this.paymentMethod === 'Wire (Custodian)') {
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode(""));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Routing: 101104805"));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Account: 0110450"));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Bank Name: Bankers Bank of Kansas"));
+                            }
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Check (Custodian)':
+                        if (this.payToCustodian === true) {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.className = 'form-check-input';
+                            inputCur.setAttribute("type", "radio");
+                            inputCur.setAttribute("name", "radioPmtType");
+                            inputCur.style.marginRight = "1em";
+                            inputCur.addEventListener('click', (event) => {
+                                //event.preventDefault();
+                                this.paymentMethod = 'Check (Custodian)';
+                                this.context.Track.templateStack[this.stackFramePos].FrameDiv.removeChild(this.pmtForm);
+                                this.showPmtForm(parentForm);
+                            });
+                            if (this.paymentMethod === 'Check (Custodian)') {
+                                inputCur.checked = true;
+                            }
+    
+                            inputLabel = document.createElement('label');
+                            divCur.appendChild(inputLabel);
+                            inputLabel.className = 'form-check-label';
+                            inputLabel.setAttribute("for", "flexCheckDisabled");
+                            inputLabel.appendChild(document.createTextNode("Check"));
+                            if (this.paymentMethod === 'Check (Custodian)') {
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode(""));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Address:"));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("210 Main Street"));
+                                
+                                pCur = document.createElement('p');
+                                inputLabel.appendChild(pCur);
+                                pCur.appendChild(document.createTextNode("Seneca, KS 66538-0210"));
+                            }
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Account Number':
+                    case 'Payee Account (if applicable)':
+                        if (this.paymentMethod == 'ACH') {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.setAttribute("type", "input");
+                            inputCur.value = attrDetail.Value;
+                            inputCur.style.width = '70%';
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Wire Account Number':
+                    case 'Wire Payee Account':
+                        if (this.paymentMethod == 'Wire') {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.setAttribute("type", "input");
+                            inputCur.value = attrDetail.Value;
+                            inputCur.style.width = '70%';
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'Same as mailing address?':
+                    case 'Payee Address Line 1':
+                    case 'Payee Address Line 2':
+                    case 'Payee City':
+                    case 'Payee State':
+                    case 'Payee Zip':
+                    case 'Payee Country':
+                    case 'Payee Account (if applicable)':
+                        if (this.paymentMethod === 'Check') {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.setAttribute("type", "input");
+                            inputCur.value = attrDetail.Value;
+                            inputCur.style.width = '70%';
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    case 'FBO Payee Account (if applicable)':
+                        if (this.payToCustodian === true) { // && this.paymentMethod !== 'Check (Custodian)') {
+                            inputCur = document.createElement('input');
+                            divCur.appendChild(inputCur);
+                            inputCur.setAttribute("type", "input");
+                            inputCur.value = attrDetail.Value;
+                            inputCur.style.width = '70%';
+                        } else {
+                            divCur.style.display = 'none'
+                            divCur.style.visibility = 'hidden'
+                        }
+                        break;
+                    default:
+                        inputCur = document.createElement('input');
+                        divCur.appendChild(inputCur);
+                        inputCur.setAttribute("type", "input");
+                        inputCur.value = attrDetail.Value;
+                        inputCur.style.width = '70%';
+                        break;
+                }
+                if (inputCur != null) {
+                    inputCur.id = templateElemCur.Nm;
+                }
+            }
+        });
+        
+        divCur = document.createElement('div');
+        this.pmtForm.appendChild(divCur);
+        divCur.className = 'mb-3';
+
+        buttonCur = document.createElement('button');
+        divCur.appendChild(buttonCur);
+        buttonCur.className = 'btn btn-danger';
+        buttonCur.setAttribute("type", "button");
+        buttonCur.id = 'cancelbuttonpmt';
+        buttonCur.style.width = "12em";
+        buttonCur.style.marginLeft = '25%';
+        buttonCur.style.marginRight = '30px';
+        buttonCur.appendChild(document.createTextNode("Cancel"));
+        buttonCur.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.hidePmtForm(parentForm);
+        });
+
+        buttonCur = document.createElement('button');
+        divCur.appendChild(buttonCur);
+        buttonCur.className = 'btn btn-success';
+        buttonCur.setAttribute("type", "button");
+        buttonCur.id = 'savebuttonpmt';
+        buttonCur.style.width = "12em";
+        buttonCur.appendChild(document.createTextNode("Save"));
+        buttonCur.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.hidePmtForm(parentForm);
+        });
+        
+    }
+    
 
 }
 
