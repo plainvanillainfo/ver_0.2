@@ -655,7 +655,7 @@ class TemplateWeb extends TemplateClient {
                         inputCur.addEventListener('click', (event) => {
                             event.preventDefault();
                             console.log("TemplateWeb - DrillDown: ");
-                            if (elemCur.Name !== 'PaymentInstructionsDetails') {
+                            if (elemCur.Name !== 'PaymentInstructions') {
                                 let elemPicked = this.useCase.elems[elemCur.Name];
                                 this.elems[elemCur.Name] = new TemplateElemWeb(this, elemPicked, true, document.createElement('div'));
                                 this.elems[elemCur.Name].initiateTrigger();
