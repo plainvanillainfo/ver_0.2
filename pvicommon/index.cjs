@@ -1216,7 +1216,6 @@ class TemplateWeb extends TemplateClient {
                             divCur.style.visibility = 'hidden'
                         }
                         break;
-
                     case 'Savings Account?':
                         if (this.paymentMethod === 'ACH') {
                             inputCur = document.createElement('input');
@@ -1235,7 +1234,6 @@ class TemplateWeb extends TemplateClient {
                             divCur.style.visibility = 'hidden'
                         }
                         break;
-
                     case 'Wire Routing Number':
                         if (this.paymentMethod === 'Wire') {
                             inputCur = document.createElement('button');
@@ -1558,7 +1556,7 @@ class TemplateWeb extends TemplateClient {
                         }
                         break;
                     case 'FBO Payee Account (if applicable)':
-                        if (this.payToCustodian === true) { // && this.paymentMethod !== 'Check (Custodian)') {
+                        if (this.payToCustodian === true) {
                             inputCur = document.createElement('input');
                             divCur.appendChild(inputCur);
                             inputCur.setAttribute("type", "input");
